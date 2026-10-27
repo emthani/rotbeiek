@@ -2,10 +2,18 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no, maximum-scale=1">
 <meta name="theme-color" content="#5b5ff0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ROTBEIEK">
+<meta name="application-name" content="ROTBEIEK">
 <title>ROTBEIEK</title>
 
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="l.png">
+<link rel="icon" href="l.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -39,7 +47,13 @@ body{
   margin:0;min-height:100vh;
   font-family:'Vazirmatn',Tahoma,'Segoe UI',system-ui,sans-serif;
   font-size:15px;line-height:1.75;color:var(--ink);background:#eaf0ff;
+  /* غیرفعال‌سازی انتخاب متن و منوی راست‌کلیک */
+  -webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;
+  -webkit-touch-callout:none;
+  overscroll-behavior-y:none;
 }
+/* اجازه انتخاب متن در فیلدها */
+input,textarea,select,pre{-webkit-user-select:text;user-select:text}
 body::before{
   content:"";position:fixed;inset:0;z-index:-1;
   background:
@@ -73,11 +87,10 @@ button{font:inherit;color:inherit}
 .small{font-size:13px}
 
 /* =========================================================
-   ۲. چیدمان اصلی و هدر
+   ۲. چیدمان موبایل (پیش‌فرض)
    ========================================================= */
 .app{max-width:680px;margin:0 auto;padding:0 16px 130px}
 
-/* --- نوار تاریخ شمسی (زیر هدر) --- */
 .datebar{
   margin:10px -16px 0;padding:8px 16px;
   display:flex;align-items:center;justify-content:space-between;gap:10px;
@@ -96,7 +109,7 @@ button{font:inherit;color:inherit}
   position:sticky;top:0;z-index:20;
   margin:0 -16px;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;
   display:flex;align-items:center;justify-content:space-between;gap:12px;
-  background:rgba(238,242,255,.66);
+  background:rgba(238,242,255,.72);
   -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
   border-bottom:1px solid rgba(255,255,255,.7);
 }
@@ -129,9 +142,7 @@ button{font:inherit;color:inherit}
 .page{padding-top:4px}
 .greet{margin-top:14px;font-weight:700;font-size:16px}
 
-/* =========================================================
-   ۳. نوار ناوبری پایین (موبایل)
-   ========================================================= */
+/* نوار ناوبری پایین موبایل */
 .nav{
   position:fixed;z-index:30;bottom:max(12px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);
   width:min(656px,calc(100% - 24px));
@@ -146,7 +157,7 @@ button{font:inherit;color:inherit}
 .nav-btn.active{background:var(--grad);color:#fff;box-shadow:0 8px 18px rgba(90,80,245,.35)}
 
 /* =========================================================
-   ۴. دکمه‌ها، فرم‌ها و پنجره‌ها
+   ۳. دکمه‌ها و فرم‌ها
    ========================================================= */
 .btn{
   border:0;border-radius:16px;padding:11px 18px;min-height:46px;font-weight:700;cursor:pointer;
@@ -203,7 +214,7 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 .result.ok{color:var(--ok)}
 
 /* =========================================================
-   ۵. خانه
+   ۴. خانه
    ========================================================= */
 .hero{
   position:relative;overflow:hidden;margin-top:16px;border-radius:30px;padding:20px 22px 22px;color:#fff;
@@ -244,7 +255,7 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 .log-form{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line)}
 
 /* =========================================================
-   ۶. اخبار (شبیه کانال تلگرام)
+   ۵. اخبار (شبیه کانال تلگرام)
    ========================================================= */
 .news{padding:0;overflow:hidden}
 .ch-head{
@@ -282,10 +293,7 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
   max-width:92%;
   align-self:flex-start;
 }
-.post.has-img{padding-top:0}
-.post img{
-  width:100%;max-height:260px;object-fit:cover;display:block;
-}
+.post img{width:100%;max-height:260px;object-fit:cover;display:block}
 .post .post-body{padding:10px 13px 8px}
 .post h3{font-size:14.5px;font-weight:700;margin-bottom:3px;color:var(--ink)}
 .post p{white-space:pre-line;font-size:14px;line-height:1.9;overflow-wrap:anywhere;color:#2a2f5a}
@@ -298,7 +306,7 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 .news .link-btn{color:var(--blue);font-weight:700;font-size:13px}
 
 /* =========================================================
-   ۷. تسک‌ها
+   ۶. تسک‌ها
    ========================================================= */
 .tasks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .task{
@@ -327,7 +335,7 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 .empty p+.btn,.empty p+.link-btn{margin-top:10px}
 
 /* =========================================================
-   ۸. فلش‌کارت
+   ۷. فلش‌کارت
    ========================================================= */
 .album{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:20px 16px;padding:8px 6px 12px}
 .deck{position:relative;display:block;height:120px;border:0;padding:0;background:none;cursor:pointer;text-align:right}
@@ -398,7 +406,7 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 .search input{padding-right:44px}
 
 /* =========================================================
-   ۹. مشاوره
+   ۸. مشاوره
    ========================================================= */
 .step{margin-top:18px;transition:opacity .25s}
 .step:first-child{margin-top:0}
@@ -457,7 +465,7 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 }
 
 /* =========================================================
-   ۱۰. سهام
+   ۹. سهام
    ========================================================= */
 .quiet h2{font-size:16px;font-weight:700}
 .quiet .card{background:rgba(255,255,255,.45);box-shadow:none}
@@ -479,68 +487,80 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
 /* =========================================================
-   ۱۱. نسخه دسکاپ / لپ‌تاپ
+   ۱۰. سایدبار دسکتاپ (پیش‌فرض مخفی)
    ========================================================= */
-@media (min-width:900px){
+.sidebar{display:none}
+#bottomNav{display:grid}
+
+/* =========================================================
+   ۱۱. نسخه دسکتاپ / لپ‌تاپ  (min-width: 1024px)
+   ========================================================= */
+@media (min-width: 1024px){
   .app{
-    max-width:1180px;
-    padding:0 28px 40px;
+    max-width:1280px;
+    padding:0 32px 40px;
     display:grid;
-    grid-template-columns:260px 1fr;
-    grid-template-rows:auto 1fr;
-    gap:24px 32px;
+    grid-template-columns: 1fr 280px;   /* محتوا | سایدبار */
+    grid-template-areas:
+      "header  header"
+      "main    sidebar";
+    gap:24px 28px;
     align-items:start;
   }
   .topbar{
-    grid-column:1/-1;
-    margin:0 -28px;
-    padding:14px 28px;
+    grid-area:header;
+    margin:0 -32px;
+    padding:14px 32px;
     border-radius:0 0 24px 24px;
   }
-  .datebar{display:none}
-  .page{
-    grid-column:2;
-    min-height:70vh;
-    padding-top:4px;
-  }
-
-  /* --- سایدبار --- */
+  /* سایدبار سمت راست */
   .sidebar{
-    grid-column:1;
-    grid-row:1/-1;
+    grid-area:sidebar;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
     position:sticky;
-    top:90px;
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-    padding-top:12px;
+    top:96px;
+    align-self:start;
+    padding-top:8px;
+    max-height:calc(100vh - 110px);
   }
-  .sidebar .datebar{
+  #bottomNav{display:none}
+  .datebar-mobile{display:none}
+
+  /* کارت تقویم در سایدبار */
+  .side-datebar{
     display:flex;
     flex-direction:column;
-    align-items:flex-start;
     gap:6px;
-    margin:0;
-    padding:14px 16px;
-    border-radius:18px;
-    border:1px solid rgba(255,255,255,.8);
-    background:rgba(255,255,255,.6);
-    -webkit-backdrop-filter:blur(14px);
-    backdrop-filter:blur(14px);
+    padding:16px 18px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,.85);
+    background:rgba(255,255,255,.62);
+    -webkit-backdrop-filter:blur(16px);
+    backdrop-filter:blur(16px);
     box-shadow:var(--shadow);
   }
-  .sidebar .datebar .db-day{font-size:15px}
-  .sidebar .datebar .db-full{font-size:12.5px;color:var(--muted);flex-direction:column;align-items:flex-start;gap:2px}
-  .sidebar .datebar .db-full .sep{display:none}
-  .sidebar .datebar .db-time{font-size:13px;color:var(--ink);font-weight:600;margin-top:4px}
+  .side-datebar .sd-week{
+    font-size:15px;font-weight:800;color:var(--ink);
+    display:flex;align-items:center;gap:8px;
+  }
+  .side-datebar .sd-week .ico{color:var(--blue);width:20px;height:20px}
+  .side-datebar .sd-full{font-size:13px;color:var(--muted)}
+  .side-datebar .sd-time{
+    font-size:13px;color:var(--blue);font-weight:700;
+    direction:ltr;text-align:right;
+    font-variant-numeric:tabular-nums;
+    margin-top:2px;
+  }
 
-  /* --- ناوبری عمودی --- */
+  /* ناوبری عمودی در سایدبار */
   .nav{
     position:static;
     transform:none;
-    left:auto;
-    bottom:auto;
+    left:auto;bottom:auto;
     width:100%;
+    display:grid;
     grid-template-columns:1fr;
     gap:4px;
     padding:8px;
@@ -561,32 +581,84 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
   .nav-btn.active{background:var(--grad);color:#fff;box-shadow:0 6px 16px rgba(90,80,245,.3)}
   .nav-btn:not(.active):hover{background:rgba(59,108,246,.08)}
 
-  /* --- چیدمان صفحه خانه: دو ستونه --- */
-  #page-home{display:grid;grid-template-columns:1fr 1fr;gap:0 24px;align-items:start}
-  #page-home .greet{grid-column:1/-1}
-  #page-home .hero{grid-column:1/-1}
-  #page-home #news-home{grid-column:1}
-  #page-home .card:nth-of-type(1){grid-column:2;margin-top:16px}
-  #page-home .card:nth-of-type(2){grid-column:2;margin-top:0}
+  /* main + page */
+  main{grid-area:main;min-width:0}
+  .page{width:100%}
 
-  .hero-days strong{font-size:104px}
-  .ch-feed{max-height:620px}
-  .album{grid-template-columns:repeat(auto-fill,minmax(165px,1fr))}
-  dialog.sheet{width:min(90vw,600px)}
-  .formula-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .plans-wrap{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  /* ==== خانه در دسکتاپ: دو ستونه ==== */
+  #page-home{
+    display:grid;
+    grid-template-columns: minmax(0,1.15fr) minmax(0,1fr);
+    gap:18px 22px;
+    align-items:start;
+  }
+  #page-home .greet{grid-column:1/-1;margin-top:6px}
+  #page-home .hero{grid-column:1/-1;margin-top:8px}
+  #page-home #news-home{grid-column:1;margin-top:0}
+  #page-home .card.progress-card{grid-column:2;margin-top:0}
+  #page-home .card.tasks-card{grid-column:2;margin-top:0}
 
-  .card{padding:22px}
+  /* تنظیمات کارت‌ها در دسکتاپ */
+  .card{padding:22px;margin-top:18px}
   .card-head h2{font-size:18px}
-  #page-planner{max-width:760px;margin:0 auto;width:100%}
-  #page-cards{max-width:860px;margin:0 auto;width:100%}
-  #page-consult{max-width:720px;margin:0 auto;width:100%}
-  #page-shares{max-width:760px;margin:0 auto;width:100%}
+  #page-home .card{margin-top:0}
+
+  .hero-days strong{font-size:100px}
+  .ch-feed{max-height:520px}
+  .album{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+
+  /* صفحات دیگر: عرض خوانا و وسط */
+  #page-news,
+  #page-planner,
+  #page-consult,
+  #page-cards,
+  #page-shares{
+    max-width:860px;
+  }
+
+  /* چیدمان پیشرفته صفحه برنامه‌ریز */
+  #page-planner{
+    display:grid;
+    grid-template-columns: minmax(0,1fr) minmax(0,1.3fr);
+    gap:18px 22px;
+    align-items:start;
+    max-width:1000px;
+  }
+  #page-planner #taskForm{grid-column:1;margin-top:0;position:sticky;top:96px}
+  #page-planner .card{grid-column:2;margin-top:0}
+
+  /* مشاوره */
+  #page-consult{max-width:820px}
+
+  /* فلش‌کارت */
+  #page-cards{max-width:1000px}
+  #page-cards .card{margin-top:18px}
+  #page-cards #news-cards{display:none}
+
+  /* اخبار: تمام‌عرض */
+  #page-news{max-width:900px}
+  #page-news .ch-feed{max-height:none}
+
+  /* سهام */
+  #page-shares{max-width:820px}
+
+  /* فرمول‌ها دو ستونه در دیالوگ */
+  dialog.sheet{width:min(90vw,640px)}
+  .formula-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+  /* پلن‌ها */
+  #planList{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  #planList .plan{margin-bottom:0}
 }
 
-/* سایدبار موبایل: مخفی */
-.sidebar{display:none}
+/* دسکتاپ خیلی بزرگ */
+@media (min-width: 1440px){
+  .app{max-width:1360px;grid-template-columns:1fr 320px}
+}
 
+/* =========================================================
+  ۱۲. موبایل کوچک
+   ========================================================= */
 @media (max-width:380px){
   .hero-days strong{font-size:68px}
   .nav-btn{font-size:9.5px;padding:8px 0 6px}
@@ -595,6 +667,41 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 }
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+}
+
+/* =========================================================
+  ۱۳. بنر نصب PWA
+   ========================================================= */
+.install-banner{
+  position:fixed;z-index:60;left:50%;bottom:100px;transform:translate(-50%,20px);
+  width:min(94vw,460px);
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;
+  background:linear-gradient(135deg,#3560f0,#7a4cf5);
+  color:#fff;
+  border-radius:20px;
+  box-shadow:0 20px 50px rgba(60,60,200,.45);
+  opacity:0;pointer-events:none;
+  transition:opacity .3s,transform .3s;
+}
+.install-banner.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.install-banner .ib-ico{
+  width:44px;height:44px;border-radius:14px;flex:none;
+  background:rgba(255,255,255,.22);
+  display:flex;align-items:center;justify-content:center;
+}
+.install-banner .ib-txt{flex:1;min-width:0;line-height:1.4}
+.install-banner .ib-txt strong{display:block;font-size:14.5px}
+.install-banner .ib-txt small{font-size:12px;opacity:.9}
+.install-banner .ib-actions{display:flex;gap:6px;flex:none}
+.install-banner button{
+  border:0;cursor:pointer;border-radius:10px;
+  padding:7px 12px;font-size:12.5px;font-weight:700;
+}
+.install-banner .ib-install{background:#fff;color:#3b3fcf}
+.install-banner .ib-close{background:rgba(255,255,255,.18);color:#fff;width:32px;padding:7px 0}
+@media (min-width:1024px){
+  .install-banner{bottom:30px}
 }
 </style>
 </head>
@@ -622,14 +729,12 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
     <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
     <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></symbol>
     <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
-    <!-- آیکون اخبار (روزنامه/کانال) -->
     <symbol id="i-news" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <rect x="3" y="5" width="18" height="15" rx="2.5"/>
       <path d="M7 9.5h6M7 13h4M7 16.5h8"/>
       <path d="M15 9.5h2.5v3.5H15z"/>
       <path d="M15 16.5h2"/>
     </symbol>
-    <!-- آیکون تیک آبی (verified channel) -->
     <symbol id="i-verified" viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 2l2.4 2.1 3.2-.3.8 3.1 2.9 1.5-1.1 3 1.1 3-2.9 1.5-.8 3.1-3.2-.3L12 22l-2.4-2.1-3.2.3-.8-3.1L2.7 15.6l1.1-3-1.1-3 2.9-1.5.8-3.1 3.2.3L12 2Z" opacity=".25"/>
       <path d="M12 4.2l1.8 1.6 2.5-.2.6 2.4 2.2 1.1-.8 2.4.8 2.4-2.2 1.1-.6 2.4-2.5-.2L12 19.8l-1.8-1.6-2.5.2-.6-2.4L4.9 15l.8-2.4-.8-2.4 2.2-1.1.6-2.4 2.5.2L12 4.2Z" fill="#3b6cf6" stroke="none" opacity=".95"/>
@@ -639,31 +744,16 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
     <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></symbol>
     <symbol id="i-sigma" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6H7l6 6-6 6h11"/></symbol>
     <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v10m0 0 4-4m-4 4-4-4"/><path d="M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"/></symbol>
   </defs>
 </svg>
 
 <div class="app">
 
-  <!-- ===== سایدبار (فقط دسکاپ) ===== -->
-  <aside class="sidebar" aria-label="نوار کناری">
-    <div class="datebar" id="datebar-side">
-      <span class="db-day"><svg class="ico"><use href="#i-calendar"/></svg><span id="dbWeekSide">—</span></span>
-      <span class="db-full"><span id="dbFullSide">—</span></span>
-      <span class="db-time" id="dbTimeSide">—</span>
-    </div>
-    <nav class="nav" aria-label="ناوبری اصلی">
-      <button class="nav-btn active" data-action="tab" data-id="home" aria-current="page"><svg class="ico"><use href="#i-home"/></svg>خانه</button>
-      <button class="nav-btn" data-action="tab" data-id="news"><svg class="ico"><use href="#i-news"/></svg>اخبار</button>
-      <button class="nav-btn" data-action="tab" data-id="planner"><svg class="ico"><use href="#i-tasks"/></svg>برنامه‌ریز</button>
-      <button class="nav-btn" data-action="tab" data-id="cards"><svg class="ico"><use href="#i-cards"/></svg>فلش‌کارت</button>
-      <button class="nav-btn" data-action="tab" data-id="consult"><svg class="ico"><use href="#i-consult"/></svg>مشاوره</button>
-      <button class="nav-btn" data-action="tab" data-id="shares"><svg class="ico"><use href="#i-star"/></svg>سهام</button>
-    </nav>
-  </aside>
-
+  <!-- هدر -->
   <header class="topbar">
     <div class="brand">
-      <img src="logo.png" alt="ROTBEIEK"
+      <img src="l.png" alt="ROTBEIEK"
            onerror="this.hidden=true;document.getElementById('logoFallback').hidden=false;">
       <span class="brand-fallback" id="logoFallback" hidden>ROTBEIEK</span>
     </div>
@@ -684,15 +774,16 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
     </div>
   </header>
 
-  <!-- ===== نوار تاریخ شمسی (موبایل) ===== -->
-  <div class="datebar" id="datebar-mobile" aria-label="تاریخ امروز">
+  <!-- نوار تاریخ موبایل -->
+  <div class="datebar datebar-mobile" id="datebar-mobile" aria-label="تاریخ امروز">
     <span class="db-day"><svg class="ico"><use href="#i-calendar"/></svg><span id="dbWeek">—</span></span>
     <span class="db-full"><span id="dbFull">—</span><span class="sep"></span><span id="dbTime">—</span></span>
   </div>
 
+  <!-- محتوا -->
   <main>
 
-    <!-- ===== صفحه ۱: خانه ===== -->
+    <!-- خانه -->
     <section class="page" id="page-home" aria-label="خانه">
       <p class="greet" id="greet" hidden></p>
 
@@ -714,9 +805,10 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
         </div>
       </div>
 
+      <!-- فقط آخرین خبر در خانه -->
       <div id="news-home"></div>
 
-      <div class="card">
+      <div class="card progress-card">
         <div class="card-head">
           <h2>پیشرفت من</h2>
           <div class="seg" role="group" aria-label="بازه نمودار">
@@ -738,7 +830,7 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
         </form>
       </div>
 
-      <div class="card">
+      <div class="card tasks-card">
         <div class="card-head">
           <h2>تسک‌های امروز</h2>
           <span class="small muted" id="homeTaskCount"></span>
@@ -747,12 +839,12 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
       </div>
     </section>
 
-    <!-- ===== صفحه اخبار ===== -->
+    <!-- اخبار (همه خبرها) -->
     <section class="page" id="page-news" aria-label="اخبار" hidden>
       <div id="news-news"></div>
     </section>
 
-    <!-- ===== صفحه ۲: برنامه‌ریز ===== -->
+    <!-- برنامه‌ریز -->
     <section class="page" id="page-planner" aria-label="برنامه‌ریز" hidden>
       <form class="card" id="taskForm" autocomplete="off">
         <div class="card-head"><h2>تسک جدید</h2></div>
@@ -779,10 +871,8 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
       </div>
     </section>
 
-    <!-- ===== صفحه ۳: فلش‌کارت ===== -->
+    <!-- فلش‌کارت -->
     <section class="page" id="page-cards" aria-label="فلش‌کارت" hidden>
-      <div id="news-cards"></div>
-
       <form class="card" id="cardForm" autocomplete="off">
         <div class="card-head"><h2>ساخت فلش‌کارت</h2></div>
         <label class="field"><span>موضوع (دسته)</span>
@@ -804,10 +894,8 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
       </button>
     </section>
 
-    <!-- ===== صفحه ۴: مشاوره ===== -->
+    <!-- مشاوره -->
     <section class="page" id="page-consult" aria-label="مشاوره" hidden>
-      <div id="news-consult"></div>
-
       <div class="card">
         <div class="step">
           <div class="step-head"><span class="step-num">۱</span>نوع خدمت</div>
@@ -862,7 +950,7 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
       </div>
     </section>
 
-    <!-- ===== صفحه ۵: سهام ===== -->
+    <!-- سهام -->
     <section class="page quiet" id="page-shares" aria-label="سهام و قوانین" hidden>
       <div class="card">
         <h2>چرا از ROTBEIEK حمایت کنیم؟</h2>
@@ -896,9 +984,27 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
       <div class="card" id="supportersCard"></div>
     </section>
   </main>
+
+  <!-- سایدبار دسکتاپ -->
+  <aside class="sidebar" aria-label="نوار کناری">
+    <div class="side-datebar">
+      <span class="sd-week"><svg class="ico"><use href="#i-calendar"/></svg><span id="dbWeekSide">—</span></span>
+      <span class="sd-full" id="dbFullSide">—</span>
+      <span class="sd-time" id="dbTimeSide">—</span>
+    </div>
+
+    <nav class="nav" aria-label="ناوبری اصلی">
+      <button class="nav-btn active" data-action="tab" data-id="home" aria-current="page"><svg class="ico"><use href="#i-home"/></svg>خانه</button>
+      <button class="nav-btn" data-action="tab" data-id="news"><svg class="ico"><use href="#i-news"/></svg>اخبار</button>
+      <button class="nav-btn" data-action="tab" data-id="planner"><svg class="ico"><use href="#i-tasks"/></svg>برنامه‌ریز</button>
+      <button class="nav-btn" data-action="tab" data-id="cards"><svg class="ico"><use href="#i-cards"/></svg>فلش‌کارت</button>
+      <button class="nav-btn" data-action="tab" data-id="consult"><svg class="ico"><use href="#i-consult"/></svg>مشاوره</button>
+      <button class="nav-btn" data-action="tab" data-id="shares"><svg class="ico"><use href="#i-star"/></svg>سهام</button>
+    </nav>
+  </aside>
 </div>
 
-<!-- ===== نوار پایین (فقط موبایل) ===== -->
+<!-- نوار پایین موبایل -->
 <nav class="nav glass" id="bottomNav" aria-label="ناوبری اصلی">
   <button class="nav-btn active" data-action="tab" data-id="home" aria-current="page"><svg class="ico"><use href="#i-home"/></svg>خانه</button>
   <button class="nav-btn" data-action="tab" data-id="news"><svg class="ico"><use href="#i-news"/></svg>اخبار</button>
@@ -908,7 +1014,7 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
   <button class="nav-btn" data-action="tab" data-id="shares"><svg class="ico"><use href="#i-star"/></svg>سهام</button>
 </nav>
 
-<!-- ===== پنجره: تنظیمات پروفایل ===== -->
+<!-- دیالوگ‌ها -->
 <dialog class="sheet" id="settingsDlg" aria-labelledby="settingsTitle">
   <div class="sheet-body">
     <div class="sheet-head">
@@ -933,7 +1039,6 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
   </div>
 </dialog>
 
-<!-- ===== پنجره: بانک فرمول ===== -->
 <dialog class="sheet" id="formulaDlg" aria-labelledby="formulaTitle">
   <div class="sheet-body">
     <div class="sheet-head">
@@ -964,7 +1069,6 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
   </div>
 </dialog>
 
-<!-- ===== پنجره: خرید با سهام ===== -->
 <dialog class="sheet" id="sharesDlg" aria-labelledby="sharesTitle">
   <div class="sheet-body">
     <div class="sheet-head">
@@ -977,6 +1081,19 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
     <button class="btn primary block" type="button" data-action="confirm-shares" style="margin-top:12px">بررسی و ادامه</button>
   </div>
 </dialog>
+
+<!-- بنر نصب PWA -->
+<div class="install-banner" id="installBanner" role="dialog" aria-label="نصب برنامه">
+  <div class="ib-ico"><svg class="ico"><use href="#i-download"/></svg></div>
+  <div class="ib-txt">
+    <strong>ROTBEIEK را نصب کن</strong>
+    <small>برای تجربه بهتر و دسترسی سریع</small>
+  </div>
+  <div class="ib-actions">
+    <button type="button" class="ib-install" id="installBtn">نصب</button>
+    <button type="button" class="ib-close" id="installClose" aria-label="بستن">✕</button>
+  </div>
+</div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -995,12 +1112,12 @@ const CONFIG = {
   adminHandle: '@rotbeiek',
   adminUrl: 'https://t.me/rotbeiek',
   maxQuestions: 50,
-  // تاریخ واقعی کنکور ۱۴۰۶ (۱۱ تیر ۱۴۰۶ = 2 July 2027)
   examYear: 1406,
-  examMonth: 4,   // تیر
+  examMonth: 4,
   examDay: 11,
-  // تعداد تصاویر اخبار (1.png, 2.png, ... N.png) — بالاترین عدد = جدیدترین
-  newsImageCount: 20
+  newsImageCount: 20,
+  // فقط این تعداد خبر در کارت خانه نمایش داده شود
+  homeNewsLimit: 1
 };
 
 const PLANS = [
@@ -1081,15 +1198,6 @@ const fDay   = jf({ day:'numeric' });
 const fTime  = jf({ hour:'2-digit', minute:'2-digit', hour12:false });
 const fWeekLong = jf({ weekday:'long' });
 
-// تاریخ شمسی (اجزای عددی) با Intl
-function jdateParts(d) {
-  try {
-    const parts = new Intl.DateTimeFormat('fa-IR', { year:'numeric', month:'2-digit', day:'2-digit' }).formatToParts(d);
-    const get = t => { const p = parts.find(x => x.type === t); return p ? p.value : ''; };
-    return { y: get('year'), m: get('month'), d: get('day') };
-  } catch (e) { return { y:'', m:'', d:'' }; }
-}
-
 const pad = n => (n < 10 ? '0' : '') + n;
 const dkey = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
 const parseKey = k => { const p = k.split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]); };
@@ -1151,7 +1259,7 @@ function normToken(raw) {
 const findHolder = token => SHAREHOLDERS.find(s => normToken(s.token) === token);
 
 /* =========================================================
-   وضعیت برنامه
+   وضعیت
    ========================================================= */
 let tasks   = store.get('tasks', []);
 let cards   = store.get('cards', []);
@@ -1170,10 +1278,9 @@ let fQuery = '';
 let consult = { kind:null, plan:null, advisor:null, q:3 };
 let shownOrder = null;
 let currentTab = 'home';
-const newsOpen = {};
 
 /* =========================================================
-   جابه‌جایی بین صفحه‌ها
+   ناوبری
    ========================================================= */
 function showTab(name) {
   currentTab = name;
@@ -1194,7 +1301,7 @@ function showTab(name) {
 }
 
 /* =========================================================
-   تاریخ شمسی - نوار بالا
+   تقویم
    ========================================================= */
 function updateDateBar() {
   const now = new Date();
@@ -1208,9 +1315,8 @@ function updateDateBar() {
 }
 
 /* =========================================================
-   تاریخ کنکور (شمسی -> میلادی)
+   تبدیل تاریخ شمسی به میلادی
    ========================================================= */
-// تبدیل تاریخ شمسی به میلادی
 function jalaliToGregorian(jy, jm, jd) {
   let gy = (jy <= 979) ? 621 : 1600;
   jy -= (jy <= 979) ? 0 : 979;
@@ -1218,32 +1324,18 @@ function jalaliToGregorian(jy, jm, jd) {
     + 78 + jd + ((jm < 7) ? (jm - 1) * 31 : ((jm - 7) * 30) + 186);
   gy += 400 * (Math.floor(days / 146097));
   days %= 146097;
-  if (days > 36524) {
-    gy += 100 * (Math.floor(--days / 36524));
-    days %= 36524;
-    if (days >= 365) days++;
-  }
+  if (days > 36524) { gy += 100 * (Math.floor(--days / 36524)); days %= 36524; if (days >= 365) days++; }
   gy += 4 * (Math.floor(days / 1461));
   days %= 1461;
-  if (days > 365) {
-    gy += Math.floor((days - 1) / 365);
-    days = (days - 1) % 365;
-  }
+  if (days > 365) { gy += Math.floor((days - 1) / 365); days = (days - 1) % 365; }
   let gd = days + 1;
   const sal_a = [0, 31, ((gy % 4 === 0 && gy % 100 !== 0) || (gy % 400 === 0)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   let gm;
-  for (gm = 0; gm < 13; gm++) {
-    const v = sal_a[gm];
-    if (gd <= v) break;
-    gd -= v;
-  }
+  for (gm = 0; gm < 13; gm++) { const v = sal_a[gm]; if (gd <= v) break; gd -= v; }
   return new Date(gy, gm - 1, gd);
 }
 
-function defaultExamDate() {
-  // ۱۱ تیر ۱۴۰۶
-  return jalaliToGregorian(CONFIG.examYear, CONFIG.examMonth, CONFIG.examDay);
-}
+function defaultExamDate() { return jalaliToGregorian(CONFIG.examYear, CONFIG.examMonth, CONFIG.examDay); }
 function examDate() { return examKey ? parseKey(examKey) : defaultExamDate(); }
 
 function updateCountdown() {
@@ -1263,9 +1355,8 @@ function updateCountdown() {
 }
 
 /* =========================================================
-   اخبار — لیست و رندر
+   اخبار
    ========================================================= */
-// تصویر اخبار بر اساس شماره: هر چه عدد بالاتر، جدیدتر
 function newsImageByIndex(idx) {
   const n = idx + 1;
   if (n > CONFIG.newsImageCount) return '';
@@ -1320,9 +1411,13 @@ function renderNews(id) {
   const box = $('#' + id);
   if (!box) return;
   const list = newsList();
-  const limit = id === 'news-news' ? Infinity : 3;
-  const open = !!newsOpen[id];
-  const shown = open ? list : list.slice(0, limit);
+
+  // تعیین محدودیت بر اساس مکان
+  let limit;
+  if (id === 'news-home') limit = CONFIG.homeNewsLimit;   // خانه فقط آخرین خبر
+  else limit = Infinity;                                   // اخبار همه
+
+  const shown = list.slice(0, limit);
 
   let feed = '';
   if (!list.length) {
@@ -1350,16 +1445,17 @@ function renderNews(id) {
         '</div>' +
       '</div>' +
       '<div class="ch-feed">' + feed + '</div>' +
-      (list.length > limit
-        ? '<div class="news-foot"><button type="button" class="link-btn" data-action="news-more" data-id="' + id + '">' +
-          (open ? 'نمایش کمتر' : 'اخبار بیشتر (' + fmt(list.length - limit) + ')') + '</button></div>'
+      (id === 'news-home' && list.length > 1
+        ? '<div class="news-foot"><button type="button" class="link-btn" data-action="tab" data-id="news">مشاهده همه اخبار →</button></div>'
         : '') +
     '</section>';
 }
-function renderAllNews() { ['news-home', 'news-news', 'news-consult', 'news-cards'].forEach(renderNews); }
+
+// فقط دو مکان خبر دارند: خانه و اخبار
+function renderAllNews() { ['news-home', 'news-news'].forEach(renderNews); }
 
 /* =========================================================
-   پروفایل و منو
+   پروفایل
    ========================================================= */
 function closeMenu() {
   const m = $('#profileMenu');
@@ -1658,7 +1754,6 @@ function renderConsult() {
   renderReceipt();
 }
 
-/* ---------- رسید خرید ---------- */
 const currentOrder = () => orders.find(o => o.id === shownOrder);
 
 function buildReceipt(o) {
@@ -1691,8 +1786,7 @@ function renderReceipt() {
   if (o) {
     $('#invoiceText').textContent = buildReceipt(o);
     $('#receiptNote').textContent = o.pay === 'shares'
-      ? 'خرید با سهام هزینه‌ای ندارد و سهام هدیه هم به همراه ندارد.'
-      : '';
+      ? 'خرید با سهام هزینه‌ای ندارد و سهام هدیه هم به همراه ندارد.' : '';
     $('#receiptNote').hidden = o.pay !== 'shares';
     $('#receiptActions').innerHTML =
       '<button type="button" class="btn primary" data-action="send-admin">' + ico('send', 'sm') + 'ارسال به ادمین</button>' +
@@ -1712,11 +1806,8 @@ function sendToAdmin(text) {
   copyText(text);
   const a = document.createElement('a');
   a.href = CONFIG.adminUrl + '?text=' + encodeURIComponent(text);
-  a.target = '_blank';
-  a.rel = 'noopener';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  a.target = '_blank'; a.rel = 'noopener';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
   toast('چت ' + LTR(CONFIG.adminHandle) + ' باز می‌شود. اگر متن رسید ظاهر نشد، آن را پیست کنید و بفرستید.');
 }
 
@@ -1727,16 +1818,11 @@ function submitOrder() {
   const q = plan.hasQuestions ? consult.q : 0;
   const r = calc(plan, q);
   const order = {
-    id: uid(),
-    planName: plan.name,
+    id: uid(), planName: plan.name,
     advisor: adv.name + ' (' + adv.role + ')',
     questions: plan.hasQuestions ? q : 0,
-    total: r.total,
-    gift: r.gift,
-    sharesCost: r.sharesCost,
-    pay: 'cash',
-    holder: null,
-    at: Date.now()
+    total: r.total, gift: r.gift, sharesCost: r.sharesCost,
+    pay: 'cash', holder: null, at: Date.now()
   };
   orders.unshift(order);
   orders = orders.slice(0, 30);
@@ -1830,7 +1916,6 @@ document.addEventListener('click', function (e) {
     case 'open-settings': openSettings(); break;
     case 'premium': closeMenu(); toast('به زودی'); break;
     case 'close-dialog': closeDlg(el.closest('dialog')); break;
-    case 'news-more': newsOpen[id] = !newsOpen[id]; renderNews(id); break;
 
     case 'toggle-exam': {
       const box = $('#examEdit');
@@ -1939,97 +2024,40 @@ document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') closeMenu();
 });
 
-$('#examInput').addEventListener('change', function () {
-  if (!this.value) return;
-  examKey = this.value;
-  store.set('exam', examKey);
-  updateCountdown();
-  toast('تاریخ کنکور ذخیره شد.');
-});
-
-$('#logForm').addEventListener('submit', function (e) {
-  e.preventDefault();
-  const hRaw = $('#logHours').value.trim(), tRaw = $('#logTests').value.trim();
-  if (!hRaw && !tRaw) { toast('ساعت مطالعه یا تعداد تست را وارد کنید.'); return; }
-  const h = hRaw ? parseNum(hRaw) : 0, t = tRaw ? parseNum(tRaw) : 0;
-  if (isNaN(h) || isNaN(t)) { toast('لطفاً فقط عدد معتبر وارد کنید.'); return; }
-  const k = todayKey();
-  const cur = logData[k] || { h:0, t:0 };
-  if (cur.h + h > 24) { toast('مجموع ساعت مطالعه یک روز نمی‌تواند بیشتر از ۲۴ باشد.'); return; }
-  logData[k] = { h:Math.round((cur.h + h) * 100) / 100, t:Math.round(cur.t + t) };
-  store.set('log', logData);
-  this.reset();
-  renderCharts();
-  toast('به اطلاعات امروز اضافه شد.');
-});
-
-$('#taskForm').addEventListener('submit', function (e) {
-  e.preventDefault();
-  const title = $('#taskTitle').value.trim();
-  if (!title) return;
-  tasks.push({
-    id:uid(), title:title, prio:$('#taskPrio').value, cat:$('#taskCat').value,
-    date:$('#taskDate').value || todayKey(), done:false
-  });
-  store.set('tasks', tasks);
-  $('#taskTitle').value = '';
-  $('#taskDate').value = todayKey();
-  renderPlanner();
-  toast('تسک اضافه شد.');
-});
-
-$('#cardForm').addEventListener('submit', function (e) {
-  e.preventDefault();
-  const topic = $('#cardTopic').value.replace(/\s+/g, ' ').trim();
-  const q = $('#cardQ').value.trim(), a = $('#cardA').value.trim();
-  if (!topic || !q || !a) return;
-  cards.push({ id:uid(), topic:topic, q:q, a:a });
-  store.set('cards', cards);
-  this.reset();
-  renderCards();
-  toast('کارت به دسته «' + topic + '» اضافه شد.');
-});
-
-$('#fSearch').addEventListener('input', function () { fQuery = this.value; renderFormulas(); });
-$('#fForm').addEventListener('submit', function (e) {
-  e.preventDefault();
-  const t = $('#fName').value.trim(), f = $('#fExpr').value.trim();
-  if (!t || !f) return;
-  customF.push({ id:uid(), s:$('#fSubj').value, t:t, f:f });
-  store.set('formulas', customF);
-  this.reset();
-  fSubject = 'mine';
-  renderFormulas();
-});
-
-$('#settingsForm').addEventListener('submit', function (e) {
-  e.preventDefault();
-  const raw = $('#setToken').value.trim();
-  let token = '';
-  if (raw) {
-    token = normToken(raw);
-    if (!token) {
-      const err = $('#setErr');
-      err.textContent = 'فرمت توکن درست نیست. نمونه: ' + LTR('R-12345');
-      err.hidden = false;
-      return;
-    }
-  }
-  profile = { name:$('#setName').value.trim(), field:$('#setField').value, token:token };
-  store.set('profile', profile);
-  closeDlg($('#settingsDlg'));
-  renderGreet();
-  toast('تنظیمات ذخیره شد.');
-});
-
-$('#tokenForm').addEventListener('submit', function (e) {
-  e.preventDefault();
-  lookupToken($('#tokenInput').value);
-});
-
 /* =========================================================
-   شروع
+   جلوگیری از زوم، سلکت، راست‌کلیک (اما رفرش آزاد)
    ========================================================= */
+// زوم با Ctrl + wheel
+document.addEventListener('wheel', function (e) {
+  if (e.ctrlKey) e.preventDefault();
+}, { passive:false });
+
+// زوم با Ctrl + / Ctrl -
+document.addEventListener('keydown', function (e) {
+  if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0'].includes(e.key)) {
+    e.preventDefault();
+  }
+  // اجازه به F5 و Ctrl+R
+  if (e.key === 'F5') return;
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'r') return;
+}, { passive:false });
+
+// جلوگیری از double-tap zoom (فقط روی موبایل)
+let lastTouch = 0;
+document.addEventListener('touchend', function (e) {
+  const now = Date.now();
+  if (now - lastTouch <= 300) e.preventDefault();
+  lastTouch = now;
+}, { passive:false });
+
+// راست‌کلیک (منوی زمینه) — به‌جز روی فیلدها
+document.addEventListener('contextmenu', function (e) {
+  const tag = (e.target.tagName || '').toLowerCase();
+  if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+  e.preventDefault();
+});
+
+// شروع برنامه
 $('#taskDate').value = todayKey();
 $('#examInput').min = todayKey();
 updateDateBar();
@@ -2038,6 +2066,78 @@ setInterval(function () {
   if (currentTab === 'home') updateCountdown();
   updateDateBar();
 }, 30000);
+
+/* =========================================================
+   PWA: نصب و Service Worker
+   ========================================================= */
+let deferredPrompt = null;
+const installBanner = $('#installBanner');
+
+function isStandalone() {
+  return window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
+}
+
+function isIOS() {
+  return /iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase());
+}
+
+function showInstallBanner() {
+  if (isStandalone()) return;
+  if (store.get('installDismissed', false)) return;
+  installBanner.classList.add('show');
+}
+
+function hideInstallBanner() {
+  installBanner.classList.remove('show');
+}
+
+window.addEventListener('beforeinstallprompt', function (e) {
+  e.preventDefault();
+  deferredPrompt = e;
+  setTimeout(showInstallBanner, 1500);
+});
+
+$('#installBtn').addEventListener('click', async function () {
+  if (isIOS() && !deferredPrompt) {
+    // راهنما برای iOS
+    toast('برای نصب در iOS: دکمه اشتراک‌گذاری (Share) → Add to Home Screen');
+    hideInstallBanner();
+    return;
+  }
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const choice = await deferredPrompt.userChoice;
+    if (choice.outcome === 'accepted') toast('برنامه نصب شد. 🎉');
+    deferredPrompt = null;
+    hideInstallBanner();
+  } else {
+    toast('مرورگر شما از نصب مستقیم پشتیبانی نمی‌کند. از منوی مرورگر «Add to Home Screen» را بزنید.');
+    hideInstallBanner();
+  }
+});
+
+$('#installClose').addEventListener('click', function () {
+  hideInstallBanner();
+  store.set('installDismissed', true);
+});
+
+window.addEventListener('appinstalled', function () {
+  hideInstallBanner();
+  toast('ROTBEIEK نصب شد. 🎉');
+});
+
+// ثبت Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function () {});
+  });
+}
+
+// اگر iOS هست و standalone نیست، بنر را نشان بده (با تاخیر)
+if (isIOS() && !isStandalone()) {
+  setTimeout(showInstallBanner, 2500);
+}
 
 })();
 </script>
