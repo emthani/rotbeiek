@@ -10,35 +10,20 @@
 <meta name="apple-mobile-web-app-title" content="ROTBEIEK">
 <meta name="application-name" content="ROTBEIEK">
 <title>ROTBEIEK</title>
-
-<link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="l.png">
 <link rel="icon" href="l.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
-
 <style>
-/* =========================================================
-   ۱. متغیرها و پایه
-   ========================================================= */
 :root{
-  --ink:#1a1f4d;
-  --muted:#575e8c;
-  --line:rgba(110,120,215,.25);
-  --blue:#3b6cf6;
-  --violet:#7a4cf5;
-  --sky:#6fa0ff;
-  --lilac:#b79bff;
-  --gold:#e3a008;
+  --ink:#1a1f4d;--muted:#575e8c;--line:rgba(110,120,215,.25);
+  --blue:#3b6cf6;--violet:#7a4cf5;--sky:#6fa0ff;--lilac:#b79bff;--gold:#e3a008;
   --glass:rgba(255,255,255,.58);
   --grad:linear-gradient(135deg,#3b6cf6 0%,#7a4cf5 100%);
   --shadow:0 12px 32px rgba(62,72,170,.12),0 2px 6px rgba(62,72,170,.06);
-  --r-lg:26px;
-  --r-md:18px;
-  --r-sm:14px;
-  --danger:#d33a4a;
-  --ok:#1b8f6a;
+  --r-lg:26px;--r-md:18px;--r-sm:14px;
+  --danger:#d33a4a;--ok:#1b8f6a;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
@@ -47,13 +32,16 @@ body{
   margin:0;min-height:100vh;
   font-family:'Vazirmatn',Tahoma,'Segoe UI',system-ui,sans-serif;
   font-size:15px;line-height:1.75;color:var(--ink);background:#eaf0ff;
-  /* غیرفعال‌سازی انتخاب متن و منوی راست‌کلیک */
-  -webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;
-  -webkit-touch-callout:none;
-  overscroll-behavior-y:none;
+  -webkit-user-select:none;-moz-user-select:none;user-select:none;
+  -webkit-touch-callout:none;overscroll-behavior-y:none;
 }
-/* اجازه انتخاب متن در فیلدها */
-input,textarea,select,pre{-webkit-user-select:text;user-select:text}
+input,textarea,select,option,datalist,pre,
+.post p,.invoice,.formula-expr,.face,.task-title,
+.deck-title strong,.plan-desc,.selectable,.selectable *{
+  -webkit-user-select:text!important;
+  -moz-user-select:text!important;
+  user-select:text!important;
+}
 body::before{
   content:"";position:fixed;inset:0;z-index:-1;
   background:
@@ -69,7 +57,6 @@ button{font:inherit;color:inherit}
 .ico.sm{width:18px;height:18px}
 .ico.gold{color:var(--gold)}
 .ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
-
 .glass,.card{
   background:var(--glass);
   -webkit-backdrop-filter:blur(18px) saturate(1.4);
@@ -77,18 +64,12 @@ button{font:inherit;color:inherit}
   border:1px solid rgba(255,255,255,.78);
   box-shadow:var(--shadow);
 }
-@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-  .glass,.card{background:rgba(255,255,255,.92)}
-}
 .card{border-radius:var(--r-lg);padding:18px;margin-top:16px}
 .card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
 .card-head h2{font-size:17px;font-weight:700}
 .muted{color:var(--muted)}
 .small{font-size:13px}
 
-/* =========================================================
-   ۲. چیدمان موبایل (پیش‌فرض)
-   ========================================================= */
 .app{max-width:680px;margin:0 auto;padding:0 16px 130px}
 
 .datebar{
@@ -142,7 +123,6 @@ button{font:inherit;color:inherit}
 .page{padding-top:4px}
 .greet{margin-top:14px;font-weight:700;font-size:16px}
 
-/* نوار ناوبری پایین موبایل */
 .nav{
   position:fixed;z-index:30;bottom:max(12px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);
   width:min(656px,calc(100% - 24px));
@@ -156,9 +136,6 @@ button{font:inherit;color:inherit}
 }
 .nav-btn.active{background:var(--grad);color:#fff;box-shadow:0 8px 18px rgba(90,80,245,.35)}
 
-/* =========================================================
-   ۳. دکمه‌ها و فرم‌ها
-   ========================================================= */
 .btn{
   border:0;border-radius:16px;padding:11px 18px;min-height:46px;font-weight:700;cursor:pointer;
   display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;
@@ -213,9 +190,6 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 .result.err{color:var(--danger)}
 .result.ok{color:var(--ok)}
 
-/* =========================================================
-   ۴. خانه
-   ========================================================= */
 .hero{
   position:relative;overflow:hidden;margin-top:16px;border-radius:30px;padding:20px 22px 22px;color:#fff;
   background:linear-gradient(135deg,#3560f0 0%,#6a4ef3 55%,#8d5cf6 100%);
@@ -254,9 +228,6 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 .chart-empty{font-size:12.5px;color:var(--muted);margin-top:6px}
 .log-form{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line)}
 
-/* =========================================================
-   ۵. اخبار (شبیه کانال تلگرام)
-   ========================================================= */
 .news{padding:0;overflow:hidden}
 .ch-head{
   display:flex;align-items:center;gap:12px;padding:14px 16px 12px;
@@ -290,8 +261,7 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 .post{
   background:#fff;border-radius:4px 16px 16px 16px;padding:0;overflow:hidden;
   box-shadow:0 2px 10px rgba(40,50,150,.10);
-  max-width:92%;
-  align-self:flex-start;
+  max-width:92%;align-self:flex-start;
 }
 .post img{width:100%;max-height:260px;object-fit:cover;display:block}
 .post .post-body{padding:10px 13px 8px}
@@ -305,9 +275,6 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 .news-foot{padding:0 16px 14px;text-align:center;background:linear-gradient(180deg,transparent,rgba(255,255,255,.4))}
 .news .link-btn{color:var(--blue);font-weight:700;font-size:13px}
 
-/* =========================================================
-   ۶. تسک‌ها
-   ========================================================= */
 .tasks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .task{
   display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--r-md);
@@ -334,9 +301,6 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 .empty .bubble .ico{width:28px;height:28px}
 .empty p+.btn,.empty p+.link-btn{margin-top:10px}
 
-/* =========================================================
-   ۷. فلش‌کارت
-   ========================================================= */
 .album{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:20px 16px;padding:8px 6px 12px}
 .deck{position:relative;display:block;height:120px;border:0;padding:0;background:none;cursor:pointer;text-align:right}
 .deck::before,.deck::after{
@@ -405,12 +369,9 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 .search .ico{position:absolute;top:50%;right:14px;transform:translateY(-50%);color:var(--muted)}
 .search input{padding-right:44px}
 
-/* =========================================================
-   ۸. مشاوره
-   ========================================================= */
 .step{margin-top:18px;transition:opacity .25s}
 .step:first-child{margin-top:0}
-.step.locked{opacity:.45}
+.step.locked{opacity:.45;pointer-events:none}
 .step-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-weight:700}
 .step-num{
   width:28px;height:28px;border-radius:50%;background:var(--grad);color:#fff;font-size:13px;
@@ -464,9 +425,6 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
   padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.72);font-size:13.5px;text-align:right;
 }
 
-/* =========================================================
-   ۹. سهام
-   ========================================================= */
 .quiet h2{font-size:16px;font-weight:700}
 .quiet .card{background:rgba(255,255,255,.45);box-shadow:none}
 .quiet p{color:var(--muted)}
@@ -486,179 +444,85 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 }
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
-/* =========================================================
-   ۱۰. سایدبار دسکتاپ (پیش‌فرض مخفی)
-   ========================================================= */
 .sidebar{display:none}
 #bottomNav{display:grid}
 
-/* =========================================================
-   ۱۱. نسخه دسکتاپ / لپ‌تاپ  (min-width: 1024px)
-   ========================================================= */
 @media (min-width: 1024px){
   .app{
-    max-width:1280px;
-    padding:0 32px 40px;
+    max-width:1280px;padding:0 32px 40px;
     display:grid;
-    grid-template-columns: 1fr 280px;   /* محتوا | سایدبار */
-    grid-template-areas:
-      "header  header"
-      "main    sidebar";
-    gap:24px 28px;
-    align-items:start;
+    grid-template-columns: 1fr 280px;
+    grid-template-areas: "header header" "main sidebar";
+    gap:24px 28px;align-items:start;
   }
-  .topbar{
-    grid-area:header;
-    margin:0 -32px;
-    padding:14px 32px;
-    border-radius:0 0 24px 24px;
-  }
-  /* سایدبار سمت راست */
+  .topbar{grid-area:header;margin:0 -32px;padding:14px 32px;border-radius:0 0 24px 24px}
   .sidebar{
-    grid-area:sidebar;
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-    position:sticky;
-    top:96px;
-    align-self:start;
-    padding-top:8px;
+    grid-area:sidebar;display:flex;flex-direction:column;gap:14px;
+    position:sticky;top:96px;align-self:start;padding-top:8px;
     max-height:calc(100vh - 110px);
   }
   #bottomNav{display:none}
   .datebar-mobile{display:none}
-
-  /* کارت تقویم در سایدبار */
   .side-datebar{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-    padding:16px 18px;
-    border-radius:20px;
-    border:1px solid rgba(255,255,255,.85);
-    background:rgba(255,255,255,.62);
-    -webkit-backdrop-filter:blur(16px);
-    backdrop-filter:blur(16px);
-    box-shadow:var(--shadow);
+    display:flex;flex-direction:column;gap:6px;padding:16px 18px;border-radius:20px;
+    border:1px solid rgba(255,255,255,.85);background:rgba(255,255,255,.62);
+    -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:var(--shadow);
   }
-  .side-datebar .sd-week{
-    font-size:15px;font-weight:800;color:var(--ink);
-    display:flex;align-items:center;gap:8px;
-  }
+  .side-datebar .sd-week{font-size:15px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:8px}
   .side-datebar .sd-week .ico{color:var(--blue);width:20px;height:20px}
   .side-datebar .sd-full{font-size:13px;color:var(--muted)}
-  .side-datebar .sd-time{
-    font-size:13px;color:var(--blue);font-weight:700;
-    direction:ltr;text-align:right;
-    font-variant-numeric:tabular-nums;
-    margin-top:2px;
-  }
-
-  /* ناوبری عمودی در سایدبار */
+  .side-datebar .sd-time{font-size:13px;color:var(--blue);font-weight:700;direction:ltr;text-align:right;font-variant-numeric:tabular-nums;margin-top:2px}
   .nav{
-    position:static;
-    transform:none;
-    left:auto;bottom:auto;
-    width:100%;
-    display:grid;
-    grid-template-columns:1fr;
-    gap:4px;
-    padding:8px;
-    border-radius:20px;
-    box-shadow:var(--shadow);
-    background:rgba(255,255,255,.55);
+    position:static;transform:none;left:auto;bottom:auto;width:100%;
+    display:grid;grid-template-columns:1fr;gap:4px;padding:8px;border-radius:20px;
+    box-shadow:var(--shadow);background:rgba(255,255,255,.55);
   }
   .nav-btn{
-    flex-direction:row;
-    justify-content:flex-start;
-    gap:12px;
-    padding:12px 16px;
-    border-radius:14px;
-    font-size:14px;
-    color:var(--ink);
+    flex-direction:row;justify-content:flex-start;gap:12px;
+    padding:12px 16px;border-radius:14px;font-size:14px;color:var(--ink);
   }
   .nav-btn .ico{width:22px;height:22px}
   .nav-btn.active{background:var(--grad);color:#fff;box-shadow:0 6px 16px rgba(90,80,245,.3)}
   .nav-btn:not(.active):hover{background:rgba(59,108,246,.08)}
-
-  /* main + page */
   main{grid-area:main;min-width:0}
   .page{width:100%}
-
-  /* ==== خانه در دسکتاپ: دو ستونه ==== */
   #page-home{
     display:grid;
     grid-template-columns: minmax(0,1.15fr) minmax(0,1fr);
-    gap:18px 22px;
-    align-items:start;
+    gap:18px 22px;align-items:start;
   }
   #page-home .greet{grid-column:1/-1;margin-top:6px}
   #page-home .hero{grid-column:1/-1;margin-top:8px}
   #page-home #news-home{grid-column:1;margin-top:0}
   #page-home .card.progress-card{grid-column:2;margin-top:0}
   #page-home .card.tasks-card{grid-column:2;margin-top:0}
-
-  /* تنظیمات کارت‌ها در دسکتاپ */
   .card{padding:22px;margin-top:18px}
   .card-head h2{font-size:18px}
   #page-home .card{margin-top:0}
-
   .hero-days strong{font-size:100px}
   .ch-feed{max-height:520px}
   .album{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
-
-  /* صفحات دیگر: عرض خوانا و وسط */
-  #page-news,
-  #page-planner,
-  #page-consult,
-  #page-cards,
-  #page-shares{
-    max-width:860px;
-  }
-
-  /* چیدمان پیشرفته صفحه برنامه‌ریز */
+  #page-news,#page-planner,#page-consult,#page-cards,#page-shares{max-width:860px}
   #page-planner{
-    display:grid;
-    grid-template-columns: minmax(0,1fr) minmax(0,1.3fr);
-    gap:18px 22px;
-    align-items:start;
-    max-width:1000px;
+    display:grid;grid-template-columns: minmax(0,1fr) minmax(0,1.3fr);
+    gap:18px 22px;align-items:start;max-width:1000px;
   }
   #page-planner #taskForm{grid-column:1;margin-top:0;position:sticky;top:96px}
   #page-planner .card{grid-column:2;margin-top:0}
-
-  /* مشاوره */
   #page-consult{max-width:820px}
-
-  /* فلش‌کارت */
   #page-cards{max-width:1000px}
   #page-cards .card{margin-top:18px}
-  #page-cards #news-cards{display:none}
-
-  /* اخبار: تمام‌عرض */
   #page-news{max-width:900px}
   #page-news .ch-feed{max-height:none}
-
-  /* سهام */
   #page-shares{max-width:820px}
-
-  /* فرمول‌ها دو ستونه در دیالوگ */
   dialog.sheet{width:min(90vw,640px)}
   .formula-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-
-  /* پلن‌ها */
   #planList{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   #planList .plan{margin-bottom:0}
 }
-
-/* دسکتاپ خیلی بزرگ */
 @media (min-width: 1440px){
   .app{max-width:1360px;grid-template-columns:1fr 320px}
 }
-
-/* =========================================================
-  ۱۲. موبایل کوچک
-   ========================================================= */
 @media (max-width:380px){
   .hero-days strong{font-size:68px}
   .nav-btn{font-size:9.5px;padding:8px 0 6px}
@@ -669,43 +533,30 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
   *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
 }
 
-/* =========================================================
-  ۱۳. بنر نصب PWA
-   ========================================================= */
 .install-banner{
   position:fixed;z-index:60;left:50%;bottom:100px;transform:translate(-50%,20px);
-  width:min(94vw,460px);
-  display:flex;align-items:center;gap:12px;
-  padding:12px 14px;
-  background:linear-gradient(135deg,#3560f0,#7a4cf5);
-  color:#fff;
-  border-radius:20px;
+  width:min(94vw,460px);display:flex;align-items:center;gap:12px;padding:12px 14px;
+  background:linear-gradient(135deg,#3560f0,#7a4cf5);color:#fff;border-radius:20px;
   box-shadow:0 20px 50px rgba(60,60,200,.45);
-  opacity:0;pointer-events:none;
-  transition:opacity .3s,transform .3s;
+  opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;
 }
 .install-banner.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 .install-banner .ib-ico{
   width:44px;height:44px;border-radius:14px;flex:none;
-  background:rgba(255,255,255,.22);
-  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;
 }
 .install-banner .ib-txt{flex:1;min-width:0;line-height:1.4}
 .install-banner .ib-txt strong{display:block;font-size:14.5px}
 .install-banner .ib-txt small{font-size:12px;opacity:.9}
 .install-banner .ib-actions{display:flex;gap:6px;flex:none}
 .install-banner button{
-  border:0;cursor:pointer;border-radius:10px;
-  padding:7px 12px;font-size:12.5px;font-weight:700;
+  border:0;cursor:pointer;border-radius:10px;padding:7px 12px;font-size:12.5px;font-weight:700;
 }
 .install-banner .ib-install{background:#fff;color:#3b3fcf}
 .install-banner .ib-close{background:rgba(255,255,255,.18);color:#fff;width:32px;padding:7px 0}
-@media (min-width:1024px){
-  .install-banner{bottom:30px}
-}
+@media (min-width:1024px){.install-banner{bottom:30px}}
 </style>
 </head>
-
 <body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -750,7 +601,6 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 
 <div class="app">
 
-  <!-- هدر -->
   <header class="topbar">
     <div class="brand">
       <img src="l.png" alt="ROTBEIEK"
@@ -774,16 +624,13 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
     </div>
   </header>
 
-  <!-- نوار تاریخ موبایل -->
   <div class="datebar datebar-mobile" id="datebar-mobile" aria-label="تاریخ امروز">
     <span class="db-day"><svg class="ico"><use href="#i-calendar"/></svg><span id="dbWeek">—</span></span>
     <span class="db-full"><span id="dbFull">—</span><span class="sep"></span><span id="dbTime">—</span></span>
   </div>
 
-  <!-- محتوا -->
   <main>
 
-    <!-- خانه -->
     <section class="page" id="page-home" aria-label="خانه">
       <p class="greet" id="greet" hidden></p>
 
@@ -805,7 +652,6 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
         </div>
       </div>
 
-      <!-- فقط آخرین خبر در خانه -->
       <div id="news-home"></div>
 
       <div class="card progress-card">
@@ -839,12 +685,10 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
       </div>
     </section>
 
-    <!-- اخبار (همه خبرها) -->
     <section class="page" id="page-news" aria-label="اخبار" hidden>
       <div id="news-news"></div>
     </section>
 
-    <!-- برنامه‌ریز -->
     <section class="page" id="page-planner" aria-label="برنامه‌ریز" hidden>
       <form class="card" id="taskForm" autocomplete="off">
         <div class="card-head"><h2>تسک جدید</h2></div>
@@ -871,7 +715,6 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
       </div>
     </section>
 
-    <!-- فلش‌کارت -->
     <section class="page" id="page-cards" aria-label="فلش‌کارت" hidden>
       <form class="card" id="cardForm" autocomplete="off">
         <div class="card-head"><h2>ساخت فلش‌کارت</h2></div>
@@ -894,7 +737,6 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
       </button>
     </section>
 
-    <!-- مشاوره -->
     <section class="page" id="page-consult" aria-label="مشاوره" hidden>
       <div class="card">
         <div class="step">
@@ -950,7 +792,6 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
       </div>
     </section>
 
-    <!-- سهام -->
     <section class="page quiet" id="page-shares" aria-label="سهام و قوانین" hidden>
       <div class="card">
         <h2>چرا از ROTBEIEK حمایت کنیم؟</h2>
@@ -985,7 +826,6 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
     </section>
   </main>
 
-  <!-- سایدبار دسکتاپ -->
   <aside class="sidebar" aria-label="نوار کناری">
     <div class="side-datebar">
       <span class="sd-week"><svg class="ico"><use href="#i-calendar"/></svg><span id="dbWeekSide">—</span></span>
@@ -1004,7 +844,6 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
   </aside>
 </div>
 
-<!-- نوار پایین موبایل -->
 <nav class="nav glass" id="bottomNav" aria-label="ناوبری اصلی">
   <button class="nav-btn active" data-action="tab" data-id="home" aria-current="page"><svg class="ico"><use href="#i-home"/></svg>خانه</button>
   <button class="nav-btn" data-action="tab" data-id="news"><svg class="ico"><use href="#i-news"/></svg>اخبار</button>
@@ -1014,7 +853,6 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
   <button class="nav-btn" data-action="tab" data-id="shares"><svg class="ico"><use href="#i-star"/></svg>سهام</button>
 </nav>
 
-<!-- دیالوگ‌ها -->
 <dialog class="sheet" id="settingsDlg" aria-labelledby="settingsTitle">
   <div class="sheet-body">
     <div class="sheet-head">
@@ -1082,7 +920,6 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
   </div>
 </dialog>
 
-<!-- بنر نصب PWA -->
 <div class="install-banner" id="installBanner" role="dialog" aria-label="نصب برنامه">
   <div class="ib-ico"><svg class="ico"><use href="#i-download"/></svg></div>
   <div class="ib-txt">
@@ -1097,9 +934,6 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="news.js"></script>
-<script src="shares.js"></script>
-
 <script>
 (function () {
 'use strict';
@@ -1107,7 +941,7 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 /* =========================================================
    تنظیمات
    ========================================================= */
-const CONFIG = {
+var CONFIG = {
   brand: 'ROTBEIEK',
   adminHandle: '@rotbeiek',
   adminUrl: 'https://t.me/rotbeiek',
@@ -1116,23 +950,22 @@ const CONFIG = {
   examMonth: 4,
   examDay: 11,
   newsImageCount: 20,
-  // فقط این تعداد خبر در کارت خانه نمایش داده شود
   homeNewsLimit: 1
 };
 
-const PLANS = [
+var PLANS = [
   { id:'single', icon:'consult', name:'تک‌جلسه‌ای', desc:'پرسش‌های خود را از مشاور بپرسید', price:30000, hasQuestions:true, baseQ:3, extraPrice:10000, gift:15, giftPerExtra:5, sharesCost:30, sharesPerExtra:10 },
   { id:'plan', icon:'calendar', name:'برنامه‌ریزی درسی', desc:'برنامه درسی اختصاصی برای شما', price:99000, gift:50, sharesCost:100 },
   { id:'week', icon:'calendar', name:'برنامه‌ریزی درسی + یک هفته پشتیبانی', desc:'مثل گرفتن گزارش کار و پاسخ به سوال‌ها، به مدت یک هفته', price:199000, gift:100, sharesCost:200 },
   { id:'month', icon:'calendar', name:'برنامه‌ریزی درسی + یک ماه پشتیبانی', desc:'مثل گزینه قبلی، ولی به مدت یک ماه', price:499000, gift:250, sharesCost:500 }
 ];
-const ADVISORS = [{ id:'eva', name:'خانم اوا نیک‌فر', role:'مشاور ارشد' }];
+var ADVISORS = [{ id:'eva', name:'خانم اوا نیک‌فر', role:'مشاور ارشد' }];
 
-const NEWS = Array.isArray(window.ROTBEIEK_NEWS) ? window.ROTBEIEK_NEWS : [];
-const SHAREHOLDERS = Array.isArray(window.ROTBEIEK_SHAREHOLDERS) ? window.ROTBEIEK_SHAREHOLDERS : [];
+var NEWS = (window.ROTBEIEK_NEWS && Array.isArray(window.ROTBEIEK_NEWS)) ? window.ROTBEIEK_NEWS : [];
+var SHAREHOLDERS = (window.ROTBEIEK_SHAREHOLDERS && Array.isArray(window.ROTBEIEK_SHAREHOLDERS)) ? window.ROTBEIEK_SHAREHOLDERS : [];
 
-const SUBJECTS = { math:'ریاضی', physics:'فیزیک', chem:'شیمی', other:'سایر' };
-const FORMULAS = [
+var SUBJECTS = { math:'ریاضی', physics:'فیزیک', chem:'شیمی', other:'سایر' };
+var FORMULAS = [
   { s:'math', t:'ریشه‌های معادله درجه دوم', f:'x = (−b ± √(b² − 4ac)) / 2a' },
   { s:'math', t:'دلتا', f:'Δ = b² − 4ac' },
   { s:'math', t:'جمله عمومی دنباله حسابی', f:'aₙ = a₁ + (n − 1)d' },
@@ -1171,76 +1004,108 @@ const FORMULAS = [
 /* =========================================================
    ابزارها
    ========================================================= */
-const $  = (s, r) => (r || document).querySelector(s);
-const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
-const FA = '۰۱۲۳۴۵۶۷۸۹';
-const toFa = v => String(v).replace(/\d/g, d => FA[d]);
-const toEn = s => String(s).replace(/[۰-۹]/g, d => FA.indexOf(d)).replace(/[٠-٩]/g, d => d.charCodeAt(0) - 1632);
-const fmt = (n, max) => Number(n).toLocaleString('fa-IR', { maximumFractionDigits: max === undefined ? 0 : max });
-const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
-const ico = (n, cls) => '<svg class="ico' + (cls ? ' ' + cls : '') + '" aria-hidden="true"><use href="#i-' + n + '"/></svg>';
-const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-const LTR = s => '\u2066' + s + '\u2069';
-
+function $(s, r) { return (r || document).querySelector(s); }
+function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+var FA = '۰۱۲۳۴۵۶۷۸۹';
+function toFa(v) { return String(v).replace(/\d/g, function (d) { return FA[d]; }); }
+function toEn(s) {
+  return String(s).replace(/[۰-۹]/g, function (d) { return FA.indexOf(d); })
+                  .replace(/[٠-٩]/g, function (d) { return d.charCodeAt(0) - 1632; });
+}
+function fmt(n, max) {
+  var opts = { maximumFractionDigits: (max === undefined ? 0 : max) };
+  try { return Number(n).toLocaleString('fa-IR', opts); }
+  catch (e) { return String(n); }
+}
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, function (c) {
+    return ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c];
+  });
+}
+function ico(n, cls) { return '<svg class="ico' + (cls ? ' ' + cls : '') + '" aria-hidden="true"><use href="#i-' + n + '"/></svg>'; }
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+function LTR(s) { return '\u2066' + s + '\u2069'; }
 function parseNum(str) {
-  const n = parseFloat(toEn(str).replace(/[٫,،]/g, '.').trim());
-  return isFinite(n) && n >= 0 ? n : NaN;
+  var n = parseFloat(toEn(str).replace(/[٫,،]/g, '.').trim());
+  return (isFinite(n) && n >= 0) ? n : NaN;
 }
 
-function jf(opts) {
+function makeJf(opts) {
   try { return new Intl.DateTimeFormat('fa-IR', opts); }
   catch (e) { return new Intl.DateTimeFormat('en-US', opts); }
 }
-const fLong  = jf({ year:'numeric', month:'long', day:'numeric' });
-const fShort = jf({ month:'long', day:'numeric' });
-const fWeek  = jf({ weekday:'short' });
-const fDay   = jf({ day:'numeric' });
-const fTime  = jf({ hour:'2-digit', minute:'2-digit', hour12:false });
-const fWeekLong = jf({ weekday:'long' });
+var fLong     = makeJf({ year:'numeric', month:'long', day:'numeric' });
+var fShort    = makeJf({ month:'long', day:'numeric' });
+var fWeek     = makeJf({ weekday:'short' });
+var fDay      = makeJf({ day:'numeric' });
+var fTime     = makeJf({ hour:'2-digit', minute:'2-digit', hour12:false });
+var fWeekLong = makeJf({ weekday:'long' });
 
-const pad = n => (n < 10 ? '0' : '') + n;
-const dkey = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
-const parseKey = k => { const p = k.split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]); };
-const todayKey = () => dkey(new Date());
+function pad(n) { return (n < 10 ? '0' : '') + n; }
+function dkey(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+function parseKey(k) {
+  var p = String(k).split('-').map(Number);
+  return new Date(p[0], p[1] - 1, p[2]);
+}
+function todayKey() { return dkey(new Date()); }
 
-const store = {
-  get(k, d) { try { const v = localStorage.getItem('rotbeiek:' + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
-  set(k, v) { try { localStorage.setItem('rotbeiek:' + k, JSON.stringify(v)); } catch (e) {} }
+var store = {
+  get: function (k, d) {
+    try {
+      var v = localStorage.getItem('rotbeiek:' + k);
+      return v ? JSON.parse(v) : d;
+    } catch (e) { return d; }
+  },
+  set: function (k, v) {
+    try { localStorage.setItem('rotbeiek:' + k, JSON.stringify(v)); }
+    catch (e) { /* ignore */ }
+  }
 };
 
-let toastTimer;
+var toastTimer;
 function toast(msg) {
-  const t = $('#toast');
+  var t = $('#toast');
+  if (!t) return;
   t.textContent = msg;
   t.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3800);
+  toastTimer = setTimeout(function () { t.classList.remove('show'); }, 3800);
 }
 
-async function copyText(text) {
-  try { if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); return true; } } catch (e) {}
+function copyText(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(text).then(function () { return true; }, function () { return fallbackCopy(text); });
+  }
+  return Promise.resolve(fallbackCopy(text));
+}
+function fallbackCopy(text) {
   try {
-    const ta = document.createElement('textarea');
-    ta.value = text; ta.setAttribute('readonly', '');
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
     ta.style.cssText = 'position:fixed;top:-1000px;opacity:0';
-    document.body.appendChild(ta); ta.select();
-    const ok = document.execCommand('copy');
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = document.execCommand('copy');
     document.body.removeChild(ta);
     return ok;
   } catch (e) { return false; }
 }
 
 function openDlg(d) {
-  if (d.open) return;
-  if (typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open', '');
+  if (!d || d.open) return;
+  if (typeof d.showModal === 'function') d.showModal();
+  else d.setAttribute('open', '');
 }
 function closeDlg(d) {
-  if (typeof d.close === 'function') { if (d.open) d.close(); } else d.removeAttribute('open');
+  if (!d) return;
+  if (typeof d.close === 'function') { if (d.open) d.close(); }
+  else d.removeAttribute('open');
 }
 
 function safeHref(u) {
   try {
-    const x = new URL(String(u), location.href);
+    var x = new URL(String(u), location.href);
     return /^(https?:|tg:)$/.test(x.protocol) ? x.href : '';
   } catch (e) { return ''; }
 }
@@ -1252,102 +1117,164 @@ function safeImg(u) {
 }
 
 function normToken(raw) {
-  const v = toEn(raw).toUpperCase().replace(/\s+/g, '');
-  const m = /^R-?(\d{5})$/.exec(v);
+  var v = toEn(raw).toUpperCase().replace(/\s+/g, '');
+  var m = /^R-?(\d{5})$/.exec(v);
   return m ? 'R-' + m[1] : null;
 }
-const findHolder = token => SHAREHOLDERS.find(s => normToken(s.token) === token);
+function findHolder(token) {
+  for (var i = 0; i < SHAREHOLDERS.length; i++) {
+    if (normToken(SHAREHOLDERS[i].token) === token) return SHAREHOLDERS[i];
+  }
+  return null;
+}
 
 /* =========================================================
    وضعیت
    ========================================================= */
-let tasks   = store.get('tasks', []);
-let cards   = store.get('cards', []);
-let customF = store.get('formulas', []);
-let logData = store.get('log', {});
-let examKey = store.get('exam', null);
-let orders  = store.get('orders', []);
-let profile = store.get('profile', { name:'', field:'', token:'' });
+var tasks   = store.get('tasks', []);
+var cards   = store.get('cards', []);
+var customF = store.get('formulas', []);
+var logData = store.get('log', {});
+var examKey = store.get('exam', null);
+var orders  = store.get('orders', []);
+var profile = store.get('profile', { name:'', field:'', token:'' });
 
-let chartRange = 7;
-let taskFilter = 'all';
-let openDeck = null;
-let cardIdx = 0;
-let fSubject = 'all';
-let fQuery = '';
-let consult = { kind:null, plan:null, advisor:null, q:3 };
-let shownOrder = null;
-let currentTab = 'home';
+var chartRange = 7;
+var taskFilter = 'all';
+var openDeck = null;
+var cardIdx = 0;
+var fSubject = 'all';
+var fQuery = '';
+var consult = { kind:null, plan:null, advisor:null, q:3 };
+var shownOrder = null;
+var currentTab = 'home';
+
+/* =========================================================
+   پاک‌سازی داده‌های معیوب قبلی
+   ========================================================= */
+(function sanitize() {
+  var changed = false;
+  tasks = (Array.isArray(tasks) ? tasks : []).map(function (t) {
+    if (!t || typeof t !== 'object') { changed = true; return null; }
+    var prio = (t.prio === 'high' || t.prio === 'med' || t.prio === 'low') ? t.prio : 'med';
+    var date = /^\d{4}-\d{2}-\d{2}$/.test(String(t.date || '')) ? t.date : todayKey();
+    var done = !!t.done;
+    if (prio !== t.prio || date !== t.date || done !== t.done) changed = true;
+    return {
+      id: t.id || uid(),
+      title: String(t.title || 'بدون عنوان'),
+      prio: prio,
+      cat: String(t.cat || 'سایر'),
+      date: date,
+      done: done
+    };
+  }).filter(Boolean);
+
+  cards = (Array.isArray(cards) ? cards : []).map(function (c) {
+    if (!c || typeof c !== 'object') { changed = true; return null; }
+    var topic = normalizeTopic(c.topic || c.subject || 'بدون موضوع');
+    if (topic !== c.topic) changed = true;
+    return {
+      id: c.id || uid(),
+      topic: topic,
+      q: String(c.q || ''),
+      a: String(c.a || '')
+    };
+  }).filter(Boolean);
+
+  customF = Array.isArray(customF) ? customF : [];
+  orders  = Array.isArray(orders) ? orders : [];
+  if (!logData || typeof logData !== 'object') logData = {};
+  if (!profile || typeof profile !== 'object') profile = { name:'', field:'', token:'' };
+
+  if (changed) {
+    store.set('tasks', tasks);
+    store.set('cards', cards);
+  }
+})();
 
 /* =========================================================
    ناوبری
    ========================================================= */
 function showTab(name) {
   currentTab = name;
-  $$('.page').forEach(p => { p.hidden = p.id !== 'page-' + name; });
-  $$('.nav-btn').forEach(b => {
-    const on = b.dataset.id === name;
+  $$('.page').forEach(function (p) { p.hidden = p.id !== 'page-' + name; });
+  $$('.nav-btn').forEach(function (b) {
+    var on = b.dataset.id === name;
     b.classList.toggle('active', on);
-    if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+    if (on) b.setAttribute('aria-current', 'page');
+    else b.removeAttribute('aria-current');
   });
   closeMenu();
   window.scrollTo({ top: 0 });
-  renderAllNews();
-  if (name === 'home') renderHome();
-  if (name === 'planner') renderPlanner();
-  if (name === 'cards') renderCards();
-  if (name === 'consult') renderConsult();
-  if (name === 'shares') renderShares();
+  try { renderAllNews(); } catch (e) { console.error('news:', e); }
+  try {
+    if (name === 'home') renderHome();
+    if (name === 'planner') renderPlanner();
+    if (name === 'cards') renderCards();
+    if (name === 'consult') renderConsult();
+    if (name === 'shares') renderShares();
+  } catch (e) { console.error('render:', e); }
 }
 
 /* =========================================================
    تقویم
    ========================================================= */
 function updateDateBar() {
-  const now = new Date();
-  const week = fWeekLong.format(now);
-  const full = fLong.format(now);
-  const time = fTime.format(now);
-
-  ['#dbWeek', '#dbWeekSide'].forEach(s => { const el = $(s); if (el) el.textContent = week; });
-  ['#dbFull', '#dbFullSide'].forEach(s => { const el = $(s); if (el) el.textContent = full; });
-  ['#dbTime', '#dbTimeSide'].forEach(s => { const el = $(s); if (el) el.textContent = time; });
+  var now = new Date();
+  var week = fWeekLong.format(now);
+  var full = fLong.format(now);
+  var time = fTime.format(now);
+  ['#dbWeek', '#dbWeekSide'].forEach(function (s) { var el = $(s); if (el) el.textContent = week; });
+  ['#dbFull', '#dbFullSide'].forEach(function (s) { var el = $(s); if (el) el.textContent = full; });
+  ['#dbTime', '#dbTimeSide'].forEach(function (s) { var el = $(s); if (el) el.textContent = time; });
 }
 
 /* =========================================================
    تبدیل تاریخ شمسی به میلادی
    ========================================================= */
 function jalaliToGregorian(jy, jm, jd) {
-  let gy = (jy <= 979) ? 621 : 1600;
+  var gy = (jy <= 979) ? 621 : 1600;
   jy -= (jy <= 979) ? 0 : 979;
-  let days = (365 * jy) + ((Math.floor(jy / 33)) * 8) + Math.floor(((jy % 33) + 3) / 4)
+  var days = (365 * jy) + (Math.floor(jy / 33) * 8) + Math.floor(((jy % 33) + 3) / 4)
     + 78 + jd + ((jm < 7) ? (jm - 1) * 31 : ((jm - 7) * 30) + 186);
-  gy += 400 * (Math.floor(days / 146097));
+  gy += 400 * Math.floor(days / 146097);
   days %= 146097;
-  if (days > 36524) { gy += 100 * (Math.floor(--days / 36524)); days %= 36524; if (days >= 365) days++; }
-  gy += 4 * (Math.floor(days / 1461));
+  if (days > 36524) {
+    gy += 100 * Math.floor(--days / 36524);
+    days %= 36524;
+    if (days >= 365) days++;
+  }
+  gy += 4 * Math.floor(days / 1461);
   days %= 1461;
-  if (days > 365) { gy += Math.floor((days - 1) / 365); days = (days - 1) % 365; }
-  let gd = days + 1;
-  const sal_a = [0, 31, ((gy % 4 === 0 && gy % 100 !== 0) || (gy % 400 === 0)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-  let gm;
-  for (gm = 0; gm < 13; gm++) { const v = sal_a[gm]; if (gd <= v) break; gd -= v; }
+  if (days > 365) {
+    gy += Math.floor((days - 1) / 365);
+    days = (days - 1) % 365;
+  }
+  var gd = days + 1;
+  var sal = [0, 31, ((gy % 4 === 0 && gy % 100 !== 0) || (gy % 400 === 0)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  var gm;
+  for (gm = 0; gm < 13; gm++) {
+    var v = sal[gm];
+    if (gd <= v) break;
+    gd -= v;
+  }
   return new Date(gy, gm - 1, gd);
 }
-
 function defaultExamDate() { return jalaliToGregorian(CONFIG.examYear, CONFIG.examMonth, CONFIG.examDay); }
 function examDate() { return examKey ? parseKey(examKey) : defaultExamDate(); }
 
 function updateCountdown() {
-  const diff = examDate() - new Date();
-  const days = $('#cdDays');
+  var diff = examDate() - new Date();
+  var days = $('#cdDays');
+  if (!days) return;
   if (diff <= 0) {
     days.textContent = fmt(0);
     $('#cdHM').textContent = 'زمان برگزاری فرا رسیده است';
   } else {
-    const d = Math.floor(diff / 864e5);
-    const h = Math.floor((diff % 864e5) / 36e5);
-    const m = Math.floor((diff % 36e5) / 6e4);
+    var d = Math.floor(diff / 864e5);
+    var h = Math.floor((diff % 864e5) / 36e5);
+    var m = Math.floor((diff % 36e5) / 6e4);
     days.textContent = fmt(d);
     $('#cdHM').textContent = fmt(h) + ' ساعت و ' + fmt(m) + ' دقیقه';
   }
@@ -1358,44 +1285,48 @@ function updateCountdown() {
    اخبار
    ========================================================= */
 function newsImageByIndex(idx) {
-  const n = idx + 1;
+  var n = idx + 1;
   if (n > CONFIG.newsImageCount) return '';
   return n + '.png';
 }
-
 function newsList() {
-  return NEWS.map((n, i) => {
+  return NEWS.map(function (n, i) {
     if (!n || !n.text) return null;
-    let d;
+    var d;
     if (n.date) {
-      const tm = String(n.time || '00:00').split(':');
+      var tm = String(n.time || '00:00').split(':');
       d = new Date(String(n.date) + 'T' + pad(Number(tm[0]) || 0) + ':' + pad(Number(tm[1]) || 0) + ':00');
     } else {
       d = new Date(Date.now() - i * 3600000);
     }
-    if (isNaN(d)) return null;
-    const img = n.image ? safeImg(n.image) : newsImageByIndex(i);
-    return Object.assign({}, n, { _d:d, _i:i, _img:img });
-  }).filter(Boolean).sort((a, b) =>
-    (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0) ||
-    (b._d - a._d) ||
-    (b._i - a._i));
+    if (isNaN(d.getTime())) return null;
+    var img = n.image ? safeImg(n.image) : newsImageByIndex(i);
+    var o = Object.assign({}, n);
+    o._d = d;
+    o._i = i;
+    o._img = img;
+    return o;
+  }).filter(Boolean).sort(function (a, b) {
+    var pa = a.pinned ? 1 : 0, pb = b.pinned ? 1 : 0;
+    if (pa !== pb) return pb - pa;
+    if (a._d.getTime() !== b._d.getTime()) return b._d - a._d;
+    return b._i - a._i;
+  });
 }
-
 function dayLabel(d) {
-  const k = dkey(d);
-  const t = new Date(); t.setHours(0, 0, 0, 0);
-  const y = new Date(t); y.setDate(t.getDate() - 1);
+  var k = dkey(d);
+  var t = new Date(); t.setHours(0, 0, 0, 0);
+  var y = new Date(t); y.setDate(t.getDate() - 1);
   if (k === dkey(t)) return 'امروز';
   if (k === dkey(y)) return 'دیروز';
   return fLong.format(d);
 }
-
 function postHTML(n) {
-  const href = n.link ? safeHref(n.link) : '';
-  const img = n._img || '';
+  var href = n.link ? safeHref(n.link) : '';
+  var img = n._img || '';
   return '<article class="post' + (img ? ' has-img' : '') + '">' +
-    (img ? '<img src="' + esc(img) + '" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.remove(\'has-img\');this.remove()">' : '') +
+    (img ? '<img src="' + esc(img) + '" alt="" loading="lazy" referrerpolicy="no-referrer" ' +
+      'onerror="this.parentNode.classList.remove(\'has-img\');this.remove()">' : '') +
     '<div class="post-body">' +
     (n.pinned ? '<span class="pin">' + ico('pin', 'sm') + 'پین‌شده</span>' : '') +
     (n.title ? '<h3>' + esc(n.title) + '</h3>' : '') +
@@ -1406,26 +1337,19 @@ function postHTML(n) {
     '</span><span>' + (n.time ? esc(fTime.format(n._d)) : '') + '</span></div>' +
     '</div></article>';
 }
-
 function renderNews(id) {
-  const box = $('#' + id);
+  var box = $('#' + id);
   if (!box) return;
-  const list = newsList();
-
-  // تعیین محدودیت بر اساس مکان
-  let limit;
-  if (id === 'news-home') limit = CONFIG.homeNewsLimit;   // خانه فقط آخرین خبر
-  else limit = Infinity;                                   // اخبار همه
-
-  const shown = list.slice(0, limit);
-
-  let feed = '';
+  var list = newsList();
+  var limit = (id === 'news-home') ? CONFIG.homeNewsLimit : Infinity;
+  var shown = list.slice(0, limit);
+  var feed = '';
   if (!list.length) {
     feed = '<div class="feed-empty">هنوز خبری منتشر نشده است.</div>';
   } else {
-    let last = null;
-    shown.forEach(n => {
-      const g = n.pinned ? 'pin' : dkey(n._d);
+    var last = null;
+    shown.forEach(function (n) {
+      var g = n.pinned ? 'pin' : dkey(n._d);
       if (g !== last) {
         feed += '<span class="day-chip">' + (n.pinned ? 'پیام‌های پین‌شده' : esc(dayLabel(n._d))) + '</span>';
         last = g;
@@ -1433,7 +1357,6 @@ function renderNews(id) {
       feed += postHTML(n);
     });
   }
-
   box.innerHTML =
     '<section class="card news" aria-label="اخبار کنکور">' +
       '<div class="ch-head">' +
@@ -1450,19 +1373,21 @@ function renderNews(id) {
         : '') +
     '</section>';
 }
-
-// فقط دو مکان خبر دارند: خانه و اخبار
-function renderAllNews() { ['news-home', 'news-news'].forEach(renderNews); }
+function renderAllNews() { renderNews('news-home'); renderNews('news-news'); }
 
 /* =========================================================
    پروفایل
    ========================================================= */
 function closeMenu() {
-  const m = $('#profileMenu');
-  if (!m.hidden) { m.hidden = true; $('#profileBtn').setAttribute('aria-expanded', 'false'); }
+  var m = $('#profileMenu');
+  if (m && !m.hidden) {
+    m.hidden = true;
+    $('#profileBtn').setAttribute('aria-expanded', 'false');
+  }
 }
 function toggleMenu() {
-  const m = $('#profileMenu');
+  var m = $('#profileMenu');
+  if (!m) return;
   m.hidden = !m.hidden;
   $('#profileBtn').setAttribute('aria-expanded', String(!m.hidden));
 }
@@ -1475,81 +1400,119 @@ function openSettings() {
   openDlg($('#settingsDlg'));
 }
 function renderGreet() {
-  const g = $('#greet');
+  var g = $('#greet');
+  if (!g) return;
   g.hidden = !profile.name;
   if (profile.name) g.textContent = 'سلام ' + profile.name;
 }
 
 /* =========================================================
-   خانه
+   خانه — نمودارها و تسک‌ها
    ========================================================= */
 function lastDays(n) {
-  const out = [], base = new Date();
+  var out = [], base = new Date();
   base.setHours(0, 0, 0, 0);
-  for (let i = n - 1; i >= 0; i--) {
-    const x = new Date(base); x.setDate(base.getDate() - i); out.push(x);
+  for (var i = n - 1; i >= 0; i--) {
+    var x = new Date(base); x.setDate(base.getDate() - i); out.push(x);
   }
   return out;
 }
-
 function chartHTML(days, key, title, unit, alt) {
-  const vals = days.map(d => (logData[dkey(d)] || {})[key] || 0);
-  const max = Math.max.apply(null, vals.concat([0]));
-  const total = vals.reduce((a, b) => a + b, 0);
-  const cols = days.map((d, i) => {
-    const v = vals[i];
-    const h = max ? Math.max((v / max) * 100, v > 0 ? 6 : 0) : 0;
-    const label = days.length <= 7 ? fWeek.format(d) : fDay.format(d);
+  var vals = days.map(function (d) {
+    var o = logData[dkey(d)] || {};
+    return Number(o[key]) || 0;
+  });
+  var max = Math.max.apply(null, vals.concat([0]));
+  var total = vals.reduce(function (a, b) { return a + b; }, 0);
+  var cols = days.map(function (d, i) {
+    var v = vals[i];
+    var h = max ? Math.max((v / max) * 100, v > 0 ? 6 : 0) : 0;
+    var label = days.length <= 7 ? fWeek.format(d) : fDay.format(d);
     return '<div class="col" title="' + esc(fLong.format(d)) + '">' +
       '<span class="v">' + (v > 0 ? fmt(v, 1) : '') + '</span>' +
       '<div class="track"><div class="bar' + (alt ? ' alt' : '') + (v > 0 ? '' : ' zero') + '" style="--h:' + h + '"></div></div>' +
       '<span class="l">' + esc(label) + '</span></div>';
   }).join('');
-  return '<div class="chart-block"><div class="chart-title"><span>' + title + '</span><small>مجموع: ' + fmt(total, 1) + ' ' + unit + '</small></div>' +
+  return '<div class="chart-block"><div class="chart-title"><span>' + title + '</span>' +
+    '<small>مجموع: ' + fmt(total, 1) + ' ' + unit + '</small></div>' +
     '<div class="bars">' + cols + '</div>' +
     (total === 0 ? '<p class="chart-empty">هنوز داده‌ای ثبت نشده است. از فرم پایین شروع کنید.</p>' : '') + '</div>';
 }
-
 function renderCharts() {
-  const days = lastDays(chartRange);
-  $('#charts').innerHTML =
-    chartHTML(days, 'h', 'ساعت مطالعه', 'ساعت', false) +
-    chartHTML(days, 't', 'تعداد تست', 'تست', true);
-  $$('[data-action="range"]').forEach(b => b.setAttribute('aria-pressed', String(Number(b.dataset.id) === chartRange)));
+  var days = lastDays(chartRange);
+  var box = $('#charts');
+  if (!box) return;
+  box.innerHTML = chartHTML(days, 'h', 'ساعت مطالعه', 'ساعت', false) +
+                  chartHTML(days, 't', 'تعداد تست', 'تست', true);
+  $$('[data-action="range"]').forEach(function (b) {
+    b.setAttribute('aria-pressed', String(Number(b.dataset.id) === chartRange));
+  });
 }
 
-const PRIO = { high:{ t:'زیاد', w:0 }, med:{ t:'متوسط', w:1 }, low:{ t:'کم', w:2 } };
+var PRIO_W = { high:0, med:1, low:2 };
+var PRIO_T = { high:'زیاد', med:'متوسط', low:'کم' };
+function safePrio(p) { return (p === 'high' || p === 'med' || p === 'low') ? p : 'med'; }
+function prioLabel(p) { return PRIO_T[safePrio(p)]; }
+function prioWeight(p) { return PRIO_W[safePrio(p)]; }
 
 function taskItem(t, compact) {
-  const dateLabel = t.date === todayKey() ? 'امروز' : (t.date ? fShort.format(parseKey(t.date)) : '');
-  return '<li class="task' + (t.done ? ' done' : '') + '">' +
-    '<button type="button" class="check" role="checkbox" aria-checked="' + !!t.done + '" aria-label="انجام شد: ' + esc(t.title) + '" data-action="toggle-task" data-id="' + t.id + '">' + ico('check') + '</button>' +
-    '<div class="task-main"><span class="task-title">' + esc(t.title) + '</span>' +
-    '<span class="task-meta"><span><i class="dot p-' + t.prio + '"></i>' + PRIO[t.prio].t + '</span><span>' + esc(t.cat) + '</span>' +
-    (!compact && dateLabel ? '<span>' + esc(dateLabel) + '</span>' : '') + '</span></div>' +
-    (compact ? '' : '<button type="button" class="icon-btn danger" data-action="del-task" data-id="' + t.id + '" aria-label="حذف تسک">' + ico('trash') + '</button>') +
+  var prio = safePrio(t.prio);
+  var done = !!t.done;
+  var title = String(t.title || 'بدون عنوان');
+  var cat = String(t.cat || 'سایر');
+  var dateLabel = '';
+  try {
+    dateLabel = (t.date === todayKey()) ? 'امروز' : (t.date ? fShort.format(parseKey(t.date)) : '');
+  } catch (e) { dateLabel = ''; }
+
+  return '<li class="task' + (done ? ' done' : '') + '">' +
+    '<button type="button" class="check" role="checkbox" aria-checked="' + done + '" ' +
+      'aria-label="انجام شد: ' + esc(title) + '" ' +
+      'data-action="toggle-task" data-id="' + esc(t.id) + '">' +
+      ico('check') +
+    '</button>' +
+    '<div class="task-main">' +
+      '<span class="task-title">' + esc(title) + '</span>' +
+      '<span class="task-meta">' +
+        '<span><i class="dot p-' + prio + '"></i>' + prioLabel(t.prio) + '</span>' +
+        '<span>' + esc(cat) + '</span>' +
+        (!compact && dateLabel ? '<span>' + esc(dateLabel) + '</span>' : '') +
+      '</span>' +
+    '</div>' +
+    (compact ? '' : '<button type="button" class="icon-btn danger" ' +
+      'data-action="del-task" data-id="' + esc(t.id) + '" aria-label="حذف تسک">' +
+      ico('trash') + '</button>') +
     '</li>';
 }
-
 function sortTasks(list) {
-  return list.slice().sort((a, b) =>
-    (a.done - b.done) || String(a.date || '').localeCompare(String(b.date || '')) || (PRIO[a.prio].w - PRIO[b.prio].w));
+  return list.slice().sort(function (a, b) {
+    var da = a.done ? 1 : 0, db = b.done ? 1 : 0;
+    if (da !== db) return da - db;
+    var sa = String(a.date || ''), sb = String(b.date || '');
+    if (sa !== sb) return sa.localeCompare(sb);
+    return prioWeight(a.prio) - prioWeight(b.prio);
+  });
 }
 
 function renderHomeTasks() {
-  const today = todayKey();
-  const list = sortTasks(tasks.filter(t => t.date === today));
-  const done = list.filter(t => t.done).length;
-  $('#homeTaskCount').textContent = list.length ? fmt(done) + ' از ' + fmt(list.length) + ' انجام شد' : '';
-  const box = $('#homeTasks');
+  var today = todayKey();
+  var list = sortTasks(tasks.filter(function (t) { return t.date === today; }));
+  var done = list.filter(function (t) { return t.done; }).length;
+  var countEl = $('#homeTaskCount');
+  if (countEl) countEl.textContent = list.length ? fmt(done) + ' از ' + fmt(list.length) + ' انجام شد' : '';
+  var box = $('#homeTasks');
+  if (!box) return;
   if (!list.length) {
-    box.innerHTML = '<div class="empty"><div class="bubble">' + ico('tasks') + '</div><p>برای امروز تسکی ثبت نکرده‌اید.</p>' +
-      '<button type="button" class="btn soft" data-action="tab" data-id="planner">' + ico('plus', 'sm') + 'افزودن تسک</button></div>';
+    box.innerHTML = '<div class="empty"><div class="bubble">' + ico('tasks') + '</div>' +
+      '<p>برای امروز تسکی ثبت نکرده‌اید.</p>' +
+      '<button type="button" class="btn soft" data-action="tab" data-id="planner">' +
+      ico('plus', 'sm') + 'افزودن تسک</button></div>';
     return;
   }
-  const shown = list.slice(0, 5);
-  box.innerHTML = '<ul class="tasks">' + shown.map(t => taskItem(t, true)).join('') + '</ul>' +
-    (list.length > 5 ? '<button type="button" class="link-btn" data-action="tab" data-id="planner">و ' + fmt(list.length - 5) + ' تسک دیگر</button>' : '');
+  var shown = list.slice(0, 5);
+  box.innerHTML = '<ul class="tasks">' + shown.map(function (t) { return taskItem(t, true); }).join('') + '</ul>' +
+    (list.length > 5 ? '<button type="button" class="link-btn" data-action="tab" data-id="planner">و ' +
+      fmt(list.length - 5) + ' تسک دیگر</button>' : '');
 }
 
 function renderHome() {
@@ -1563,45 +1526,77 @@ function renderHome() {
    برنامه‌ریز
    ========================================================= */
 function renderPlanner() {
-  const counts = { all:tasks.length, open:tasks.filter(t => !t.done).length, done:tasks.filter(t => t.done).length };
-  const names = { all:'همه', open:'انجام‌نشده', done:'انجام‌شده' };
-  $('#taskFilters').innerHTML = ['all', 'open', 'done'].map(k =>
-    '<button type="button" class="chip" data-action="task-filter" data-id="' + k + '" aria-pressed="' + (taskFilter === k) + '">' + names[k] + ' (' + fmt(counts[k]) + ')</button>').join('');
+  var counts = {
+    all: tasks.length,
+    open: tasks.filter(function (t) { return !t.done; }).length,
+    done: tasks.filter(function (t) { return !!t.done; }).length
+  };
+  var names = { all:'همه', open:'انجام‌نشده', done:'انجام‌شده' };
+  var filtBox = $('#taskFilters');
+  if (filtBox) {
+    filtBox.innerHTML = ['all', 'open', 'done'].map(function (k) {
+      return '<button type="button" class="chip" data-action="task-filter" ' +
+        'data-id="' + k + '" aria-pressed="' + (taskFilter === k) + '">' +
+        names[k] + ' (' + fmt(counts[k]) + ')</button>';
+    }).join('');
+  }
 
-  const list = sortTasks(tasks.filter(t => taskFilter === 'all' || (taskFilter === 'open' ? !t.done : t.done)));
-  const box = $('#taskList');
+  var filtered = tasks.filter(function (t) {
+    if (taskFilter === 'open') return !t.done;
+    if (taskFilter === 'done') return !!t.done;
+    return true;
+  });
+  var list = sortTasks(filtered);
+  var box = $('#taskList');
+  if (!box) return;
   if (!list.length) {
     box.innerHTML = '<div class="empty"><div class="bubble">' + ico('tasks') + '</div><p>' +
-      (tasks.length ? 'تسکی در این بخش وجود ندارد.' : 'هنوز تسکی ثبت نشده است. اولین تسک خود را بالا اضافه کنید.') + '</p></div>';
+      (tasks.length ? 'تسکی در این بخش وجود ندارد.' : 'هنوز تسکی ثبت نشده است. اولین تسک خود را بالا اضافه کنید.') +
+      '</p></div>';
     return;
   }
-  box.innerHTML = '<ul class="tasks">' + list.map(t => taskItem(t, false)).join('') + '</ul>';
+  box.innerHTML = '<ul class="tasks">' + list.map(function (t) { return taskItem(t, false); }).join('') + '</ul>';
 }
 
 /* =========================================================
    فلش‌کارت
    ========================================================= */
-const PALETTE = [
+var PALETTE = [
   ['#3b6cf6', '#6fa0ff'], ['#7a4cf5', '#b79bff'], ['#2f6fd0', '#4aa6e0'],
   ['#5b5ff0', '#9a7bff'], ['#1f7a96', '#5a8cf0'], ['#6a4ef3', '#3b6cf6']
 ];
-function hashStr(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h; }
-const cardTopic = c => c.topic || c.subject || 'بدون موضوع';
+function hashStr(s) {
+  var h = 0, str = String(s);
+  for (var i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
+  return h;
+}
+function normalizeTopic(s) {
+  return String(s || '').replace(/\s+/g, ' ').trim() || 'بدون موضوع';
+}
+function cardTopic(c) { return normalizeTopic(c.topic || c.subject || 'بدون موضوع'); }
 
 function deckList() {
-  const m = new Map();
-  cards.forEach((c, i) => {
-    const t = cardTopic(c);
-    if (!m.has(t)) m.set(t, { topic:t, items:[], last:i });
-    const d = m.get(t); d.items.push(c); d.last = i;
+  var m = new Map();
+  cards.forEach(function (c, i) {
+    var t = cardTopic(c);
+    if (!m.has(t)) m.set(t, { topic: t, items: [], last: i });
+    var d = m.get(t);
+    d.items.push(c);
+    d.last = i;
   });
-  return Array.from(m.values()).sort((a, b) => b.last - a.last);
+  return Array.from(m.values()).sort(function (a, b) { return b.last - a.last; });
 }
 
 function renderCards() {
-  const decks = deckList();
-  $('#topicList').innerHTML = decks.map(d => '<option value="' + esc(d.topic) + '">').join('');
-  const box = $('#albumBody');
+  var decks = deckList();
+  var topicList = $('#topicList');
+  if (topicList) {
+    topicList.innerHTML = decks.map(function (d) {
+      return '<option value="' + esc(d.topic) + '">';
+    }).join('');
+  }
+  var box = $('#albumBody');
+  if (!box) return;
 
   if (!cards.length) {
     openDeck = null;
@@ -1609,23 +1604,36 @@ function renderCards() {
       '<p>هنوز فلش‌کارتی نساخته‌اید. اولین کارت را بالا بسازید تا دسته‌اش در آلبوم ساخته شود.</p></div>';
     return;
   }
+
   if (openDeck !== null) {
-    const d = decks.find(x => x.topic === openDeck);
-    if (d) { renderDeck(d); return; }
+    var target = normalizeTopic(openDeck);
+    var found = null;
+    for (var i = 0; i < decks.length; i++) {
+      if (decks[i].topic === target) { found = decks[i]; break; }
+    }
+    if (found) { renderDeck(found); return; }
     openDeck = null;
   }
-  box.innerHTML = '<div class="album">' + decks.map(d => {
-    const p = PALETTE[hashStr(d.topic) % PALETTE.length];
-    return '<button type="button" class="deck" data-action="open-deck" data-id="' + esc(d.topic) + '" style="--c1:' + p[0] + ';--c2:' + p[1] + '">' +
-      '<span class="deck-cover">' + ico('folder') + '<span><strong>' + esc(d.topic) + '</strong><small>' + fmt(d.items.length) + ' کارت</small></span></span></button>';
+
+  box.innerHTML = '<div class="album">' + decks.map(function (d) {
+    var p = PALETTE[hashStr(d.topic) % PALETTE.length];
+    return '<button type="button" class="deck" data-action="open-deck" ' +
+      'data-id="' + esc(d.topic) + '" ' +
+      'style="--c1:' + p[0] + ';--c2:' + p[1] + '">' +
+      '<span class="deck-cover">' + ico('folder') +
+      '<span><strong>' + esc(d.topic) + '</strong>' +
+      '<small>' + fmt(d.items.length) + ' کارت</small></span></span></button>';
   }).join('') + '</div>';
 }
 
 function renderDeck(d) {
+  if (!d || !d.items.length) { openDeck = null; renderCards(); return; }
   if (cardIdx >= d.items.length) cardIdx = d.items.length - 1;
   if (cardIdx < 0) cardIdx = 0;
-  const c = d.items[cardIdx];
-  $('#albumBody').innerHTML =
+  var c = d.items[cardIdx];
+  var box = $('#albumBody');
+  if (!box) return;
+  box.innerHTML =
     '<div class="deck-head">' +
       '<button type="button" class="btn soft slim" data-action="close-deck">' + ico('prev', 'sm') + 'آلبوم</button>' +
       '<div class="deck-title"><strong>' + esc(d.topic) + '</strong><small>' + fmt(d.items.length) + ' کارت</small></div>' +
@@ -1642,45 +1650,61 @@ function renderDeck(d) {
       '<button type="button" class="icon-btn danger" data-action="card-del" aria-label="حذف کارت">' + ico('trash') + '</button>' +
       '<button type="button" class="icon-btn" data-action="card-next" aria-label="کارت بعدی"' + (cardIdx >= d.items.length - 1 ? ' disabled' : '') + '>' + ico('next') + '</button>' +
     '</div>' +
-    (d.items.length > 1 ? '<div class="pills">' + d.items.map((x, i) =>
-      '<button type="button" class="pill" data-action="goto-card" data-id="' + i + '"' + (i === cardIdx ? ' aria-current="true"' : '') + '>' + fmt(i + 1) + '</button>').join('') + '</div>' : '');
+    (d.items.length > 1 ? '<div class="pills">' + d.items.map(function (x, i) {
+      return '<button type="button" class="pill" data-action="goto-card" data-id="' + i + '"' +
+        (i === cardIdx ? ' aria-current="true"' : '') + '>' + fmt(i + 1) + '</button>';
+    }).join('') + '</div>' : '');
 }
 
 /* =========================================================
    بانک فرمول
    ========================================================= */
 function renderFormulas() {
-  const chips = [['all', 'همه'], ['math', 'ریاضی'], ['physics', 'فیزیک'], ['chem', 'شیمی'], ['mine', 'افزوده‌های من']];
-  $('#fChips').innerHTML = chips.map(c =>
-    '<button type="button" class="chip" data-action="f-subject" data-id="' + c[0] + '" aria-pressed="' + (fSubject === c[0]) + '">' + c[1] + '</button>').join('');
-
-  const q = toEn(fQuery).trim().toLowerCase();
-  const all = FORMULAS.map(f => Object.assign({ custom:false }, f)).concat(customF.map(f => Object.assign({ custom:true }, f)));
-  const list = all.filter(f => {
+  var chips = [['all', 'همه'], ['math', 'ریاضی'], ['physics', 'فیزیک'], ['chem', 'شیمی'], ['mine', 'افزوده‌های من']];
+  var chipsBox = $('#fChips');
+  if (chipsBox) {
+    chipsBox.innerHTML = chips.map(function (c) {
+      return '<button type="button" class="chip" data-action="f-subject" ' +
+        'data-id="' + c[0] + '" aria-pressed="' + (fSubject === c[0]) + '">' + c[1] + '</button>';
+    }).join('');
+  }
+  var q = toEn(fQuery).trim().toLowerCase();
+  var all = FORMULAS.map(function (f) { return Object.assign({ custom:false }, f); })
+    .concat(customF.map(function (f) { return Object.assign({ custom:true }, f); }));
+  var list = all.filter(function (f) {
     if (fSubject === 'mine' && !f.custom) return false;
     if (fSubject !== 'all' && fSubject !== 'mine' && f.s !== fSubject) return false;
     if (!q) return true;
-    return (f.t + ' ' + f.f + ' ' + SUBJECTS[f.s]).toLowerCase().indexOf(q) !== -1;
+    return (String(f.t) + ' ' + String(f.f) + ' ' + (SUBJECTS[f.s] || '')).toLowerCase().indexOf(q) !== -1;
   });
-  const box = $('#fList');
+  var box = $('#fList');
+  if (!box) return;
   if (!list.length) {
-    box.innerHTML = '<li class="empty">' + (fSubject === 'mine' && !customF.length ? 'هنوز فرمولی اضافه نکرده‌اید.' : 'فرمولی پیدا نشد.') + '</li>';
+    box.innerHTML = '<li class="empty">' +
+      (fSubject === 'mine' && !customF.length ? 'هنوز فرمولی اضافه نکرده‌اید.' : 'فرمولی پیدا نشد.') +
+      '</li>';
     return;
   }
-  box.innerHTML = list.map(f =>
-    '<li class="formula"><div class="formula-body"><div class="formula-top"><strong>' + esc(f.t) + '</strong><span class="tag">' + SUBJECTS[f.s] + '</span></div>' +
-    '<div class="formula-expr">' + esc(f.f) + '</div></div>' +
-    (f.custom ? '<button type="button" class="icon-btn danger" data-action="del-formula" data-id="' + f.id + '" aria-label="حذف فرمول">' + ico('trash') + '</button>' : '') +
-    '</li>').join('');
+  box.innerHTML = list.map(function (f) {
+    return '<li class="formula"><div class="formula-body"><div class="formula-top">' +
+      '<strong>' + esc(f.t) + '</strong>' +
+      '<span class="tag">' + (SUBJECTS[f.s] || 'سایر') + '</span></div>' +
+      '<div class="formula-expr">' + esc(f.f) + '</div></div>' +
+      (f.custom ? '<button type="button" class="icon-btn danger" data-action="del-formula" ' +
+        'data-id="' + esc(f.id) + '" aria-label="حذف فرمول">' + ico('trash') + '</button>' : '') +
+      '</li>';
+  }).join('');
 }
 
 /* =========================================================
    مشاوره
    ========================================================= */
-const getPlan = id => PLANS.find(p => p.id === id);
-
+function getPlan(id) {
+  for (var i = 0; i < PLANS.length; i++) if (PLANS[i].id === id) return PLANS[i];
+  return null;
+}
 function calc(p, q) {
-  const extra = p.hasQuestions ? Math.max(0, q - p.baseQ) : 0;
+  var extra = p.hasQuestions ? Math.max(0, q - p.baseQ) : 0;
   return {
     extra: extra,
     total: p.price + extra * (p.extraPrice || 0),
@@ -1688,17 +1712,18 @@ function calc(p, q) {
     sharesCost: p.sharesCost + extra * (p.sharesPerExtra || 0)
   };
 }
-
 function lockStep(el, locked) {
+  if (!el) return;
   el.classList.toggle('locked', locked);
-  el.inert = locked;
   el.setAttribute('aria-disabled', String(locked));
+  el.style.pointerEvents = locked ? 'none' : '';
 }
-
 function planHTML(p, selected) {
-  return '<button type="button" class="plan" role="radio" aria-checked="' + selected + '" data-action="pick-plan" data-id="' + p.id + '">' +
+  return '<button type="button" class="plan" role="radio" aria-checked="' + selected + '" ' +
+    'data-action="pick-plan" data-id="' + p.id + '">' +
     '<span class="plan-top"><strong>' + esc(p.name) + '</strong>' +
-    '<span class="plan-price">' + fmt(p.price) + ' تومان' + (p.hasQuestions ? '<small>برای ' + fmt(p.baseQ) + ' سوال</small>' : '') + '</span></span>' +
+    '<span class="plan-price">' + fmt(p.price) + ' تومان' +
+    (p.hasQuestions ? '<small>برای ' + fmt(p.baseQ) + ' سوال</small>' : '') + '</span></span>' +
     '<span class="plan-desc">' + esc(p.desc) + '</span>' +
     '<span class="perk">' + ico('star', 'sm gold') + fmt(p.gift) + ' سهام هدیه' +
       (p.giftPerExtra ? ' و به ازای هر سوال اضافه ' + fmt(p.giftPerExtra) + ' سهام دیگر' : '') + '</span>' +
@@ -1707,24 +1732,44 @@ function planHTML(p, selected) {
 }
 
 function renderConsult() {
-  const c = consult;
-  const plan = c.plan ? getPlan(c.plan) : null;
+  var c = consult;
+  var plan = c.plan ? getPlan(c.plan) : null;
 
-  $('#kindList').innerHTML =
-    '<button type="button" class="choice" role="radio" aria-checked="' + (c.kind === 'consult') + '" data-action="pick-kind" data-id="consult" style="margin-bottom:8px">' +
-      '<span class="choice-ico">' + ico('consult') + '</span><span class="choice-txt"><strong>مشاوره</strong></span></button>' +
-    '<button type="button" class="choice is-soon" role="radio" aria-checked="false" aria-disabled="true" data-action="pick-kind" data-id="exam" style="margin-bottom:0">' +
-      '<span class="choice-ico">' + ico('tasks') + '</span><span class="choice-txt"><strong>آزمون آزمایشی</strong></span><span class="soon">به زودی</span></button>';
+  var kindBox = $('#kindList');
+  if (kindBox) {
+    kindBox.innerHTML =
+      '<button type="button" class="choice" role="radio" aria-checked="' + (c.kind === 'consult') + '" ' +
+        'data-action="pick-kind" data-id="consult" style="margin-bottom:8px">' +
+        '<span class="choice-ico">' + ico('consult') + '</span>' +
+        '<span class="choice-txt"><strong>مشاوره</strong></span></button>' +
+      '<button type="button" class="choice is-soon" role="radio" aria-checked="false" aria-disabled="true" ' +
+        'data-action="pick-kind" data-id="exam" style="margin-bottom:0">' +
+        '<span class="choice-ico">' + ico('tasks') + '</span>' +
+        '<span class="choice-txt"><strong>آزمون آزمایشی</strong></span>' +
+        '<span class="soon">به زودی</span></button>';
+  }
 
-  $('#planList').innerHTML = PLANS.map(p => planHTML(p, c.plan === p.id)).join('');
-  $('#advList').innerHTML = ADVISORS.map(a =>
-    '<button type="button" class="choice" role="radio" aria-checked="' + (c.advisor === a.id) + '" data-action="pick-advisor" data-id="' + a.id + '">' +
-    '<span class="choice-ico">' + ico('user') + '</span><span class="choice-txt"><strong>' + esc(a.name) + '</strong><small>' + esc(a.role) + '</small></span></button>').join('');
+  var planBox = $('#planList');
+  if (planBox) {
+    planBox.innerHTML = PLANS.map(function (p) { return planHTML(p, c.plan === p.id); }).join('');
+  }
+
+  var advBox = $('#advList');
+  if (advBox) {
+    advBox.innerHTML = ADVISORS.map(function (a) {
+      return '<button type="button" class="choice" role="radio" aria-checked="' + (c.advisor === a.id) + '" ' +
+        'data-action="pick-advisor" data-id="' + a.id + '">' +
+        '<span class="choice-ico">' + ico('user') + '</span>' +
+        '<span class="choice-txt"><strong>' + esc(a.name) + '</strong>' +
+        '<small>' + esc(a.role) + '</small></span></button>';
+    }).join('');
+  }
 
   lockStep($('#stepPlan'), !c.kind);
   lockStep($('#stepAdvisor'), !plan);
-  const needQ = !!(plan && plan.hasQuestions);
-  $('#stepCount').hidden = !needQ;
+  var needQ = !!(plan && plan.hasQuestions);
+  var stepCount = $('#stepCount');
+  if (stepCount) stepCount.hidden = !needQ;
   lockStep($('#stepCount'), !(plan && c.advisor));
 
   if (needQ) {
@@ -1733,31 +1778,39 @@ function renderConsult() {
     $('#qHint').textContent = 'حداقل ' + fmt(plan.baseQ) + ' سوال؛ هر سوال اضافه ' + fmt(plan.extraPrice) + ' تومان.';
   }
 
-  const sum = $('#sum');
-  sum.hidden = !plan;
-  if (plan) {
-    const r = calc(plan, c.q);
-    let rows = '';
-    if (plan.hasQuestions) {
-      rows += '<div class="sum-row"><span>قیمت پایه (' + fmt(plan.baseQ) + ' سوال)</span><b>' + fmt(plan.price) + ' تومان</b></div>';
-      if (r.extra > 0) rows += '<div class="sum-row"><span>سوال اضافه (' + fmt(r.extra) + ' × ' + fmt(plan.extraPrice) + ')</span><b>' + fmt(r.extra * plan.extraPrice) + ' تومان</b></div>';
-    } else {
-      rows += '<div class="sum-row"><span>' + esc(plan.name) + '</span><b>' + fmt(plan.price) + ' تومان</b></div>';
+  var sum = $('#sum');
+  if (sum) {
+    sum.hidden = !plan;
+    if (plan) {
+      var r = calc(plan, c.q);
+      var rows = '';
+      if (plan.hasQuestions) {
+        rows += '<div class="sum-row"><span>قیمت پایه (' + fmt(plan.baseQ) + ' سوال)</span><b>' + fmt(plan.price) + ' تومان</b></div>';
+        if (r.extra > 0) {
+          rows += '<div class="sum-row"><span>سوال اضافه (' + fmt(r.extra) + ' × ' + fmt(plan.extraPrice) + ')</span><b>' + fmt(r.extra * plan.extraPrice) + ' تومان</b></div>';
+        }
+      } else {
+        rows += '<div class="sum-row"><span>' + esc(plan.name) + '</span><b>' + fmt(plan.price) + ' تومان</b></div>';
+      }
+      sum.innerHTML = rows +
+        '<div class="sum-total"><span>مبلغ کل</span><strong>' + fmt(r.total) + ' تومان</strong></div>' +
+        '<div class="sum-row"><span class="lbl">' + ico('star', 'sm gold') + 'سهام هدیه</span><b>' + fmt(r.gift) + ' سهام</b></div>' +
+        '<div class="sum-row" style="margin-top:4px"><span class="lbl">' + ico('star', 'sm gold') +
+          'خرید رایگان با سهام</span><b>' + fmt(r.sharesCost) + ' سهام</b></div>';
     }
-    sum.innerHTML = rows +
-      '<div class="sum-total"><span>مبلغ کل</span><strong>' + fmt(r.total) + ' تومان</strong></div>' +
-      '<div class="sum-row"><span class="lbl">' + ico('star', 'sm gold') + 'سهام هدیه</span><b>' + fmt(r.gift) + ' سهام</b></div>' +
-      '<div class="sum-row" style="margin-top:4px"><span class="lbl">' + ico('star', 'sm gold') + 'خرید رایگان با سهام</span><b>' + fmt(r.sharesCost) + ' سهام</b></div>';
   }
 
-  $('#submitOrder').disabled = !(c.kind && plan && c.advisor);
+  var submitBtn = $('#submitOrder');
+  if (submitBtn) submitBtn.disabled = !(c.kind && plan && c.advisor);
   renderReceipt();
 }
 
-const currentOrder = () => orders.find(o => o.id === shownOrder);
-
+function currentOrder() {
+  for (var i = 0; i < orders.length; i++) if (orders[i].id === shownOrder) return orders[i];
+  return null;
+}
 function buildReceipt(o) {
-  const L = [
+  var L = [
     'رسید خرید ' + CONFIG.brand,
     'خدمت: مشاوره، ' + o.planName,
     'مشاور: ' + o.advisor
@@ -1779,83 +1832,101 @@ function buildReceipt(o) {
   L.push(o.pay === 'shares' ? 'لطفاً سهام را کسر و خرید را تأیید کنید.' : 'لطفاً شماره کارت را ارسال کنید.');
   return L.join('\n');
 }
-
 function renderReceipt() {
-  const o = currentOrder();
-  $('#invoiceCard').hidden = !o;
+  var o = currentOrder();
+  var invoiceCard = $('#invoiceCard');
+  if (invoiceCard) invoiceCard.hidden = !o;
   if (o) {
     $('#invoiceText').textContent = buildReceipt(o);
-    $('#receiptNote').textContent = o.pay === 'shares'
-      ? 'خرید با سهام هزینه‌ای ندارد و سهام هدیه هم به همراه ندارد.' : '';
-    $('#receiptNote').hidden = o.pay !== 'shares';
+    var note = $('#receiptNote');
+    note.textContent = o.pay === 'shares' ? 'خرید با سهام هزینه‌ای ندارد و سهام هدیه هم به همراه ندارد.' : '';
+    note.hidden = o.pay !== 'shares';
     $('#receiptActions').innerHTML =
       '<button type="button" class="btn primary" data-action="send-admin">' + ico('send', 'sm') + 'ارسال به ادمین</button>' +
       (o.pay === 'shares'
         ? '<button type="button" class="btn soft" data-action="pay-cash">پرداخت نقدی</button>'
-        : '<button type="button" class="btn soft" data-action="buy-shares">' + ico('star', 'sm gold') + 'خرید با سهام (' + fmt(o.sharesCost) + ' سهام)</button>') +
+        : '<button type="button" class="btn soft" data-action="buy-shares">' + ico('star', 'sm gold') +
+          'خرید با سهام (' + fmt(o.sharesCost) + ' سهام)</button>') +
       '<button type="button" class="btn soft" data-action="copy-invoice">' + ico('copy', 'sm') + 'کپی رسید</button>';
   }
-  $('#ordersCard').hidden = !orders.length;
-  $('#ordersList').innerHTML = orders.slice(0, 5).map(o =>
-    '<li><button type="button" data-action="show-order" data-id="' + o.id + '"><span>' + esc(o.planName) + '</span>' +
-    '<span>' + (o.pay === 'shares' ? fmt(o.sharesCost) + ' سهام' : fmt(o.total) + ' تومان') + '</span>' +
-    '<span class="muted">' + esc(fShort.format(new Date(o.at))) + '</span></button></li>').join('');
+  var ordersCard = $('#ordersCard');
+  if (ordersCard) ordersCard.hidden = !orders.length;
+  var ordersList = $('#ordersList');
+  if (ordersList) {
+    ordersList.innerHTML = orders.slice(0, 5).map(function (o) {
+      return '<li><button type="button" data-action="show-order" data-id="' + o.id + '">' +
+        '<span>' + esc(o.planName) + '</span>' +
+        '<span>' + (o.pay === 'shares' ? fmt(o.sharesCost) + ' سهام' : fmt(o.total) + ' تومان') + '</span>' +
+        '<span class="muted">' + esc(fShort.format(new Date(o.at))) + '</span></button></li>';
+    }).join('');
+  }
 }
-
 function sendToAdmin(text) {
   copyText(text);
-  const a = document.createElement('a');
+  var a = document.createElement('a');
   a.href = CONFIG.adminUrl + '?text=' + encodeURIComponent(text);
-  a.target = '_blank'; a.rel = 'noopener';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  a.target = '_blank';
+  a.rel = 'noopener';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
   toast('چت ' + LTR(CONFIG.adminHandle) + ' باز می‌شود. اگر متن رسید ظاهر نشد، آن را پیست کنید و بفرستید.');
 }
-
 function submitOrder() {
-  const plan = consult.plan ? getPlan(consult.plan) : null;
-  const adv = ADVISORS.find(a => a.id === consult.advisor);
+  var plan = consult.plan ? getPlan(consult.plan) : null;
+  var adv = null;
+  for (var i = 0; i < ADVISORS.length; i++) {
+    if (ADVISORS[i].id === consult.advisor) { adv = ADVISORS[i]; break; }
+  }
   if (consult.kind !== 'consult' || !plan || !adv) return;
-  const q = plan.hasQuestions ? consult.q : 0;
-  const r = calc(plan, q);
-  const order = {
-    id: uid(), planName: plan.name,
+  var q = plan.hasQuestions ? consult.q : 0;
+  var r = calc(plan, q);
+  var order = {
+    id: uid(),
+    planName: plan.name,
     advisor: adv.name + ' (' + adv.role + ')',
     questions: plan.hasQuestions ? q : 0,
-    total: r.total, gift: r.gift, sharesCost: r.sharesCost,
-    pay: 'cash', holder: null, at: Date.now()
+    total: r.total,
+    gift: r.gift,
+    sharesCost: r.sharesCost,
+    pay: 'cash',
+    holder: null,
+    at: Date.now()
   };
   orders.unshift(order);
   orders = orders.slice(0, 30);
   store.set('orders', orders);
   shownOrder = order.id;
   renderConsult();
-  const inv = $('#invoiceCard');
-  if (inv.scrollIntoView) inv.scrollIntoView({ behavior:'smooth', block:'center' });
+  var inv = $('#invoiceCard');
+  if (inv && inv.scrollIntoView) inv.scrollIntoView({ behavior:'smooth', block:'center' });
   toast('رسید ساخته شد. با «ارسال به ادمین» آن را به تلگرام بفرستید.');
 }
-
 function openSharesDlg() {
-  const o = currentOrder();
+  var o = currentOrder();
   if (!o) return;
-  $('#sharesNeed').textContent = 'سهام لازم برای این خرید: ' + fmt(o.sharesCost) + ' سهام. توکنی را که ادمین به شما داده وارد کنید.';
+  $('#sharesNeed').textContent = 'سهام لازم برای این خرید: ' + fmt(o.sharesCost) +
+    ' سهام. توکنی را که ادمین به شما داده وارد کنید.';
   $('#shTok').value = profile.token || '';
   $('#shRes').hidden = true;
   openDlg($('#sharesDlg'));
 }
-
 function confirmShares() {
-  const o = currentOrder();
-  const res = $('#shRes');
-  const fail = msg => { res.textContent = msg; res.hidden = false; };
+  var o = currentOrder();
+  var res = $('#shRes');
+  var fail = function (msg) { res.textContent = msg; res.hidden = false; };
   if (!o) return;
-  const token = normToken($('#shTok').value);
+  var token = normToken($('#shTok').value);
   if (!token) { fail('فرمت توکن درست نیست. نمونه: ' + LTR('R-12345')); return; }
-  const h = findHolder(token);
+  var h = findHolder(token);
   if (!h) { fail('توکن شما در سیستم ثبت نشده است'); return; }
-  const have = Number(h.shares) || 0;
-  if (have < o.sharesCost) { fail('سهام شما کافی نیست. موجودی: ' + fmt(have) + ' سهام، موردنیاز: ' + fmt(o.sharesCost) + ' سهام'); return; }
+  var have = Number(h.shares) || 0;
+  if (have < o.sharesCost) {
+    fail('سهام شما کافی نیست. موجودی: ' + fmt(have) + ' سهام، موردنیاز: ' + fmt(o.sharesCost) + ' سهام');
+    return;
+  }
   o.pay = 'shares';
-  o.holder = { token:token, name:h.name || '' };
+  o.holder = { token: token, name: h.name || '' };
   store.set('orders', orders);
   closeDlg($('#sharesDlg'));
   renderConsult();
@@ -1866,157 +1937,367 @@ function confirmShares() {
    سهام
    ========================================================= */
 function renderShares() {
-  const box = $('#supportersCard');
-  const visible = SHAREHOLDERS.filter(s => s && s.name && !s.hidden)
-    .sort((a, b) => (Number(b.shares) || 0) - (Number(a.shares) || 0));
+  var box = $('#supportersCard');
+  if (!box) return;
+  var visible = SHAREHOLDERS.filter(function (s) {
+    return s && s.name && !s.hidden;
+  }).sort(function (a, b) { return (Number(b.shares) || 0) - (Number(a.shares) || 0); });
+
   if (!SHAREHOLDERS.length) {
     box.innerHTML = '<div class="empty"><div class="bubble">' + ico('star') + '</div>' +
       '<p>هنوز هیچ حامی ثبت نشده است. با خرید اولین سرویس، اولین حامی ما باشید.</p></div>';
   } else {
-    box.innerHTML = '<h2>حامیان</h2><p style="margin-top:4px;font-size:14px">' + fmt(SHAREHOLDERS.length) + ' حامی تاکنون ثبت شده‌اند.</p>' +
-      (visible.length ? '<ul class="supporters">' + visible.map(s =>
-        '<li><span>' + esc(s.name) + '</span><span class="n">' + ico('star', 'sm gold') + fmt(Number(s.shares) || 0) + '</span></li>').join('') + '</ul>' : '');
+    box.innerHTML = '<h2>حامیان</h2>' +
+      '<p style="margin-top:4px;font-size:14px">' + fmt(SHAREHOLDERS.length) + ' حامی تاکنون ثبت شده‌اند.</p>' +
+      (visible.length
+        ? '<ul class="supporters">' + visible.map(function (s) {
+            return '<li><span>' + esc(s.name) + '</span>' +
+              '<span class="n">' + ico('star', 'sm gold') + fmt(Number(s.shares) || 0) + '</span></li>';
+          }).join('') + '</ul>'
+        : '');
   }
   if (profile.token && !$('#tokenInput').value) $('#tokenInput').value = profile.token;
 }
-
 function lookupToken(raw) {
-  const res = $('#tokenResult');
+  var res = $('#tokenResult');
   res.hidden = false;
-  const token = normToken(raw);
+  var token = normToken(raw);
   if (!token) {
     res.className = 'result err';
     res.textContent = 'فرمت توکن درست نیست. نمونه: ' + LTR('R-12345');
     return;
   }
-  const found = findHolder(token);
+  var found = findHolder(token);
   if (!found) {
     res.className = 'result err';
     res.textContent = 'توکن شما در سیستم ثبت نشده است';
     return;
   }
   res.className = 'result ok';
-  res.textContent = 'توکن ثبت شده است' + (found.name ? '، حامی: ' + found.name : '') + '. موجودی سهام: ' + fmt(Number(found.shares) || 0);
+  res.textContent = 'توکن ثبت شده است' +
+    (found.name ? '، حامی: ' + found.name : '') +
+    '. موجودی سهام: ' + fmt(Number(found.shares) || 0);
 }
 
 /* =========================================================
-   رویدادها
+   فرم‌ها — listenerهای مستقیم (نه delegation)
+   ========================================================= */
+
+// ---- ثبت مطالعه ----
+var logForm = $('#logForm');
+if (logForm) {
+  logForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var hRaw = $('#logHours').value.trim();
+    var tRaw = $('#logTests').value.trim();
+    if (!hRaw && !tRaw) { toast('ساعت مطالعه یا تعداد تست را وارد کنید.'); return; }
+    var h = hRaw ? parseNum(hRaw) : 0;
+    var t = tRaw ? parseNum(tRaw) : 0;
+    if (isNaN(h) || isNaN(t)) { toast('لطفاً فقط عدد معتبر وارد کنید.'); return; }
+    var k = todayKey();
+    var cur = logData[k] || { h:0, t:0 };
+    if (cur.h + h > 24) { toast('مجموع ساعت مطالعه یک روز نمی‌تواند بیشتر از ۲۴ باشد.'); return; }
+    logData[k] = {
+      h: Math.round((cur.h + h) * 100) / 100,
+      t: Math.round((cur.t || 0) + t)
+    };
+    store.set('log', logData);
+    this.reset();
+    renderCharts();
+    toast('به اطلاعات امروز اضافه شد.');
+  });
+}
+
+// ---- تسک جدید ----
+var taskForm = $('#taskForm');
+if (taskForm) {
+  taskForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var title = $('#taskTitle').value.trim();
+    if (!title) { toast('عنوان تسک را وارد کنید.'); return; }
+    var prio = $('#taskPrio').value;
+    if (prio !== 'high' && prio !== 'med' && prio !== 'low') prio = 'med';
+    var dateVal = $('#taskDate').value;
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateVal)) dateVal = todayKey();
+
+    tasks.push({
+      id: uid(),
+      title: title,
+      prio: prio,
+      cat: $('#taskCat').value || 'سایر',
+      date: dateVal,
+      done: false
+    });
+    store.set('tasks', tasks);
+    $('#taskTitle').value = '';
+    $('#taskDate').value = todayKey();
+    renderPlanner();
+    renderHomeTasks();
+    toast('تسک اضافه شد.');
+  });
+}
+
+// ---- فلش‌کارت جدید ----
+var cardForm = $('#cardForm');
+if (cardForm) {
+  cardForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var topic = normalizeTopic($('#cardTopic').value);
+    var q = $('#cardQ').value.trim();
+    var a = $('#cardA').value.trim();
+    if (!q || !a) { toast('سوال و پاسخ را وارد کنید.'); return; }
+    cards.push({ id: uid(), topic: topic, q: q, a: a });
+    store.set('cards', cards);
+    $('#cardQ').value = '';
+    $('#cardA').value = '';
+    $('#cardTopic').value = '';
+    openDeck = null;
+    cardIdx = 0;
+    renderCards();
+    toast('کارت به دسته «' + topic + '» اضافه شد.');
+  });
+}
+
+// ---- جستجوی فرمول ----
+var fSearch = $('#fSearch');
+if (fSearch) {
+  fSearch.addEventListener('input', function () {
+    fQuery = this.value;
+    renderFormulas();
+  });
+}
+
+// ---- افزودن فرمول ----
+var fForm = $('#fForm');
+if (fForm) {
+  fForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var t = $('#fName').value.trim();
+    var f = $('#fExpr').value.trim();
+    if (!t || !f) return;
+    customF.push({ id: uid(), s: $('#fSubj').value, t: t, f: f });
+    store.set('formulas', customF);
+    this.reset();
+    fSubject = 'mine';
+    renderFormulas();
+    toast('فرمول ذخیره شد.');
+  });
+}
+
+// ---- تنظیمات پروفایل ----
+var settingsForm = $('#settingsForm');
+if (settingsForm) {
+  settingsForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var raw = $('#setToken').value.trim();
+    var token = '';
+    if (raw) {
+      token = normToken(raw);
+      if (!token) {
+        var err = $('#setErr');
+        err.textContent = 'فرمت توکن درست نیست. نمونه: ' + LTR('R-12345');
+        err.hidden = false;
+        return;
+      }
+    }
+    profile = {
+      name: $('#setName').value.trim(),
+      field: $('#setField').value,
+      token: token
+    };
+    store.set('profile', profile);
+    closeDlg($('#settingsDlg'));
+    renderGreet();
+    toast('تنظیمات ذخیره شد.');
+  });
+}
+
+// ---- جستجوی توکن ----
+var tokenForm = $('#tokenForm');
+if (tokenForm) {
+  tokenForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    lookupToken($('#tokenInput').value);
+  });
+}
+
+// ---- تاریخ کنکور ----
+var examInput = $('#examInput');
+if (examInput) {
+  examInput.addEventListener('change', function () {
+    if (!this.value) return;
+    examKey = this.value;
+    store.set('exam', examKey);
+    updateCountdown();
+    toast('تاریخ کنکور ذخیره شد.');
+  });
+}
+
+/* =========================================================
+   Delegation برای دکمه‌های data-action
    ========================================================= */
 document.addEventListener('click', function (e) {
+  // منوی پروفایل
   if (!$('#profileMenu').hidden && !e.target.closest('.profile-wrap')) closeMenu();
+
+  // بستن دیالوگ با کلیک پس‌زمینه
   if (e.target.tagName === 'DIALOG' && e.target.open) { closeDlg(e.target); return; }
 
-  const el = e.target.closest('[data-action]');
+  // دکمه‌های submit فرم‌ها را نادیده بگیر (خودشان listener جدا دارند)
+  if (e.target.closest('button[type="submit"]')) return;
+
+  var el = e.target.closest('[data-action]');
   if (!el || el.disabled) return;
-  const a = el.dataset.action, id = el.dataset.id;
+  var action = el.dataset.action;
+  var id = el.dataset.id;
 
-  switch (a) {
-    case 'tab': showTab(id); break;
-    case 'toggle-menu': toggleMenu(); break;
-    case 'open-settings': openSettings(); break;
-    case 'premium': closeMenu(); toast('به زودی'); break;
-    case 'close-dialog': closeDlg(el.closest('dialog')); break;
+  try {
+    switch (action) {
+      case 'tab': showTab(id); break;
+      case 'toggle-menu': toggleMenu(); break;
+      case 'open-settings': openSettings(); break;
+      case 'premium': closeMenu(); toast('به زودی'); break;
+      case 'close-dialog': closeDlg(el.closest('dialog')); break;
 
-    case 'toggle-exam': {
-      const box = $('#examEdit');
-      box.hidden = !box.hidden;
-      $('#examInput').value = dkey(examDate());
-      break;
-    }
-    case 'range': chartRange = Number(id); renderCharts(); break;
-    case 'reset-today':
-      delete logData[todayKey()];
-      store.set('log', logData);
-      renderCharts();
-      toast('اطلاعات امروز صفر شد.');
-      break;
-
-    case 'toggle-task': {
-      const t = tasks.find(x => x.id === id);
-      if (t) { t.done = !t.done; store.set('tasks', tasks); }
-      renderHomeTasks(); renderPlanner();
-      break;
-    }
-    case 'del-task':
-      tasks = tasks.filter(x => x.id !== id);
-      store.set('tasks', tasks); renderHomeTasks(); renderPlanner();
-      break;
-    case 'task-filter': taskFilter = id; renderPlanner(); break;
-
-    case 'open-deck': openDeck = id; cardIdx = 0; renderCards(); break;
-    case 'close-deck': openDeck = null; renderCards(); break;
-    case 'del-deck':
-      if (confirm('همه کارت‌های دسته «' + openDeck + '» حذف شوند؟')) {
-        cards = cards.filter(c => cardTopic(c) !== openDeck);
-        store.set('cards', cards); openDeck = null; renderCards();
+      case 'toggle-exam': {
+        var box = $('#examEdit');
+        box.hidden = !box.hidden;
+        $('#examInput').value = dkey(examDate());
+        break;
       }
-      break;
-    case 'card-flip': {
-      const f = $('#flipBtn');
-      if (f) { f.classList.toggle('is-flipped'); f.setAttribute('aria-pressed', String(f.classList.contains('is-flipped'))); }
-      break;
-    }
-    case 'card-prev': cardIdx--; renderCards(); break;
-    case 'card-next': cardIdx++; renderCards(); break;
-    case 'goto-card': cardIdx = Number(id); renderCards(); break;
-    case 'card-del': {
-      const d = deckList().find(x => x.topic === openDeck);
-      if (d && d.items[cardIdx]) {
-        const cid = d.items[cardIdx].id;
-        cards = cards.filter(c => c.id !== cid);
-        store.set('cards', cards);
+      case 'range': chartRange = Number(id) || 7; renderCharts(); break;
+      case 'reset-today':
+        delete logData[todayKey()];
+        store.set('log', logData);
+        renderCharts();
+        toast('اطلاعات امروز صفر شد.');
+        break;
+
+      case 'toggle-task': {
+        var t = null;
+        for (var i = 0; i < tasks.length; i++) if (tasks[i].id === id) { t = tasks[i]; break; }
+        if (t) { t.done = !t.done; store.set('tasks', tasks); }
+        renderHomeTasks();
+        renderPlanner();
+        break;
       }
-      renderCards();
-      break;
-    }
+      case 'del-task':
+        tasks = tasks.filter(function (x) { return x.id !== id; });
+        store.set('tasks', tasks);
+        renderHomeTasks();
+        renderPlanner();
+        break;
+      case 'task-filter': taskFilter = id; renderPlanner(); break;
 
-    case 'open-formulas': renderFormulas(); openDlg($('#formulaDlg')); break;
-    case 'f-subject': fSubject = id; renderFormulas(); break;
-    case 'del-formula':
-      customF = customF.filter(x => x.id !== id);
-      store.set('formulas', customF); renderFormulas();
-      break;
+      case 'open-deck':
+        openDeck = normalizeTopic(id);
+        cardIdx = 0;
+        renderCards();
+        break;
+      case 'close-deck':
+        openDeck = null;
+        cardIdx = 0;
+        renderCards();
+        break;
+      case 'del-deck':
+        if (confirm('همه کارت‌های دسته «' + (openDeck || '') + '» حذف شوند؟')) {
+          cards = cards.filter(function (c) { return cardTopic(c) !== normalizeTopic(openDeck); });
+          store.set('cards', cards);
+          openDeck = null;
+          cardIdx = 0;
+          renderCards();
+        }
+        break;
+      case 'card-flip': {
+        var f = $('#flipBtn');
+        if (f) {
+          f.classList.toggle('is-flipped');
+          f.setAttribute('aria-pressed', String(f.classList.contains('is-flipped')));
+        }
+        break;
+      }
+      case 'card-prev': cardIdx--; renderCards(); break;
+      case 'card-next': cardIdx++; renderCards(); break;
+      case 'goto-card': cardIdx = Number(id) || 0; renderCards(); break;
+      case 'card-del': {
+        var decks = deckList();
+        var target = normalizeTopic(openDeck);
+        var d = null;
+        for (var j = 0; j < decks.length; j++) if (decks[j].topic === target) { d = decks[j]; break; }
+        if (d && d.items[cardIdx]) {
+          var cid = d.items[cardIdx].id;
+          cards = cards.filter(function (c) { return c.id !== cid; });
+          store.set('cards', cards);
+        }
+        renderCards();
+        break;
+      }
 
-    case 'pick-kind':
-      if (id === 'exam') { toast('به زودی'); break; }
-      consult.kind = id; renderConsult();
-      break;
-    case 'pick-plan': {
-      consult.plan = id;
-      const p = getPlan(id);
-      consult.q = p.hasQuestions ? p.baseQ : 0;
-      renderConsult();
-      break;
+      case 'open-formulas':
+        renderFormulas();
+        openDlg($('#formulaDlg'));
+        break;
+      case 'f-subject': fSubject = id; renderFormulas(); break;
+      case 'del-formula':
+        customF = customF.filter(function (x) { return x.id !== id; });
+        store.set('formulas', customF);
+        renderFormulas();
+        break;
+
+      case 'pick-kind':
+        if (id === 'exam') { toast('به زودی'); break; }
+        consult.kind = id;
+        renderConsult();
+        break;
+      case 'pick-plan': {
+        consult.plan = id;
+        var p = getPlan(id);
+        consult.q = (p && p.hasQuestions) ? p.baseQ : 0;
+        renderConsult();
+        break;
+      }
+      case 'pick-advisor':
+        consult.advisor = id;
+        renderConsult();
+        break;
+      case 'q-plus':
+        if (consult.q < CONFIG.maxQuestions) { consult.q++; renderConsult(); }
+        break;
+      case 'q-minus': {
+        var p2 = consult.plan ? getPlan(consult.plan) : null;
+        if (p2 && consult.q > p2.baseQ) { consult.q--; renderConsult(); }
+        break;
+      }
+      case 'submit-order': submitOrder(); break;
+      case 'show-order':
+        shownOrder = id;
+        renderConsult();
+        var inv = $('#invoiceCard');
+        if (inv) inv.scrollIntoView({ behavior:'smooth', block:'center' });
+        break;
+      case 'send-admin': {
+        var o = currentOrder();
+        if (o) sendToAdmin(buildReceipt(o));
+        break;
+      }
+      case 'copy-invoice': {
+        var o2 = currentOrder();
+        if (o2) copyText(buildReceipt(o2)).then(function (ok) {
+          toast(ok ? 'رسید کپی شد.' : 'کپی انجام نشد؛ متن رسید را دستی کپی کنید.');
+        });
+        break;
+      }
+      case 'buy-shares': openSharesDlg(); break;
+      case 'confirm-shares': confirmShares(); break;
+      case 'pay-cash': {
+        var o3 = currentOrder();
+        if (o3) { o3.pay = 'cash'; o3.holder = null; store.set('orders', orders); renderConsult(); }
+        break;
+      }
     }
-    case 'pick-advisor': consult.advisor = id; renderConsult(); break;
-    case 'q-plus': if (consult.q < CONFIG.maxQuestions) { consult.q++; renderConsult(); } break;
-    case 'q-minus': {
-      const p = consult.plan ? getPlan(consult.plan) : null;
-      if (p && consult.q > p.baseQ) { consult.q--; renderConsult(); }
-      break;
-    }
-    case 'submit-order': submitOrder(); break;
-    case 'show-order':
-      shownOrder = id; renderConsult();
-      $('#invoiceCard').scrollIntoView({ behavior:'smooth', block:'center' });
-      break;
-    case 'send-admin': {
-      const o = currentOrder();
-      if (o) sendToAdmin(buildReceipt(o));
-      break;
-    }
-    case 'copy-invoice': {
-      const o = currentOrder();
-      if (o) copyText(buildReceipt(o)).then(ok => toast(ok ? 'رسید کپی شد.' : 'کپی انجام نشد؛ متن رسید را دستی کپی کنید.'));
-      break;
-    }
-    case 'buy-shares': openSharesDlg(); break;
-    case 'confirm-shares': confirmShares(); break;
-    case 'pay-cash': {
-      const o = currentOrder();
-      if (o) { o.pay = 'cash'; o.holder = null; store.set('orders', orders); renderConsult(); }
-      break;
-    }
+  } catch (err) {
+    console.error('Action error [' + action + ']:', err);
+    toast('خطایی رخ داد. صفحه را رفرش کنید.');
   }
 });
 
@@ -2025,39 +2306,38 @@ document.addEventListener('keydown', function (e) {
 });
 
 /* =========================================================
-   جلوگیری از زوم، سلکت، راست‌کلیک (اما رفرش آزاد)
+   جلوگیری از زوم/سلکت/راست‌کلیک (رفرش آزاد)
    ========================================================= */
-// زوم با Ctrl + wheel
 document.addEventListener('wheel', function (e) {
   if (e.ctrlKey) e.preventDefault();
 }, { passive:false });
 
-// زوم با Ctrl + / Ctrl -
 document.addEventListener('keydown', function (e) {
-  if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0'].includes(e.key)) {
-    e.preventDefault();
-  }
   // اجازه به F5 و Ctrl+R
   if (e.key === 'F5') return;
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'r') return;
+  // جلوگیری از زوم
+  if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0'].indexOf(e.key) !== -1) {
+    e.preventDefault();
+  }
 }, { passive:false });
 
-// جلوگیری از double-tap zoom (فقط روی موبایل)
-let lastTouch = 0;
+var lastTouch = 0;
 document.addEventListener('touchend', function (e) {
-  const now = Date.now();
+  var now = Date.now();
   if (now - lastTouch <= 300) e.preventDefault();
   lastTouch = now;
 }, { passive:false });
 
-// راست‌کلیک (منوی زمینه) — به‌جز روی فیلدها
 document.addEventListener('contextmenu', function (e) {
-  const tag = (e.target.tagName || '').toLowerCase();
+  var tag = (e.target.tagName || '').toLowerCase();
   if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
   e.preventDefault();
 });
 
-// شروع برنامه
+/* =========================================================
+   شروع
+   ========================================================= */
 $('#taskDate').value = todayKey();
 $('#examInput').min = todayKey();
 updateDateBar();
@@ -2068,28 +2348,25 @@ setInterval(function () {
 }, 30000);
 
 /* =========================================================
-   PWA: نصب و Service Worker
+   PWA — نصب و Service Worker
    ========================================================= */
-let deferredPrompt = null;
-const installBanner = $('#installBanner');
+var deferredPrompt = null;
+var installBanner = $('#installBanner');
 
 function isStandalone() {
   return window.matchMedia('(display-mode: standalone)').matches ||
     window.navigator.standalone === true;
 }
-
 function isIOS() {
   return /iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase());
 }
-
 function showInstallBanner() {
   if (isStandalone()) return;
   if (store.get('installDismissed', false)) return;
-  installBanner.classList.add('show');
+  if (installBanner) installBanner.classList.add('show');
 }
-
 function hideInstallBanner() {
-  installBanner.classList.remove('show');
+  if (installBanner) installBanner.classList.remove('show');
 }
 
 window.addEventListener('beforeinstallprompt', function (e) {
@@ -2098,46 +2375,110 @@ window.addEventListener('beforeinstallprompt', function (e) {
   setTimeout(showInstallBanner, 1500);
 });
 
-$('#installBtn').addEventListener('click', async function () {
-  if (isIOS() && !deferredPrompt) {
-    // راهنما برای iOS
-    toast('برای نصب در iOS: دکمه اشتراک‌گذاری (Share) → Add to Home Screen');
+var installBtn = $('#installBtn');
+if (installBtn) {
+  installBtn.addEventListener('click', function () {
+    if (isIOS() && !deferredPrompt) {
+      toast('برای نصب در iOS: دکمه اشتراک‌گذاری (Share) → Add to Home Screen');
+      hideInstallBanner();
+      return;
+    }
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function (choice) {
+        if (choice && choice.outcome === 'accepted') toast('برنامه نصب شد. 🎉');
+        deferredPrompt = null;
+        hideInstallBanner();
+      });
+    } else {
+      toast('مرورگر شما از نصب مستقیم پشتیبانی نمی‌کند. از منوی مرورگر «Add to Home Screen» را بزنید.');
+      hideInstallBanner();
+    }
+  });
+}
+var installClose = $('#installClose');
+if (installClose) {
+  installClose.addEventListener('click', function () {
     hideInstallBanner();
-    return;
-  }
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    const choice = await deferredPrompt.userChoice;
-    if (choice.outcome === 'accepted') toast('برنامه نصب شد. 🎉');
-    deferredPrompt = null;
-    hideInstallBanner();
-  } else {
-    toast('مرورگر شما از نصب مستقیم پشتیبانی نمی‌کند. از منوی مرورگر «Add to Home Screen» را بزنید.');
-    hideInstallBanner();
-  }
-});
-
-$('#installClose').addEventListener('click', function () {
-  hideInstallBanner();
-  store.set('installDismissed', true);
-});
+    store.set('installDismissed', true);
+  });
+}
 
 window.addEventListener('appinstalled', function () {
   hideInstallBanner();
   toast('ROTBEIEK نصب شد. 🎉');
 });
 
-// ثبت Service Worker
+// ثبت Service Worker (inline — بدون فایل جداگانه)
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
-    navigator.serviceWorker.register('sw.js').catch(function () {});
+    var swCode = [
+      "var CACHE='rotbeiek-v3';",
+      "var ASSETS=['./','./index.html','./l.png'];",
+      "self.addEventListener('install',function(e){",
+      "  e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(ASSETS).catch(function(){});}).then(function(){return self.skipWaiting();}));",
+      "});",
+      "self.addEventListener('activate',function(e){",
+      "  e.waitUntil(caches.keys().then(function(keys){",
+      "    return Promise.all(keys.filter(function(k){return k!==CACHE;}).map(function(k){return caches.delete(k);}));",
+      "  }).then(function(){return self.clients.claim();}));",
+      "});",
+      "self.addEventListener('fetch',function(e){",
+      "  if(e.request.method!=='GET')return;",
+      "  e.respondWith(caches.match(e.request).then(function(cached){",
+      "    var fetchPromise=fetch(e.request).then(function(res){",
+      "      if(res&&res.status===200&&res.type==='basic'){",
+      "        var copy=res.clone();",
+      "        caches.open(CACHE).then(function(c){c.put(e.request,copy);});",
+      "      }",
+      "      return res;",
+      "    }).catch(function(){return cached;});",
+      "    return cached||fetchPromise;",
+      "  }));",
+      "});"
+    ].join('\n');
+    var blob = new Blob([swCode], { type: 'application/javascript' });
+    var url = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(url).catch(function () {
+      // اگر blob URL پشتیبانی نشد، نادیده بگیر
+    });
   });
 }
 
-// اگر iOS هست و standalone نیست، بنر را نشان بده (با تاخیر)
 if (isIOS() && !isStandalone()) {
   setTimeout(showInstallBanner, 2500);
 }
+
+// تزریق inline manifest برای PWA
+(function injectManifest() {
+  try {
+    var manifest = {
+      name: 'ROTBEIEK - رتبه‌یک',
+      short_name: 'ROTBEIEK',
+      description: 'همراه کنکوری‌ها: روزشمار، برنامه‌ریزی، فلش‌کارت و مشاوره',
+      lang: 'fa',
+      dir: 'rtl',
+      start_url: './index.html',
+      scope: './',
+      display: 'standalone',
+      orientation: 'portrait-primary',
+      background_color: '#eaf0ff',
+      theme_color: '#5b5ff0',
+      icons: [
+        { src: 'l.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+        { src: 'l.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+        { src: 'l.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+      ],
+      categories: ['education', 'productivity']
+    };
+    var blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('link');
+    link.rel = 'manifest';
+    link.href = url;
+    document.head.appendChild(link);
+  } catch (e) { /* ignore */ }
+})();
 
 })();
 </script>
