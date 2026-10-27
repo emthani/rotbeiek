@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#5b5ff0">
+<title>ROTBEIEK</title>
+
+<!-- فونت وزیرمتن (در صورت نبود اینترنت، فونت‌های سیستم جایگزین می‌شوند) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   ۱. متغیرها و پایه
+   ========================================================= */
+:root{
+  --ink:#1a1f4d;
+  --muted:#575e8c;
+  --line:rgba(110,120,215,.25);
+  --blue:#3b6cf6;
+  --violet:#7a4cf5;
+  --sky:#6fa0ff;
+  --lilac:#b79bff;
+  --gold:#e3a008;
+  --glass:rgba(255,255,255,.58);
+  --grad:linear-gradient(135deg,#3b6cf6 0%,#7a4cf5 100%);
+  --shadow:0 12px 32px rgba(62,72,170,.12),0 2px 6px rgba(62,72,170,.06);
+  --r-lg:26px;
+  --r-md:18px;
+  --r-sm:14px;
+  --danger:#d33a4a;
+  --ok:#1b8f6a;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;
+  font-family:'Vazirmatn',Tahoma,'Segoe UI',system-ui,sans-serif;
+  font-size:15px;line-height:1.75;color:var(--ink);background:#eaf0ff;
+}
+/* پس‌زمینه گرادیانتی ملایم آبی/بنفش */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;
+  background:
+    radial-gradient(60% 45% at 85% 5%,rgba(122,76,245,.28),transparent 70%),
+    radial-gradient(55% 40% at 5% 28%,rgba(59,108,246,.30),transparent 70%),
+    radial-gradient(60% 45% at 70% 100%,rgba(111,160,255,.38),transparent 70%),
+    linear-gradient(180deg,#eef2ff,#f1ecff);
+}
+h1,h2,h3,p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid rgba(59,108,246,.65);outline-offset:2px}
+.ico{width:22px;height:22px;flex:none}
+.ico.sm{width:18px;height:18px}
+.ico.gold{color:var(--gold)}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+
+.glass,.card{
+  background:var(--glass);
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);
+  backdrop-filter:blur(18px) saturate(1.4);
+  border:1px solid rgba(255,255,255,.78);
+  box-shadow:var(--shadow);
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .glass,.card{background:rgba(255,255,255,.92)}
+}
+.card{border-radius:var(--r-lg);padding:18px;margin-top:16px}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.card-head h2{font-size:17px;font-weight:700}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+
+/* =========================================================
+   ۲. چیدمان اصلی و هدر
+   ========================================================= */
+.app{max-width:680px;margin:0 auto;padding:0 16px 130px}
+.topbar{
+  position:sticky;top:0;z-index:20;
+  margin:0 -16px;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:rgba(238,242,255,.66);
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,255,255,.7);
+}
+.brand{display:flex;align-items:center;min-height:44px}
+.brand img{height:42px;width:auto;max-width:200px;display:block;object-fit:contain}
+.brand-fallback{
+  font-size:22px;font-weight:800;letter-spacing:.14em;direction:ltr;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.profile-wrap{position:relative}
+.profile-btn{
+  width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.9);cursor:pointer;
+  background:rgba(255,255,255,.75);color:var(--violet);box-shadow:var(--shadow);
+  display:flex;align-items:center;justify-content:center;
+}
+.menu{
+  position:absolute;top:calc(100% + 8px);left:0;min-width:240px;padding:6px;z-index:40;
+  background:rgba(255,255,255,.97);border:1px solid #fff;border-radius:18px;
+  box-shadow:0 18px 40px rgba(50,60,170,.25);
+}
+.menu button{
+  width:100%;display:flex;align-items:center;gap:10px;border:0;background:none;padding:11px 12px;
+  border-radius:12px;cursor:pointer;text-align:right;
+}
+.menu button:hover{background:rgba(59,108,246,.08)}
+.soon{
+  margin-inline-start:auto;font-size:11.5px;background:rgba(227,160,8,.18);color:#7a4e00;
+  padding:0 10px;border-radius:999px;white-space:nowrap;
+}
+.page{padding-top:4px}
+.greet{margin-top:14px;font-weight:700;font-size:16px}
+
+/* =========================================================
+   ۳. نوار ناوبری پایین
+   ========================================================= */
+.nav{
+  position:fixed;z-index:30;bottom:max(12px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);
+  width:min(656px,calc(100% - 24px));
+  display:grid;grid-template-columns:repeat(6,1fr);gap:2px;padding:6px;border-radius:26px;
+  box-shadow:0 16px 40px rgba(50,60,170,.22);
+}
+.nav-btn{
+  border:0;background:transparent;border-radius:20px;padding:8px 2px 6px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:500;color:var(--muted);white-space:nowrap;
+  transition:background .2s,color .2s;
+}
+.nav-btn.active{background:var(--grad);color:#fff;box-shadow:0 8px 18px rgba(90,80,245,.35)}
+
+/* =========================================================
+   ۴. دکمه‌ها، فرم‌ها و پنجره‌ها
+   ========================================================= */
+.btn{
+  border:0;border-radius:16px;padding:11px 18px;min-height:46px;font-weight:700;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;
+  transition:transform .15s,box-shadow .2s,opacity .2s;
+}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:var(--grad);color:#fff;box-shadow:0 10px 22px rgba(90,80,245,.32)}
+.btn.soft{background:rgba(255,255,255,.8);color:var(--blue);border:1px solid var(--line)}
+.btn.block{width:100%}
+.btn.slim{min-height:38px;padding:6px 14px;font-size:13.5px;border-radius:13px}
+.btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+.icon-btn{
+  border:0;background:rgba(255,255,255,.75);width:40px;height:40px;border-radius:13px;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;color:var(--muted);flex:none;
+}
+.icon-btn.danger{color:var(--danger)}
+.icon-btn:disabled{opacity:.4;cursor:not-allowed}
+.link-btn{border:0;background:none;color:var(--blue);font-weight:700;cursor:pointer;padding:4px 0;font-size:13.5px}
+
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;flex:1;min-width:0}
+.field>span{font-size:13px;color:var(--muted);font-weight:500}
+input,select,textarea{
+  width:100%;min-height:46px;border-radius:var(--r-sm);border:1px solid var(--line);
+  background:rgba(255,255,255,.88);padding:10px 14px;font:inherit;color:var(--ink);
+}
+textarea{resize:vertical;min-height:84px}
+input::placeholder,textarea::placeholder{color:#8a90b8}
+.row{display:flex;gap:10px}
+.row.end{align-items:flex-end}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 12px}
+.chip{
+  border:1px solid var(--line);background:rgba(255,255,255,.65);border-radius:999px;
+  padding:5px 14px;font-size:13px;color:var(--muted);cursor:pointer;
+}
+.chip[aria-pressed="true"]{background:var(--grad);color:#fff;border-color:transparent}
+
+.fold{margin-top:14px;border-top:1px dashed var(--line);padding-top:12px}
+.fold>summary{cursor:pointer;font-weight:700;color:var(--blue);list-style:none;display:flex;align-items:center;gap:8px}
+.fold>summary::-webkit-details-marker{display:none}
+.fold[open]>summary{margin-bottom:12px}
+
+/* پنجره‌های شناور (تنظیمات، بانک فرمول، خرید با سهام) */
+dialog.sheet{
+  border:0;padding:0;border-radius:26px;width:min(92vw,520px);max-height:88vh;overflow:auto;
+  background:rgba(255,255,255,.96);color:var(--ink);box-shadow:0 30px 70px rgba(30,35,110,.35);
+}
+dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.sheet-body{padding:20px}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.sheet-head h2{font-size:18px;font-weight:700}
+.result{margin-top:12px;padding:12px 14px;border-radius:var(--r-sm);font-size:14px;background:rgba(255,255,255,.7)}
+.result.err{color:var(--danger)}
+.result.ok{color:var(--ok)}
+
+/* =========================================================
+   ۵. خانه
+   ========================================================= */
+.hero{
+  position:relative;overflow:hidden;margin-top:16px;border-radius:30px;padding:20px 22px 22px;color:#fff;
+  background:linear-gradient(135deg,#3560f0 0%,#6a4ef3 55%,#8d5cf6 100%);
+  box-shadow:0 18px 40px rgba(80,70,230,.35);
+}
+.hero-deco{position:absolute;left:-40px;bottom:-60px;width:240px;height:240px;opacity:.2;pointer-events:none}
+.hero-top{display:flex;align-items:center;justify-content:space-between;gap:10px;position:relative}
+.hero-label{font-weight:700;font-size:15px}
+.ghost-light{
+  border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.16);color:#fff;border-radius:12px;
+  padding:4px 12px;font-size:13px;cursor:pointer;
+}
+.hero-days{display:flex;align-items:baseline;gap:10px;margin-top:8px;position:relative}
+.hero-days strong{font-size:84px;line-height:1.05;font-weight:800;letter-spacing:-1px}
+.hero-days span{font-size:18px;font-weight:500;opacity:.95}
+.hero-sub{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:13.5px;opacity:.95;position:relative}
+.exam-edit{margin-top:14px;display:flex;align-items:center;gap:10px;position:relative}
+.exam-edit label{font-size:13px}
+.exam-edit input{max-width:200px;min-height:40px}
+
+.seg{display:inline-flex;background:rgba(255,255,255,.65);border:1px solid var(--line);border-radius:12px;padding:3px}
+.seg button{border:0;background:transparent;border-radius:9px;padding:3px 12px;font-size:13px;cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--grad);color:#fff}
+
+.chart-block+.chart-block{margin-top:18px}
+.chart-title{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;font-weight:700;font-size:14px}
+.chart-title small{font-weight:500;color:var(--muted);font-size:12.5px}
+.bars{display:flex;align-items:flex-end;gap:5px;direction:rtl}
+.col{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center}
+.col .v{height:16px;font-size:11px;color:var(--muted);line-height:16px;white-space:nowrap}
+.col .track{height:80px;width:100%;display:flex;align-items:flex-end;justify-content:center}
+.col .bar{width:100%;max-width:26px;height:calc(var(--h) * .8px);border-radius:9px 9px 4px 4px;background:linear-gradient(180deg,var(--sky),var(--blue))}
+.col .bar.alt{background:linear-gradient(180deg,var(--lilac),var(--violet))}
+.col .bar.zero{height:3px;background:rgba(120,130,215,.25)}
+.col .l{font-size:11px;color:var(--muted);margin-top:4px;white-space:nowrap}
+.chart-empty{font-size:12.5px;color:var(--muted);margin-top:6px}
+.log-form{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line)}
+
+/* =========================================================
+   ۶. اخبار (شبیه کانال تلگرام)
+   ========================================================= */
+.news{padding:14px}
+.ch-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ch-avatar{
+  width:42px;height:42px;border-radius:50%;background:var(--grad);color:#fff;flex:none;
+  display:flex;align-items:center;justify-content:center;
+}
+.ch-head strong{display:block;line-height:1.4}
+.ch-head small{color:var(--muted);font-size:12.5px}
+.ch-feed{
+  border-radius:var(--r-md);padding:10px;display:flex;flex-direction:column;gap:8px;
+  background:linear-gradient(160deg,rgba(111,160,255,.22),rgba(183,155,255,.26));
+}
+.day-chip{
+  align-self:center;background:rgba(26,31,77,.62);color:#fff;font-size:12px;padding:1px 14px;border-radius:999px;margin:2px 0;
+}
+.post{
+  background:#fff;border-radius:6px 18px 18px 18px;padding:10px 13px 8px;box-shadow:0 2px 8px rgba(40,50,150,.1);
+  max-width:100%;
+}
+.post h3{font-size:14.5px;font-weight:700;margin-bottom:2px}
+.post p{white-space:pre-line;font-size:14px;line-height:1.95;overflow-wrap:anywhere}
+.post img{width:100%;max-height:240px;object-fit:cover;border-radius:12px;margin-bottom:8px;display:block}
+.pin{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;color:var(--violet);margin-bottom:2px}
+.post-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:6px;font-size:12px;color:var(--muted)}
+.post-link{display:inline-flex;align-items:center;gap:4px;color:var(--blue);font-weight:700;text-decoration:none;font-size:12.5px}
+.feed-empty{align-self:center;font-size:13px;color:var(--muted);padding:12px 8px;text-align:center}
+.news .link-btn{margin-top:6px}
+
+/* =========================================================
+   ۷. تسک‌ها
+   ========================================================= */
+.tasks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.task{
+  display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--r-md);
+  background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.85);
+}
+.check{
+  width:28px;height:28px;border-radius:10px;border:2px solid #aab2e6;background:#fff;cursor:pointer;flex:none;
+  display:inline-flex;align-items:center;justify-content:center;color:transparent;padding:0;
+}
+.check .ico{width:18px;height:18px}
+.task.done .check{background:var(--grad);border-color:transparent;color:#fff}
+.task-main{flex:1;min-width:0;display:flex;flex-direction:column}
+.task-title{font-weight:500;overflow-wrap:anywhere}
+.task.done .task-title{text-decoration:line-through;color:var(--muted)}
+.task-meta{display:flex;flex-wrap:wrap;gap:2px 12px;font-size:12px;color:var(--muted);align-items:center}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-left:5px}
+.p-high{background:var(--danger)}.p-med{background:#e8a317}.p-low{background:var(--ok)}
+
+.empty{text-align:center;padding:22px 12px;color:var(--muted)}
+.empty .bubble{
+  width:58px;height:58px;margin:0 auto 10px;border-radius:20px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,rgba(59,108,246,.16),rgba(122,76,245,.18));color:var(--violet);
+}
+.empty .bubble .ico{width:28px;height:28px}
+.empty p+.btn,.empty p+.link-btn{margin-top:10px}
+
+/* =========================================================
+   ۸. فلش‌کارت: ساخت کارت و آلبوم دسته‌ها
+   ========================================================= */
+.album{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:20px 16px;padding:8px 6px 12px}
+.deck{position:relative;display:block;height:120px;border:0;padding:0;background:none;cursor:pointer;text-align:right}
+.deck::before,.deck::after{
+  content:"";position:absolute;inset:0;border-radius:20px;background:linear-gradient(135deg,var(--c1),var(--c2));
+}
+.deck::before{transform:translate(-8px,-8px) rotate(-3deg);opacity:.32}
+.deck::after{transform:translate(-4px,-4px) rotate(-1.5deg);opacity:.55}
+.deck-cover{
+  position:absolute;inset:0;border-radius:20px;padding:12px 14px;color:#fff;
+  background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:0 10px 22px rgba(60,70,190,.28);
+  display:flex;flex-direction:column;justify-content:space-between;z-index:1;
+}
+.deck-cover .ico{opacity:.9}
+.deck-cover strong{
+  font-size:15px;line-height:1.5;overflow-wrap:anywhere;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.deck-cover small{font-size:12.5px;opacity:.95}
+.deck:active{transform:scale(.98)}
+.deck-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.deck-title{flex:1;min-width:0}
+.deck-title strong{display:block;overflow-wrap:anywhere;line-height:1.5}
+.deck-title small{color:var(--muted);font-size:12.5px}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.pill{
+  min-width:34px;height:34px;border-radius:11px;border:1px solid var(--line);background:rgba(255,255,255,.7);
+  cursor:pointer;font-size:13px;color:var(--muted);
+}
+.pill[aria-current="true"]{background:var(--grad);color:#fff;border-color:transparent}
+
+.stage{perspective:1200px}
+.flip{
+  position:relative;display:block;width:100%;height:250px;border:0;padding:0;background:none;cursor:pointer;
+  transform-style:preserve-3d;transition:transform .6s cubic-bezier(.3,.7,.2,1);text-align:center;
+}
+.flip.is-flipped{transform:rotateY(180deg)}
+.face{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  padding:22px;border-radius:var(--r-lg);backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  box-shadow:var(--shadow);overflow:auto;font-size:18px;font-weight:500;line-height:1.9;overflow-wrap:anywhere;
+}
+.face.front{background:linear-gradient(160deg,#ffffff,#eaefff);border:1px solid #fff}
+.face.back{background:linear-gradient(135deg,#3b6cf6,#7a4cf5);color:#fff;transform:rotateY(180deg)}
+.face small{font-size:12.5px;opacity:.8;font-weight:500}
+.card-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px}
+.card-nav .count{font-size:13.5px;color:var(--muted)}
+
+.quiet-link{
+  display:flex;align-items:center;justify-content:center;gap:6px;margin:22px auto 0;border:0;background:none;
+  color:#7b82ad;font-size:12.5px;cursor:pointer;padding:6px 12px;
+}
+.formula-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.formula{
+  display:flex;gap:10px;align-items:center;padding:12px 14px;border-radius:var(--r-md);
+  background:rgba(240,243,255,.9);border:1px solid rgba(255,255,255,.85);
+}
+.formula-body{flex:1;min-width:0}
+.formula-top{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.formula-top strong{font-weight:700;font-size:14.5px}
+.tag{font-size:11.5px;padding:1px 10px;border-radius:999px;background:rgba(122,76,245,.12);color:#5a34c9}
+.formula-expr{
+  direction:ltr;text-align:left;margin-top:4px;font-size:17px;overflow-x:auto;white-space:nowrap;
+  font-family:'Cambria Math','STIX Two Math','Times New Roman',serif;
+}
+.search{position:relative;margin-bottom:10px}
+.search .ico{position:absolute;top:50%;right:14px;transform:translateY(-50%);color:var(--muted)}
+.search input{padding-right:44px}
+
+/* =========================================================
+   ۹. مشاوره
+   ========================================================= */
+.step{margin-top:18px;transition:opacity .25s}
+.step:first-child{margin-top:0}
+.step.locked{opacity:.45}
+.step-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-weight:700}
+.step-num{
+  width:28px;height:28px;border-radius:50%;background:var(--grad);color:#fff;font-size:13px;
+  display:inline-flex;align-items:center;justify-content:center;flex:none;
+}
+.choice,.plan{
+  width:100%;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r-md);cursor:pointer;
+  background:rgba(255,255,255,.78);border:2px solid transparent;text-align:right;
+  box-shadow:0 4px 14px rgba(62,72,170,.08);margin-bottom:8px;
+}
+.choice[aria-checked="true"],.plan[aria-checked="true"]{border-color:var(--blue);background:#fff}
+.choice.is-soon{opacity:.8}
+.choice-ico{
+  width:44px;height:44px;border-radius:15px;flex:none;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,rgba(59,108,246,.16),rgba(122,76,245,.2));color:var(--violet);
+}
+.choice-txt{flex:1;display:flex;flex-direction:column;min-width:0}
+.choice-txt small{color:var(--muted);font-size:12.5px}
+.plan{flex-direction:column;align-items:stretch;gap:4px}
+.plan-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.plan-top strong{font-size:15px}
+.plan-price{font-weight:800;color:var(--blue);white-space:nowrap}
+.plan-price small{font-weight:500;color:var(--muted);font-size:12px;margin-inline-start:6px}
+.plan-desc{font-size:13px;color:var(--muted)}
+.perk{display:flex;align-items:center;gap:6px;font-size:13px;color:#4b3b00}
+.more-btn{
+  width:100%;margin-top:2px;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;
+  border-radius:var(--r-md);border:2px dashed rgba(110,120,215,.4);background:transparent;color:#6b72a0;cursor:not-allowed;
+}
+.stepper{display:flex;align-items:center;gap:16px}
+.stepper output{min-width:56px;text-align:center;font-size:28px;font-weight:800}
+.stepper .icon-btn{width:48px;height:48px;border-radius:16px;color:var(--blue);background:#fff}
+.sum{margin-top:16px;padding:14px;border-radius:var(--r-md);background:rgba(255,255,255,.72)}
+.sum-row{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13.5px;color:var(--muted)}
+.sum-row b{color:var(--ink)}
+.sum-row .lbl{display:inline-flex;align-items:center;gap:6px}
+.sum-total{display:flex;justify-content:space-between;align-items:baseline;margin:8px 0;padding:8px 0;border-top:1px dashed var(--line);border-bottom:1px dashed var(--line)}
+.sum-total strong{font-size:22px;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.guide{display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-size:13.5px;color:var(--muted)}
+.guide .ico{color:var(--blue);margin-top:3px}
+.invoice{
+  white-space:pre-wrap;margin:0 0 12px;padding:14px;border-radius:var(--r-md);background:rgba(255,255,255,.88);
+  border:1.5px dashed rgba(90,80,245,.45);font:inherit;font-size:14px;line-height:2;overflow-wrap:anywhere;
+}
+.receipt-note{font-size:12.5px;color:var(--muted);margin:-4px 0 12px}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.actions .btn{flex:1;min-width:140px}
+.orders{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.orders li button{
+  width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;border:0;cursor:pointer;
+  padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.72);font-size:13.5px;text-align:right;
+}
+
+/* =========================================================
+   ۱۰. سهام (مینیمال و کم‌رنگ)
+   ========================================================= */
+.quiet h2{font-size:16px;font-weight:700}
+.quiet .card{background:rgba(255,255,255,.45);box-shadow:none}
+.quiet p{color:var(--muted)}
+.quiet ul.plain{margin:8px 0 0;padding:0 18px 0 0;color:var(--muted);font-size:14px}
+.quiet ul.plain li+li{margin-top:4px}
+.supporters{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.supporters li{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 12px;border-radius:12px;
+  background:rgba(255,255,255,.6);font-size:14px;
+}
+.supporters .n{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-size:13px}
+
+.toast{
+  position:fixed;z-index:50;left:50%;bottom:104px;transform:translate(-50%,16px);max-width:min(92vw,460px);
+  background:rgba(26,31,77,.94);color:#fff;padding:12px 18px;border-radius:16px;font-size:14px;line-height:1.8;
+  opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;text-align:center;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:380px){
+  .hero-days strong{font-size:68px}
+  .nav-btn{font-size:9.5px;padding:8px 0 6px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     آیکون‌های SVG داخلی (بدون استیکر و بدون کتابخانه)
+     ========================================================= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></symbol>
+    <symbol id="i-tasks" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></symbol>
+    <symbol id="i-cards" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="14" height="12" rx="3"/><path d="M7 8V7a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3h-1"/></symbol>
+    <symbol id="i-consult" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 1 3.6 6.7L4 20l1.1-3.6A8 8 0 0 1 4 12Z"/><path d="M9 11h6M9 14h4"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7L12 3Z"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3 3 10.5l7 2.5 2.5 7L21 3Z"/><path d="m10 13 4-4"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="3"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
+    <symbol id="i-flip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14-4.5L4 9"/><path d="M4 4v5h5"/><path d="M4 13a8 8 0 0 0 14 4.5L20 15"/><path d="M20 20v-5h-5"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></symbol>
+    <symbol id="i-prev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-megaphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1Z"/><path d="M15 9a4 4 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6l-1 5 3 3v2H7v-2l3-3-1-5Z"/><path d="M12 14v6"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></symbol>
+    <symbol id="i-sigma" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6H7l6 6-6 6h11"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></symbol>
+  </defs>
+</svg>
+
+<div class="app">
+
+  <!-- ===== هدر: لوگوی logo.png (راست) و آیکون پروفایل (چپ) ===== -->
+  <header class="topbar">
+    <div class="brand">
+      <!-- اگر فایل logo.png کنار index.html نباشد، نام متنی نمایش داده می‌شود -->
+      <img src="logo.png" alt="ROTBEIEK"
+           onerror="this.hidden=true;document.getElementById('logoFallback').hidden=false;">
+      <span class="brand-fallback" id="logoFallback" hidden>ROTBEIEK</span>
+    </div>
+
+    <div class="profile-wrap">
+      <button type="button" class="profile-btn" id="profileBtn" data-action="toggle-menu"
+              aria-haspopup="menu" aria-expanded="false" aria-label="پروفایل">
+        <svg class="ico"><use href="#i-user"/></svg>
+      </button>
+      <div class="menu" id="profileMenu" role="menu" hidden>
+        <button type="button" role="menuitem" data-action="open-settings">
+          <svg class="ico sm"><use href="#i-user"/></svg>تنظیمات پروفایل
+        </button>
+        <button type="button" role="menuitem" data-action="premium">
+          <svg class="ico sm"><use href="#i-star"/></svg>خرید اشتراک پرمیوم<span class="soon">به زودی</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- =====================================================
+         صفحه ۱: خانه (داشبورد)
+         ===================================================== -->
+    <section class="page" id="page-home" aria-label="خانه">
+      <p class="greet" id="greet" hidden></p>
+
+      <div class="hero">
+        <svg class="hero-deco" viewBox="0 0 240 240" fill="none" stroke="#fff" stroke-width="2" aria-hidden="true">
+          <circle cx="120" cy="120" r="40"/><circle cx="120" cy="120" r="75"/><circle cx="120" cy="120" r="110"/>
+        </svg>
+        <div class="hero-top">
+          <span class="hero-label">روزشمار کنکور</span>
+          <button type="button" class="ghost-light" data-action="toggle-exam">تغییر تاریخ</button>
+        </div>
+        <div class="hero-days" aria-live="polite">
+          <strong id="cdDays">۰</strong><span>روز مانده</span>
+        </div>
+        <div class="hero-sub"><span id="cdHM"></span><span id="cdDate"></span></div>
+        <div class="exam-edit" id="examEdit" hidden>
+          <label for="examInput">تاریخ برگزاری</label>
+          <input type="date" id="examInput">
+        </div>
+      </div>
+
+      <!-- اخبار (داده‌ها از news.js خوانده می‌شود) -->
+      <div id="news-home"></div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>پیشرفت من</h2>
+          <div class="seg" role="group" aria-label="بازه نمودار">
+            <button type="button" data-action="range" data-id="7" aria-pressed="true">۷ روز</button>
+            <button type="button" data-action="range" data-id="14" aria-pressed="false">۱۴ روز</button>
+          </div>
+        </div>
+        <div id="charts"></div>
+
+        <form class="log-form" id="logForm" autocomplete="off">
+          <div class="row end">
+            <label class="field"><span>ساعت مطالعه امروز</span><input id="logHours" inputmode="decimal" placeholder="مثلاً ۲٫۵"></label>
+            <label class="field"><span>تعداد تست امروز</span><input id="logTests" inputmode="numeric" placeholder="مثلاً ۴۰"></label>
+          </div>
+          <div class="row">
+            <button class="btn primary" type="submit" style="flex:1"><svg class="ico sm"><use href="#i-plus"/></svg>افزودن به امروز</button>
+            <button class="btn soft" type="button" data-action="reset-today">صفر کردن امروز</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>تسک‌های امروز</h2>
+          <span class="small muted" id="homeTaskCount"></span>
+        </div>
+        <div id="homeTasks"></div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         صفحه اخبار (فید کامل از news.js)
+         ===================================================== -->
+    <section class="page" id="page-news" aria-label="اخبار" hidden>
+      <div id="news-news"></div>
+    </section>
+
+    <!-- =====================================================
+         صفحه ۲: برنامه‌ریز
+         ===================================================== -->
+    <section class="page" id="page-planner" aria-label="برنامه‌ریز" hidden>
+      <form class="card" id="taskForm" autocomplete="off">
+        <div class="card-head"><h2>تسک جدید</h2></div>
+        <label class="field"><span>عنوان</span><input id="taskTitle" maxlength="80" required placeholder="مثلاً: حل ۳۰ تست مشتق"></label>
+        <div class="row">
+          <label class="field"><span>اولویت</span>
+            <select id="taskPrio"><option value="high">زیاد</option><option value="med" selected>متوسط</option><option value="low">کم</option></select>
+          </label>
+          <label class="field"><span>دسته‌بندی</span>
+            <select id="taskCat">
+              <option>ریاضی</option><option>فیزیک</option><option>شیمی</option><option>زیست‌شناسی</option>
+              <option>ادبیات</option><option>عربی</option><option>دین و زندگی</option><option>زبان انگلیسی</option><option>سایر</option>
+            </select>
+          </label>
+        </div>
+        <label class="field"><span>تاریخ انجام</span><input type="date" id="taskDate"></label>
+        <button class="btn primary block" type="submit"><svg class="ico sm"><use href="#i-plus"/></svg>افزودن تسک</button>
+      </form>
+
+      <div class="card">
+        <div class="card-head"><h2>همه تسک‌ها</h2></div>
+        <div class="chips" id="taskFilters"></div>
+        <div id="taskList"></div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         صفحه ۳: فلش‌کارت (ساخت کارت + آلبوم دسته‌ها)
+         ===================================================== -->
+    <section class="page" id="page-cards" aria-label="فلش‌کارت" hidden>
+      <div id="news-cards"></div>
+
+      <form class="card" id="cardForm" autocomplete="off">
+        <div class="card-head"><h2>ساخت فلش‌کارت</h2></div>
+        <label class="field"><span>موضوع (دسته)</span>
+          <input id="cardTopic" list="topicList" required maxlength="40" placeholder="مثلاً: مشتق، واژگان، قرابت معنایی">
+          <datalist id="topicList"></datalist>
+        </label>
+        <label class="field"><span>سوال (روی کارت)</span><textarea id="cardQ" required maxlength="300"></textarea></label>
+        <label class="field"><span>پاسخ (پشت کارت)</span><textarea id="cardA" required maxlength="500"></textarea></label>
+        <button class="btn primary block" type="submit"><svg class="ico sm"><use href="#i-plus"/></svg>ذخیره کارت</button>
+      </form>
+
+      <div class="card">
+        <div class="card-head"><h2>آلبوم من</h2></div>
+        <div id="albumBody"></div>
+      </div>
+
+      <button type="button" class="quiet-link" data-action="open-formulas">
+        <svg class="ico sm"><use href="#i-sigma"/></svg>بانک فرمول
+      </button>
+    </section>
+
+    <!-- =====================================================
+         صفحه ۴: مشاوره
+         ===================================================== -->
+    <section class="page" id="page-consult" aria-label="مشاوره" hidden>
+      <div id="news-consult"></div>
+
+      <div class="card">
+        <div class="step">
+          <div class="step-head"><span class="step-num">۱</span>نوع خدمت</div>
+          <div id="kindList" role="radiogroup" aria-label="نوع خدمت"></div>
+        </div>
+
+        <div class="step locked" id="stepPlan">
+          <div class="step-head"><span class="step-num">۲</span>نوع مشاوره</div>
+          <div id="planList" role="radiogroup" aria-label="نوع مشاوره"></div>
+        </div>
+
+        <div class="step locked" id="stepAdvisor">
+          <div class="step-head"><span class="step-num">۳</span>انتخاب مشاور</div>
+          <div id="advList" role="radiogroup" aria-label="مشاور"></div>
+          <button type="button" class="more-btn" disabled>
+            <svg class="ico sm"><use href="#i-plus"/></svg>مشاوران بیشتر به زودی...
+          </button>
+        </div>
+
+        <div class="step locked" id="stepCount" hidden>
+          <div class="step-head"><span class="step-num">۴</span>تعداد سوال</div>
+          <div class="stepper">
+            <button type="button" class="icon-btn" data-action="q-plus" aria-label="افزایش تعداد سوال"><svg class="ico"><use href="#i-plus"/></svg></button>
+            <output id="qCount" aria-live="polite">۳</output>
+            <button type="button" class="icon-btn" data-action="q-minus" id="qMinus" aria-label="کاهش تعداد سوال"><svg class="ico"><use href="#i-minus"/></svg></button>
+          </div>
+          <p class="small muted" style="margin-top:6px" id="qHint"></p>
+        </div>
+
+        <div class="sum" id="sum" hidden></div>
+
+        <button type="button" class="btn primary block" id="submitOrder" data-action="submit-order" style="margin-top:16px" disabled>
+          <svg class="ico sm"><use href="#i-send"/></svg>ثبت درخواست و دریافت سهام
+        </button>
+
+        <div class="guide">
+          <svg class="ico sm"><use href="#i-info"/></svg>
+          <p>پس از ثبت، فاکتور خود را به آیدی تلگرام <bdi dir="ltr">@rotbeiek</bdi> ارسال کنید تا شماره کارت برای شما ارسال شود.</p>
+        </div>
+      </div>
+
+      <div class="card" id="invoiceCard" hidden>
+        <div class="card-head"><h2>رسید خرید</h2></div>
+        <pre class="invoice" id="invoiceText"></pre>
+        <p class="receipt-note" id="receiptNote"></p>
+        <div class="actions" id="receiptActions"></div>
+      </div>
+
+      <div class="card" id="ordersCard" hidden>
+        <div class="card-head"><h2>رسیدهای ثبت‌شده در این دستگاه</h2></div>
+        <ul class="orders" id="ordersList"></ul>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         صفحه ۵: سهام و قوانین (مینیمال)
+         داده حامیان از shares.js خوانده می‌شود
+         ===================================================== -->
+    <section class="page quiet" id="page-shares" aria-label="سهام و قوانین" hidden>
+      <div class="card">
+        <h2>چرا از ROTBEIEK حمایت کنیم؟</h2>
+        <p style="margin-top:6px">این پروژه با حمایت کاربرانش رشد می‌کند. هر خرید، علاوه بر دریافت خدمت، شما را در مسیر ساخته‌شدن آن شریک می‌کند.</p>
+        <ul class="plain">
+          <li>سهام شما به‌عنوان امتیاز مالکیت در آینده ثبت می‌شود.</li>
+          <li>در خریدهای بعدی می‌توانید از سهام خود به‌عنوان تخفیف استفاده کنید.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>قوانین</h2>
+        <ul class="plain">
+          <li>توکن شما را ادمین پس از اولین خرید به شما می‌دهد.</li>
+          <li>سهام هدیه پس از تأیید پرداخت توسط ادمین به توکن شما اضافه می‌شود.</li>
+          <li>خرید با سهام، هزینه‌ای ندارد ولی سهام هدیه هم به همراه ندارد.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>پیگیری توکن</h2>
+        <form id="tokenForm" autocomplete="off" style="margin-top:10px">
+          <div class="row end">
+            <label class="field"><span>توکن</span><input id="tokenInput" dir="ltr" style="text-align:left" placeholder="R-12345" maxlength="12"></label>
+            <button class="btn soft" type="submit" style="margin-bottom:12px">بررسی</button>
+          </div>
+        </form>
+        <div class="result" id="tokenResult" role="status" aria-live="polite" hidden></div>
+      </div>
+
+      <div class="card" id="supportersCard"></div>
+    </section>
+  </main>
+</div>
+
+<!-- ===== نوار پایین ===== -->
+<nav class="nav glass" aria-label="ناوبری اصلی">
+  <button class="nav-btn active" data-action="tab" data-id="home" aria-current="page"><svg class="ico"><use href="#i-home"/></svg>خانه</button>
+  <button class="nav-btn" data-action="tab" data-id="news"><svg class="ico"><use href="#i-megaphone"/></svg>اخبار</button>
+  <button class="nav-btn" data-action="tab" data-id="planner"><svg class="ico"><use href="#i-tasks"/></svg>برنامه‌ریز</button>
+  <button class="nav-btn" data-action="tab" data-id="cards"><svg class="ico"><use href="#i-cards"/></svg>فلش‌کارت</button>
+  <button class="nav-btn" data-action="tab" data-id="consult"><svg class="ico"><use href="#i-consult"/></svg>مشاوره</button>
+  <button class="nav-btn" data-action="tab" data-id="shares"><svg class="ico"><use href="#i-star"/></svg>سهام</button>
+</nav>
+
+<!-- ===== پنجره: تنظیمات پروفایل ===== -->
+<dialog class="sheet" id="settingsDlg" aria-labelledby="settingsTitle">
+  <div class="sheet-body">
+    <div class="sheet-head">
+      <h2 id="settingsTitle">تنظیمات پروفایل</h2>
+      <button type="button" class="icon-btn" data-action="close-dialog" aria-label="بستن"><svg class="ico sm"><use href="#i-close"/></svg></button>
+    </div>
+    <form id="settingsForm" autocomplete="off">
+      <label class="field"><span>نام</span><input id="setName" maxlength="40" placeholder="نام شما"></label>
+      <label class="field"><span>رشته</span>
+        <select id="setField">
+          <option value="">انتخاب نشده</option>
+          <option>ریاضی و فنی</option><option>علوم تجربی</option><option>علوم انسانی</option>
+          <option>هنر</option><option>زبان‌های خارجه</option>
+        </select>
+      </label>
+      <label class="field"><span>توکن من (اختیاری؛ ادمین به شما می‌دهد)</span>
+        <input id="setToken" dir="ltr" style="text-align:left" placeholder="R-12345" maxlength="12">
+      </label>
+      <div class="result err" id="setErr" role="alert" hidden></div>
+      <button class="btn primary block" type="submit" style="margin-top:12px">ذخیره</button>
+    </form>
+  </div>
+</dialog>
+
+<!-- ===== پنجره: بانک فرمول (کم‌رنگ و جداگانه) ===== -->
+<dialog class="sheet" id="formulaDlg" aria-labelledby="formulaTitle">
+  <div class="sheet-body">
+    <div class="sheet-head">
+      <h2 id="formulaTitle">بانک فرمول</h2>
+      <button type="button" class="icon-btn" data-action="close-dialog" aria-label="بستن"><svg class="ico sm"><use href="#i-close"/></svg></button>
+    </div>
+    <p class="small muted" style="margin-bottom:10px">چند نمونه برای درس‌های رایج. فرمول‌های رشته خودتان را می‌توانید خودتان اضافه کنید.</p>
+    <div class="search">
+      <svg class="ico sm"><use href="#i-search"/></svg>
+      <input type="search" id="fSearch" placeholder="جستجوی فرمول یا درس" aria-label="جستجوی فرمول">
+    </div>
+    <div class="chips" id="fChips"></div>
+    <ul class="formula-list" id="fList"></ul>
+
+    <details class="fold">
+      <summary><svg class="ico sm"><use href="#i-plus"/></svg>افزودن فرمول شخصی</summary>
+      <form id="fForm" autocomplete="off">
+        <div class="row">
+          <label class="field"><span>درس</span>
+            <select id="fSubj"><option value="math">ریاضی</option><option value="physics">فیزیک</option><option value="chem">شیمی</option><option value="other">سایر</option></select>
+          </label>
+          <label class="field"><span>نام فرمول</span><input id="fName" required maxlength="60"></label>
+        </div>
+        <label class="field"><span>فرمول</span><input id="fExpr" required maxlength="120" dir="ltr" style="text-align:left"></label>
+        <button class="btn primary block" type="submit">ذخیره فرمول</button>
+      </form>
+    </details>
+  </div>
+</dialog>
+
+<!-- ===== پنجره: خرید با سهام ===== -->
+<dialog class="sheet" id="sharesDlg" aria-labelledby="sharesTitle">
+  <div class="sheet-body">
+    <div class="sheet-head">
+      <h2 id="sharesTitle">خرید با سهام</h2>
+      <button type="button" class="icon-btn" data-action="close-dialog" aria-label="بستن"><svg class="ico sm"><use href="#i-close"/></svg></button>
+    </div>
+    <p class="small muted" id="sharesNeed" style="margin-bottom:12px"></p>
+    <label class="field"><span>توکن شما</span><input id="shTok" dir="ltr" style="text-align:left" placeholder="R-12345" maxlength="12" autocomplete="off"></label>
+    <div class="result err" id="shRes" role="alert" hidden></div>
+    <button class="btn primary block" type="button" data-action="confirm-shares" style="margin-top:12px">بررسی و ادامه</button>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- فایل‌های داده جداگانه: برای به‌روزرسانی اخبار و سهام‌داران فقط همین دو فایل را ویرایش کنید -->
+<script src="news.js"></script>
+<script src="shares.js"></script>
+
+<script>
+(function () {
+'use strict';
+
+/* =========================================================
+   تنظیمات قابل ویرایش
+   ========================================================= */
+const CONFIG = {
+  brand: 'ROTBEIEK',
+  adminHandle: '@rotbeiek',
+  adminUrl: 'https://t.me/rotbeiek',
+  maxQuestions: 50
+};
+
+// نوع‌های مشاوره (برای تغییر قیمت یا سهام فقط همین آرایه را ویرایش کنید)
+// gift = سهام هدیه | sharesCost = سهام لازم برای خرید رایگان
+const PLANS = [
+  {
+    id: 'single', icon: 'consult', name: 'تک‌جلسه‌ای',
+    desc: 'پرسش‌های خود را از مشاور بپرسید',
+    price: 30000, hasQuestions: true, baseQ: 3, extraPrice: 10000,
+    gift: 15, giftPerExtra: 5, sharesCost: 30, sharesPerExtra: 10
+  },
+  {
+    id: 'plan', icon: 'calendar', name: 'برنامه‌ریزی درسی',
+    desc: 'برنامه درسی اختصاصی برای شما',
+    price: 99000, gift: 50, sharesCost: 100
+  },
+  {
+    id: 'week', icon: 'calendar', name: 'برنامه‌ریزی درسی + یک هفته پشتیبانی',
+    desc: 'مثل گرفتن گزارش کار و پاسخ به سوال‌ها، به مدت یک هفته',
+    price: 199000, gift: 100, sharesCost: 200
+  },
+  {
+    id: 'month', icon: 'calendar', name: 'برنامه‌ریزی درسی + یک ماه پشتیبانی',
+    desc: 'مثل گزینه قبلی، ولی به مدت یک ماه',
+    price: 499000, gift: 250, sharesCost: 500
+  }
+];
+const ADVISORS = [
+  { id: 'eva', name: 'خانم اوا نیک‌فر', role: 'مشاور ارشد' }
+];
+
+// داده‌ها از فایل‌های جداگانه news.js و shares.js خوانده می‌شود
+const NEWS = Array.isArray(window.ROTBEIEK_NEWS) ? window.ROTBEIEK_NEWS : [];
+const SHAREHOLDERS = Array.isArray(window.ROTBEIEK_SHAREHOLDERS) ? window.ROTBEIEK_SHAREHOLDERS : [];
+
+// بانک فرمول‌های پایه (فقط نمونه؛ کاربر می‌تواند فرمول خودش را اضافه کند)
+const SUBJECTS = { math: 'ریاضی', physics: 'فیزیک', chem: 'شیمی', other: 'سایر' };
+const FORMULAS = [
+  { s: 'math', t: 'ریشه‌های معادله درجه دوم', f: 'x = (−b ± √(b² − 4ac)) / 2a' },
+  { s: 'math', t: 'دلتا', f: 'Δ = b² − 4ac' },
+  { s: 'math', t: 'جمله عمومی دنباله حسابی', f: 'aₙ = a₁ + (n − 1)d' },
+  { s: 'math', t: 'مجموع n جمله دنباله حسابی', f: 'Sₙ = n/2 · (2a₁ + (n − 1)d)' },
+  { s: 'math', t: 'جمله عمومی دنباله هندسی', f: 'aₙ = a₁ · rⁿ⁻¹' },
+  { s: 'math', t: 'مجموع n جمله دنباله هندسی', f: 'Sₙ = a₁(1 − rⁿ) / (1 − r)' },
+  { s: 'math', t: 'اتحاد مثلثاتی اصلی', f: 'sin²θ + cos²θ = 1' },
+  { s: 'math', t: 'سینوس زاویه دو برابر', f: 'sin 2θ = 2 sinθ cosθ' },
+  { s: 'math', t: 'کسینوس زاویه دو برابر', f: 'cos 2θ = cos²θ − sin²θ' },
+  { s: 'math', t: 'لگاریتم حاصل‌ضرب', f: 'log(ab) = log a + log b' },
+  { s: 'math', t: 'مشتق توان', f: '(xⁿ)′ = n · xⁿ⁻¹' },
+  { s: 'math', t: 'ترکیب', f: 'C(n, r) = n! / (r! (n − r)!)' },
+  { s: 'math', t: 'فاصله دو نقطه', f: 'd = √((x₂ − x₁)² + (y₂ − y₁)²)' },
+  { s: 'physics', t: 'سرعت در حرکت با شتاب ثابت', f: 'v = v₀ + at' },
+  { s: 'physics', t: 'معادله مکان – زمان', f: 'x = ½at² + v₀t + x₀' },
+  { s: 'physics', t: 'معادله مستقل از زمان', f: 'v² − v₀² = 2aΔx' },
+  { s: 'physics', t: 'قانون دوم نیوتون', f: 'F = ma' },
+  { s: 'physics', t: 'کار نیرو', f: 'W = F d cosθ' },
+  { s: 'physics', t: 'انرژی جنبشی', f: 'K = ½mv²' },
+  { s: 'physics', t: 'توان', f: 'P = W / t' },
+  { s: 'physics', t: 'چگالی', f: 'ρ = m / V' },
+  { s: 'physics', t: 'فشار', f: 'P = F / A' },
+  { s: 'physics', t: 'گرمای مبادله‌شده', f: 'Q = mcΔθ' },
+  { s: 'physics', t: 'قانون اهم', f: 'V = RI' },
+  { s: 'physics', t: 'قانون کولن', f: 'F = k|q₁q₂| / r²' },
+  { s: 'physics', t: 'دوره آونگ ساده', f: 'T = 2π√(L / g)' },
+  { s: 'chem', t: 'تعداد مول از جرم', f: 'n = m / M' },
+  { s: 'chem', t: 'عدد آووگادرو', f: 'N = n × 6.022×10²³' },
+  { s: 'chem', t: 'معادله گاز آرمانی', f: 'PV = nRT' },
+  { s: 'chem', t: 'مولاریته', f: 'M = n / V(L)' },
+  { s: 'chem', t: 'قانون بویل', f: 'P₁V₁ = P₂V₂' },
+  { s: 'chem', t: 'pH', f: 'pH = −log[H⁺]' },
+  { s: 'chem', t: 'ثابت تعادل', f: 'K = [C]ᶜ[D]ᵈ / ([A]ᵃ[B]ᵇ)' }
+];
+
+/* =========================================================
+   ابزارهای کمکی
+   ========================================================= */
+const $  = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+const FA = '۰۱۲۳۴۵۶۷۸۹';
+const toFa = v => String(v).replace(/\d/g, d => FA[d]);
+const toEn = s => String(s)
+  .replace(/[۰-۹]/g, d => FA.indexOf(d))
+  .replace(/[٠-٩]/g, d => d.charCodeAt(0) - 1632);
+const fmt = (n, max) => Number(n).toLocaleString('fa-IR', { maximumFractionDigits: max === undefined ? 0 : max });
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const ico = (n, cls) => '<svg class="ico' + (cls ? ' ' + cls : '') + '" aria-hidden="true"><use href="#i-' + n + '"/></svg>';
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const LTR = s => '\u2066' + s + '\u2069';
+
+function parseNum(str) {
+  const n = parseFloat(toEn(str).replace(/[٫,،]/g, '.').trim());
+  return isFinite(n) && n >= 0 ? n : NaN;
+}
+
+// تقویم شمسی با Intl (در صورت نبود پشتیبانی، تقویم میلادی)
+function jf(opts) {
+  try { return new Intl.DateTimeFormat('fa-IR', opts); }
+  catch (e) { return new Intl.DateTimeFormat('en-US', opts); }
+}
+const fLong  = jf({ year: 'numeric', month: 'long', day: 'numeric' });
+const fShort = jf({ month: 'long', day: 'numeric' });
+const fWeek  = jf({ weekday: 'short' });
+const fDay   = jf({ day: 'numeric' });
+const fTime  = jf({ hour: '2-digit', minute: '2-digit', hour12: false });
+
+const pad = n => (n < 10 ? '0' : '') + n;
+const dkey = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+const parseKey = k => { const p = k.split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]); };
+const todayKey = () => dkey(new Date());
+
+// ذخیره‌سازی در localStorage (با محافظت در برابر خطا)
+const store = {
+  get(k, d) {
+    try { const v = localStorage.getItem('rotbeiek:' + k); return v ? JSON.parse(v) : d; }
+    catch (e) { return d; }
+  },
+  set(k, v) {
+    try { localStorage.setItem('rotbeiek:' + k, JSON.stringify(v)); }
+    catch (e) { /* ذخیره‌سازی در دسترس نیست */ }
+  }
+};
+
+let toastTimer;
+function toast(msg) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3800);
+}
+
+async function copyText(text) {
+  try {
+    if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); return true; }
+  } catch (e) { /* ادامه با روش جایگزین */ }
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', '');
+    ta.style.cssText = 'position:fixed;top:-1000px;opacity:0';
+    document.body.appendChild(ta); ta.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  } catch (e) { return false; }
+}
+
+// پنجره‌های <dialog> با جایگزین برای مرورگرهای قدیمی
+function openDlg(d) {
+  if (d.open) return;
+  if (typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open', '');
+}
+function closeDlg(d) {
+  if (typeof d.close === 'function') { if (d.open) d.close(); } else d.removeAttribute('open');
+}
+
+// فقط لینک‌های http/https/tg مجاز هستند
+function safeHref(u) {
+  try {
+    const x = new URL(String(u), location.href);
+    return /^(https?:|tg:)$/.test(x.protocol) ? x.href : '';
+  } catch (e) { return ''; }
+}
+function safeImg(u) {
+  u = String(u || '').trim();
+  if (/^https?:\/\//i.test(u)) return u;
+  if (/^[\w./-]+$/.test(u)) return u;
+  return '';
+}
+
+// توکن‌ها به شکل استاندارد R-12345
+function normToken(raw) {
+  const v = toEn(raw).toUpperCase().replace(/\s+/g, '');
+  const m = /^R-?(\d{5})$/.exec(v);
+  return m ? 'R-' + m[1] : null;
+}
+const findHolder = token => SHAREHOLDERS.find(s => normToken(s.token) === token);
+
+/* =========================================================
+   وضعیت برنامه
+   ========================================================= */
+let tasks   = store.get('tasks', []);
+let cards   = store.get('cards', []);        // { id, topic, q, a }
+let customF = store.get('formulas', []);
+let logData = store.get('log', {});          // { 'YYYY-MM-DD': { h: ساعت, t: تست } }
+let examKey = store.get('exam', null);
+let orders  = store.get('orders', []);
+let profile = store.get('profile', { name: '', field: '', token: '' });
+
+let chartRange = 7;
+let taskFilter = 'all';
+let openDeck = null;
+let cardIdx = 0;
+let fSubject = 'all';
+let fQuery = '';
+let consult = { kind: null, plan: null, advisor: null, q: 3 };
+let shownOrder = null;
+let currentTab = 'home';
+const newsOpen = {};
+
+/* =========================================================
+   جابه‌جایی بین صفحه‌ها
+   ========================================================= */
+function showTab(name) {
+  currentTab = name;
+  $$('.page').forEach(p => { p.hidden = p.id !== 'page-' + name; });
+  $$('.nav-btn').forEach(b => {
+    const on = b.dataset.id === name;
+    b.classList.toggle('active', on);
+    if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+  });
+  closeMenu();
+  window.scrollTo({ top: 0 });
+  renderAllNews();
+  if (name === 'home') renderHome();
+  if (name === 'planner') renderPlanner();
+  if (name === 'cards') renderCards();
+  if (name === 'consult') renderConsult();
+  if (name === 'shares') renderShares();
+}
+
+/* =========================================================
+   اخبار (شبیه کانال تلگرام) — داده از news.js
+   ========================================================= */
+function newsList() {
+  return NEWS.map((n, i) => {
+    if (!n || !n.text || !n.date) return null;
+    const tm = String(n.time || '00:00').split(':');
+    const d = new Date(String(n.date) + 'T' + pad(Number(tm[0]) || 0) + ':' + pad(Number(tm[1]) || 0) + ':00');
+    if (isNaN(d)) return null;
+    return Object.assign({}, n, { _d: d, _i: i });
+  }).filter(Boolean).sort((a, b) =>
+    (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0) || (b._d - a._d) || (b._i - a._i));
+}
+
+function dayLabel(d) {
+  const k = dkey(d);
+  const t = new Date(); t.setHours(0, 0, 0, 0);
+  const y = new Date(t); y.setDate(t.getDate() - 1);
+  if (k === dkey(t)) return 'امروز';
+  if (k === dkey(y)) return 'دیروز';
+  return fLong.format(d);
+}
+
+function postHTML(n) {
+  const href = n.link ? safeHref(n.link) : '';
+  const img = n.image ? safeImg(n.image) : '';
+  return '<article class="post">' +
+    (n.pinned ? '<span class="pin">' + ico('pin', 'sm') + 'پین‌شده</span>' : '') +
+    (img ? '<img src="' + esc(img) + '" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">' : '') +
+    (n.title ? '<h3>' + esc(n.title) + '</h3>' : '') +
+    '<p>' + esc(n.text) + '</p>' +
+    '<div class="post-foot"><span>' +
+      (href ? '<a class="post-link" href="' + esc(href) + '" target="_blank" rel="noopener noreferrer">' + ico('link', 'sm') + esc(n.linkText || 'مشاهده منبع') + '</a>'
+            : (n.source ? 'منبع: ' + esc(n.source) : '')) +
+    '</span><span>' + (href && n.source ? 'منبع: ' + esc(n.source) + ' ' : '') + (n.time ? esc(fTime.format(n._d)) : '') + '</span></div>' +
+    '</article>';
+}
+
+function renderNews(id) {
+  const box = $('#' + id);
+  if (!box) return;
+  const list = newsList();
+  const limit = id === 'news-news' ? Infinity : 3;
+  const open = !!newsOpen[id];
+  const shown = open ? list : list.slice(0, limit);
+
+  let feed = '';
+  if (!list.length) {
+    feed = '<div class="feed-empty">هنوز خبری منتشر نشده است.</div>';
+  } else {
+    let last = null;
+    shown.forEach(n => {
+      const g = n.pinned ? 'pin' : dkey(n._d);
+      if (g !== last) {
+        feed += '<span class="day-chip">' + (n.pinned ? 'پیام‌های پین‌شده' : esc(dayLabel(n._d))) + '</span>';
+        last = g;
+      }
+      feed += postHTML(n);
+    });
+  }
+  box.innerHTML =
+    '<section class="card news" aria-label="اخبار کنکور">' +
+      '<div class="ch-head"><span class="ch-avatar">' + ico('megaphone') + '</span>' +
+      '<div><strong>اخبار کنکور</strong><small>' + (list.length ? fmt(list.length) + ' خبر' : 'کانال اخبار ' + CONFIG.brand) + '</small></div></div>' +
+      '<div class="ch-feed">' + feed + '</div>' +
+      (list.length > limit ? '<button type="button" class="link-btn" data-action="news-more" data-id="' + id + '">' +
+        (open ? 'نمایش کمتر' : 'اخبار بیشتر (' + fmt(list.length - limit) + ')') + '</button>' : '') +
+    '</section>';
+}
+function renderAllNews() { ['news-home', 'news-news', 'news-consult', 'news-cards'].forEach(renderNews); }
+
+/* =========================================================
+   پروفایل و منو
+   ========================================================= */
+function closeMenu() {
+  const m = $('#profileMenu');
+  if (!m.hidden) { m.hidden = true; $('#profileBtn').setAttribute('aria-expanded', 'false'); }
+}
+function toggleMenu() {
+  const m = $('#profileMenu');
+  m.hidden = !m.hidden;
+  $('#profileBtn').setAttribute('aria-expanded', String(!m.hidden));
+}
+function openSettings() {
+  closeMenu();
+  $('#setName').value = profile.name || '';
+  $('#setField').value = profile.field || '';
+  $('#setToken').value = profile.token || '';
+  $('#setErr').hidden = true;
+  openDlg($('#settingsDlg'));
+}
+function renderGreet() {
+  const g = $('#greet');
+  g.hidden = !profile.name;
+  if (profile.name) g.textContent = 'سلام ' + profile.name;
+}
+
+/* =========================================================
+   ۱. خانه
+   ========================================================= */
+function defaultExamDate() {
+  // تاریخ پیش‌فرض (حدود ۱۰ ژوئیه). کاربر می‌تواند با دکمه «تغییر تاریخ» آن را اصلاح کند.
+  const now = new Date();
+  let d = new Date(now.getFullYear(), 6, 10);
+  if (d < now) d = new Date(now.getFullYear() + 1, 6, 10);
+  return d;
+}
+function examDate() { return examKey ? parseKey(examKey) : defaultExamDate(); }
+
+function updateCountdown() {
+  const diff = examDate() - new Date();
+  const days = $('#cdDays');
+  if (diff <= 0) {
+    days.textContent = fmt(0);
+    $('#cdHM').textContent = 'زمان برگزاری فرا رسیده است';
+  } else {
+    const d = Math.floor(diff / 864e5);
+    const h = Math.floor((diff % 864e5) / 36e5);
+    const m = Math.floor((diff % 36e5) / 6e4);
+    days.textContent = fmt(d);
+    $('#cdHM').textContent = fmt(h) + ' ساعت و ' + fmt(m) + ' دقیقه';
+  }
+  $('#cdDate').textContent = fLong.format(examDate());
+}
+
+function lastDays(n) {
+  const out = [], base = new Date();
+  base.setHours(0, 0, 0, 0);
+  for (let i = n - 1; i >= 0; i--) {
+    const x = new Date(base); x.setDate(base.getDate() - i); out.push(x);
+  }
+  return out;
+}
+
+function chartHTML(days, key, title, unit, alt) {
+  const vals = days.map(d => (logData[dkey(d)] || {})[key] || 0);
+  const max = Math.max.apply(null, vals.concat([0]));
+  const total = vals.reduce((a, b) => a + b, 0);
+  const cols = days.map((d, i) => {
+    const v = vals[i];
+    const h = max ? Math.max((v / max) * 100, v > 0 ? 6 : 0) : 0;
+    const label = days.length <= 7 ? fWeek.format(d) : fDay.format(d);
+    return '<div class="col" title="' + esc(fLong.format(d)) + '">' +
+      '<span class="v">' + (v > 0 ? fmt(v, 1) : '') + '</span>' +
+      '<div class="track"><div class="bar' + (alt ? ' alt' : '') + (v > 0 ? '' : ' zero') + '" style="--h:' + h + '"></div></div>' +
+      '<span class="l">' + esc(label) + '</span></div>';
+  }).join('');
+  return '<div class="chart-block"><div class="chart-title"><span>' + title + '</span><small>مجموع: ' + fmt(total, 1) + ' ' + unit + '</small></div>' +
+    '<div class="bars">' + cols + '</div>' +
+    (total === 0 ? '<p class="chart-empty">هنوز داده‌ای ثبت نشده است. از فرم پایین شروع کنید.</p>' : '') + '</div>';
+}
+
+function renderCharts() {
+  const days = lastDays(chartRange);
+  $('#charts').innerHTML =
+    chartHTML(days, 'h', 'ساعت مطالعه', 'ساعت', false) +
+    chartHTML(days, 't', 'تعداد تست', 'تست', true);
+  $$('[data-action="range"]').forEach(b => b.setAttribute('aria-pressed', String(Number(b.dataset.id) === chartRange)));
+}
+
+const PRIO = { high: { t: 'زیاد', w: 0 }, med: { t: 'متوسط', w: 1 }, low: { t: 'کم', w: 2 } };
+
+function taskItem(t, compact) {
+  const dateLabel = t.date === todayKey() ? 'امروز' : (t.date ? fShort.format(parseKey(t.date)) : '');
+  return '<li class="task' + (t.done ? ' done' : '') + '">' +
+    '<button type="button" class="check" role="checkbox" aria-checked="' + !!t.done + '" aria-label="انجام شد: ' + esc(t.title) + '" data-action="toggle-task" data-id="' + t.id + '">' + ico('check') + '</button>' +
+    '<div class="task-main"><span class="task-title">' + esc(t.title) + '</span>' +
+    '<span class="task-meta"><span><i class="dot p-' + t.prio + '"></i>' + PRIO[t.prio].t + '</span><span>' + esc(t.cat) + '</span>' +
+    (!compact && dateLabel ? '<span>' + esc(dateLabel) + '</span>' : '') + '</span></div>' +
+    (compact ? '' : '<button type="button" class="icon-btn danger" data-action="del-task" data-id="' + t.id + '" aria-label="حذف تسک">' + ico('trash') + '</button>') +
+    '</li>';
+}
+
+function sortTasks(list) {
+  return list.slice().sort((a, b) =>
+    (a.done - b.done) || String(a.date || '').localeCompare(String(b.date || '')) || (PRIO[a.prio].w - PRIO[b.prio].w));
+}
+
+function renderHomeTasks() {
+  const today = todayKey();
+  const list = sortTasks(tasks.filter(t => t.date === today));
+  const done = list.filter(t => t.done).length;
+  $('#homeTaskCount').textContent = list.length ? fmt(done) + ' از ' + fmt(list.length) + ' انجام شد' : '';
+  const box = $('#homeTasks');
+  if (!list.length) {
+    box.innerHTML = '<div class="empty"><div class="bubble">' + ico('tasks') + '</div><p>برای امروز تسکی ثبت نکرده‌اید.</p>' +
+      '<button type="button" class="btn soft" data-action="tab" data-id="planner">' + ico('plus', 'sm') + 'افزودن تسک</button></div>';
+    return;
+  }
+  const shown = list.slice(0, 5);
+  box.innerHTML = '<ul class="tasks">' + shown.map(t => taskItem(t, true)).join('') + '</ul>' +
+    (list.length > 5 ? '<button type="button" class="link-btn" data-action="tab" data-id="planner">و ' + fmt(list.length - 5) + ' تسک دیگر</button>' : '');
+}
+
+function renderHome() {
+  renderGreet();
+  updateCountdown();
+  renderCharts();
+  renderHomeTasks();
+}
+
+/* =========================================================
+   ۲. برنامه‌ریز
+   ========================================================= */
+function renderPlanner() {
+  const counts = { all: tasks.length, open: tasks.filter(t => !t.done).length, done: tasks.filter(t => t.done).length };
+  const names = { all: 'همه', open: 'انجام‌نشده', done: 'انجام‌شده' };
+  $('#taskFilters').innerHTML = ['all', 'open', 'done'].map(k =>
+    '<button type="button" class="chip" data-action="task-filter" data-id="' + k + '" aria-pressed="' + (taskFilter === k) + '">' + names[k] + ' (' + fmt(counts[k]) + ')</button>').join('');
+
+  const list = sortTasks(tasks.filter(t => taskFilter === 'all' || (taskFilter === 'open' ? !t.done : t.done)));
+  const box = $('#taskList');
+  if (!list.length) {
+    box.innerHTML = '<div class="empty"><div class="bubble">' + ico('tasks') + '</div><p>' +
+      (tasks.length ? 'تسکی در این بخش وجود ندارد.' : 'هنوز تسکی ثبت نشده است. اولین تسک خود را بالا اضافه کنید.') + '</p></div>';
+    return;
+  }
+  box.innerHTML = '<ul class="tasks">' + list.map(t => taskItem(t, false)).join('') + '</ul>';
+}
+
+/* =========================================================
+   ۳. فلش‌کارت: دسته‌ها در آلبوم
+   ========================================================= */
+const PALETTE = [
+  ['#3b6cf6', '#6fa0ff'], ['#7a4cf5', '#b79bff'], ['#2f6fd0', '#4aa6e0'],
+  ['#5b5ff0', '#9a7bff'], ['#1f7a96', '#5a8cf0'], ['#6a4ef3', '#3b6cf6']
+];
+function hashStr(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h; }
+const cardTopic = c => c.topic || c.subject || 'بدون موضوع';
+
+// گروه‌بندی کارت‌ها بر اساس موضوع؛ دسته‌ای که تازه‌تر کارت گرفته، اول می‌آید
+function deckList() {
+  const m = new Map();
+  cards.forEach((c, i) => {
+    const t = cardTopic(c);
+    if (!m.has(t)) m.set(t, { topic: t, items: [], last: i });
+    const d = m.get(t); d.items.push(c); d.last = i;
+  });
+  return Array.from(m.values()).sort((a, b) => b.last - a.last);
+}
+
+function renderCards() {
+  const decks = deckList();
+  $('#topicList').innerHTML = decks.map(d => '<option value="' + esc(d.topic) + '">').join('');
+  const box = $('#albumBody');
+
+  if (!cards.length) {
+    openDeck = null;
+    box.innerHTML = '<div class="empty"><div class="bubble">' + ico('cards') + '</div>' +
+      '<p>هنوز فلش‌کارتی نساخته‌اید. اولین کارت را بالا بسازید تا دسته‌اش در آلبوم ساخته شود.</p></div>';
+    return;
+  }
+  if (openDeck !== null) {
+    const d = decks.find(x => x.topic === openDeck);
+    if (d) { renderDeck(d); return; }
+    openDeck = null;
+  }
+  box.innerHTML = '<div class="album">' + decks.map(d => {
+    const p = PALETTE[hashStr(d.topic) % PALETTE.length];
+    return '<button type="button" class="deck" data-action="open-deck" data-id="' + esc(d.topic) + '" style="--c1:' + p[0] + ';--c2:' + p[1] + '">' +
+      '<span class="deck-cover">' + ico('folder') + '<span><strong>' + esc(d.topic) + '</strong><small>' + fmt(d.items.length) + ' کارت</small></span></span></button>';
+  }).join('') + '</div>';
+}
+
+function renderDeck(d) {
+  if (cardIdx >= d.items.length) cardIdx = d.items.length - 1;
+  if (cardIdx < 0) cardIdx = 0;
+  const c = d.items[cardIdx];
+  $('#albumBody').innerHTML =
+    '<div class="deck-head">' +
+      '<button type="button" class="btn soft slim" data-action="close-deck">' + ico('prev', 'sm') + 'آلبوم</button>' +
+      '<div class="deck-title"><strong>' + esc(d.topic) + '</strong><small>' + fmt(d.items.length) + ' کارت</small></div>' +
+      '<button type="button" class="icon-btn danger" data-action="del-deck" aria-label="حذف این دسته">' + ico('trash') + '</button>' +
+    '</div>' +
+    '<div class="stage"><button type="button" class="flip" id="flipBtn" data-action="card-flip" aria-pressed="false" aria-label="چرخاندن کارت">' +
+      '<span class="face front"><small>سوال</small><span>' + esc(c.q) + '</span></span>' +
+      '<span class="face back"><small>پاسخ</small><span>' + esc(c.a) + '</span></span>' +
+    '</button></div>' +
+    '<div class="card-nav">' +
+      '<button type="button" class="icon-btn" data-action="card-prev" aria-label="کارت قبلی"' + (cardIdx === 0 ? ' disabled' : '') + '>' + ico('prev') + '</button>' +
+      '<span class="count">کارت ' + fmt(cardIdx + 1) + ' از ' + fmt(d.items.length) + '</span>' +
+      '<button type="button" class="icon-btn" data-action="card-flip" aria-label="چرخاندن کارت">' + ico('flip') + '</button>' +
+      '<button type="button" class="icon-btn danger" data-action="card-del" aria-label="حذف کارت">' + ico('trash') + '</button>' +
+      '<button type="button" class="icon-btn" data-action="card-next" aria-label="کارت بعدی"' + (cardIdx >= d.items.length - 1 ? ' disabled' : '') + '>' + ico('next') + '</button>' +
+    '</div>' +
+    (d.items.length > 1 ? '<div class="pills">' + d.items.map((x, i) =>
+      '<button type="button" class="pill" data-action="goto-card" data-id="' + i + '"' + (i === cardIdx ? ' aria-current="true"' : '') + '>' + fmt(i + 1) + '</button>').join('') + '</div>' : '');
+}
+
+/* ---------- بانک فرمول (پنجره جداگانه) ---------- */
+function renderFormulas() {
+  const chips = [['all', 'همه'], ['math', 'ریاضی'], ['physics', 'فیزیک'], ['chem', 'شیمی'], ['mine', 'افزوده‌های من']];
+  $('#fChips').innerHTML = chips.map(c =>
+    '<button type="button" class="chip" data-action="f-subject" data-id="' + c[0] + '" aria-pressed="' + (fSubject === c[0]) + '">' + c[1] + '</button>').join('');
+
+  const q = toEn(fQuery).trim().toLowerCase();
+  const all = FORMULAS.map(f => Object.assign({ custom: false }, f)).concat(customF.map(f => Object.assign({ custom: true }, f)));
+  const list = all.filter(f => {
+    if (fSubject === 'mine' && !f.custom) return false;
+    if (fSubject !== 'all' && fSubject !== 'mine' && f.s !== fSubject) return false;
+    if (!q) return true;
+    return (f.t + ' ' + f.f + ' ' + SUBJECTS[f.s]).toLowerCase().indexOf(q) !== -1;
+  });
+  const box = $('#fList');
+  if (!list.length) {
+    box.innerHTML = '<li class="empty">' + (fSubject === 'mine' && !customF.length ? 'هنوز فرمولی اضافه نکرده‌اید.' : 'فرمولی پیدا نشد.') + '</li>';
+    return;
+  }
+  box.innerHTML = list.map(f =>
+    '<li class="formula"><div class="formula-body"><div class="formula-top"><strong>' + esc(f.t) + '</strong><span class="tag">' + SUBJECTS[f.s] + '</span></div>' +
+    '<div class="formula-expr">' + esc(f.f) + '</div></div>' +
+    (f.custom ? '<button type="button" class="icon-btn danger" data-action="del-formula" data-id="' + f.id + '" aria-label="حذف فرمول">' + ico('trash') + '</button>' : '') +
+    '</li>').join('');
+}
+
+/* =========================================================
+   ۴. مشاوره
+   ========================================================= */
+const getPlan = id => PLANS.find(p => p.id === id);
+
+// محاسبه قیمت، سهام هدیه و سهام لازم بر اساس تعداد سوال
+function calc(p, q) {
+  const extra = p.hasQuestions ? Math.max(0, q - p.baseQ) : 0;
+  return {
+    extra: extra,
+    total: p.price + extra * (p.extraPrice || 0),
+    gift: p.gift + extra * (p.giftPerExtra || 0),
+    sharesCost: p.sharesCost + extra * (p.sharesPerExtra || 0)
+  };
+}
+
+function lockStep(el, locked) {
+  el.classList.toggle('locked', locked);
+  el.inert = locked;
+  el.setAttribute('aria-disabled', String(locked));
+}
+
+function planHTML(p, selected) {
+  return '<button type="button" class="plan" role="radio" aria-checked="' + selected + '" data-action="pick-plan" data-id="' + p.id + '">' +
+    '<span class="plan-top"><strong>' + esc(p.name) + '</strong>' +
+    '<span class="plan-price">' + fmt(p.price) + ' تومان' + (p.hasQuestions ? '<small>برای ' + fmt(p.baseQ) + ' سوال</small>' : '') + '</span></span>' +
+    '<span class="plan-desc">' + esc(p.desc) + '</span>' +
+    '<span class="perk">' + ico('star', 'sm gold') + fmt(p.gift) + ' سهام هدیه' +
+      (p.giftPerExtra ? ' و به ازای هر سوال اضافه ' + fmt(p.giftPerExtra) + ' سهام دیگر' : '') + '</span>' +
+    '<span class="perk">' + ico('star', 'sm gold') + 'خرید رایگان با ' + fmt(p.sharesCost) + ' سهام</span>' +
+    '</button>';
+}
+
+function renderConsult() {
+  const c = consult;
+  const plan = c.plan ? getPlan(c.plan) : null;
+
+  $('#kindList').innerHTML =
+    '<button type="button" class="choice" role="radio" aria-checked="' + (c.kind === 'consult') + '" data-action="pick-kind" data-id="consult" style="margin-bottom:8px">' +
+      '<span class="choice-ico">' + ico('consult') + '</span><span class="choice-txt"><strong>مشاوره</strong></span></button>' +
+    '<button type="button" class="choice is-soon" role="radio" aria-checked="false" aria-disabled="true" data-action="pick-kind" data-id="exam" style="margin-bottom:0">' +
+      '<span class="choice-ico">' + ico('tasks') + '</span><span class="choice-txt"><strong>آزمون آزمایشی</strong></span><span class="soon">به زودی</span></button>';
+
+  $('#planList').innerHTML = PLANS.map(p => planHTML(p, c.plan === p.id)).join('');
+  $('#advList').innerHTML = ADVISORS.map(a =>
+    '<button type="button" class="choice" role="radio" aria-checked="' + (c.advisor === a.id) + '" data-action="pick-advisor" data-id="' + a.id + '">' +
+    '<span class="choice-ico">' + ico('user') + '</span><span class="choice-txt"><strong>' + esc(a.name) + '</strong><small>' + esc(a.role) + '</small></span></button>').join('');
+
+  lockStep($('#stepPlan'), !c.kind);
+  lockStep($('#stepAdvisor'), !plan);
+  const needQ = !!(plan && plan.hasQuestions);
+  $('#stepCount').hidden = !needQ;
+  lockStep($('#stepCount'), !(plan && c.advisor));
+
+  if (needQ) {
+    $('#qCount').textContent = fmt(c.q);
+    $('#qMinus').disabled = c.q <= plan.baseQ;
+    $('#qHint').textContent = 'حداقل ' + fmt(plan.baseQ) + ' سوال؛ هر سوال اضافه ' + fmt(plan.extraPrice) + ' تومان.';
+  }
+
+  // خلاصه قیمت
+  const sum = $('#sum');
+  sum.hidden = !plan;
+  if (plan) {
+    const r = calc(plan, c.q);
+    let rows = '';
+    if (plan.hasQuestions) {
+      rows += '<div class="sum-row"><span>قیمت پایه (' + fmt(plan.baseQ) + ' سوال)</span><b>' + fmt(plan.price) + ' تومان</b></div>';
+      if (r.extra > 0) rows += '<div class="sum-row"><span>سوال اضافه (' + fmt(r.extra) + ' × ' + fmt(plan.extraPrice) + ')</span><b>' + fmt(r.extra * plan.extraPrice) + ' تومان</b></div>';
+    } else {
+      rows += '<div class="sum-row"><span>' + esc(plan.name) + '</span><b>' + fmt(plan.price) + ' تومان</b></div>';
+    }
+    sum.innerHTML = rows +
+      '<div class="sum-total"><span>مبلغ کل</span><strong>' + fmt(r.total) + ' تومان</strong></div>' +
+      '<div class="sum-row"><span class="lbl">' + ico('star', 'sm gold') + 'سهام هدیه</span><b>' + fmt(r.gift) + ' سهام</b></div>' +
+      '<div class="sum-row" style="margin-top:4px"><span class="lbl">' + ico('star', 'sm gold') + 'خرید رایگان با سهام</span><b>' + fmt(r.sharesCost) + ' سهام</b></div>';
+  }
+
+  $('#submitOrder').disabled = !(c.kind && plan && c.advisor);
+  renderReceipt();
+}
+
+/* ---------- رسید خرید ---------- */
+const currentOrder = () => orders.find(o => o.id === shownOrder);
+
+function buildReceipt(o) {
+  const L = [
+    'رسید خرید ' + CONFIG.brand,
+    'خدمت: مشاوره، ' + o.planName,
+    'مشاور: ' + o.advisor
+  ];
+  if (o.questions) L.push('تعداد سوال: ' + fmt(o.questions));
+  if (o.pay === 'shares') {
+    L.push('روش پرداخت: خرید با سهام');
+    L.push('سهام مصرفی: ' + fmt(o.sharesCost));
+    L.push('مبلغ: رایگان');
+    L.push('توکن: ' + o.holder.token);
+    if (o.holder.name) L.push('نام حامی: ' + o.holder.name);
+  } else {
+    L.push('روش پرداخت: کارت به کارت');
+    L.push('مبلغ: ' + fmt(o.total) + ' تومان');
+    L.push('سهام هدیه: ' + fmt(o.gift));
+  }
+  L.push('تاریخ: ' + fLong.format(new Date(o.at)));
+  L.push('');
+  L.push(o.pay === 'shares' ? 'لطفاً سهام را کسر و خرید را تأیید کنید.' : 'لطفاً شماره کارت را ارسال کنید.');
+  return L.join('\n');
+}
+
+function renderReceipt() {
+  const o = currentOrder();
+  $('#invoiceCard').hidden = !o;
+  if (o) {
+    $('#invoiceText').textContent = buildReceipt(o);
+    $('#receiptNote').textContent = o.pay === 'shares'
+      ? 'خرید با سهام هزینه‌ای ندارد و سهام هدیه هم به همراه ندارد.'
+      : '';
+    $('#receiptNote').hidden = o.pay !== 'shares';
+    $('#receiptActions').innerHTML =
+      '<button type="button" class="btn primary" data-action="send-admin">' + ico('send', 'sm') + 'ارسال به ادمین</button>' +
+      (o.pay === 'shares'
+        ? '<button type="button" class="btn soft" data-action="pay-cash">پرداخت نقدی</button>'
+        : '<button type="button" class="btn soft" data-action="buy-shares">' + ico('star', 'sm gold') + 'خرید با سهام (' + fmt(o.sharesCost) + ' سهام)</button>') +
+      '<button type="button" class="btn soft" data-action="copy-invoice">' + ico('copy', 'sm') + 'کپی رسید</button>';
+  }
+  $('#ordersCard').hidden = !orders.length;
+  $('#ordersList').innerHTML = orders.slice(0, 5).map(o =>
+    '<li><button type="button" data-action="show-order" data-id="' + o.id + '"><span>' + esc(o.planName) + '</span>' +
+    '<span>' + (o.pay === 'shares' ? fmt(o.sharesCost) + ' سهام' : fmt(o.total) + ' تومان') + '</span>' +
+    '<span class="muted">' + esc(fShort.format(new Date(o.at))) + '</span></button></li>').join('');
+}
+
+// ارسال رسید به پیوی ادمین در تلگرام (متن آماده در کادر پیام قرار می‌گیرد)
+function sendToAdmin(text) {
+  copyText(text);   // نسخه پشتیبان در کلیپ‌بورد، اگر متن در چت ظاهر نشد
+  const a = document.createElement('a');
+  a.href = CONFIG.adminUrl + '?text=' + encodeURIComponent(text);
+  a.target = '_blank';
+  a.rel = 'noopener';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  toast('چت ' + LTR(CONFIG.adminHandle) + ' باز می‌شود. اگر متن رسید ظاهر نشد، آن را پیست کنید و بفرستید.');
+}
+
+function submitOrder() {
+  const plan = consult.plan ? getPlan(consult.plan) : null;
+  const adv = ADVISORS.find(a => a.id === consult.advisor);
+  if (consult.kind !== 'consult' || !plan || !adv) return;
+  const q = plan.hasQuestions ? consult.q : 0;
+  const r = calc(plan, q);
+  const order = {
+    id: uid(),
+    planName: plan.name,
+    advisor: adv.name + ' (' + adv.role + ')',
+    questions: plan.hasQuestions ? q : 0,
+    total: r.total,
+    gift: r.gift,
+    sharesCost: r.sharesCost,
+    pay: 'cash',
+    holder: null,
+    at: Date.now()
+  };
+  orders.unshift(order);
+  orders = orders.slice(0, 30);
+  store.set('orders', orders);
+  shownOrder = order.id;
+  renderConsult();
+  const inv = $('#invoiceCard');
+  if (inv.scrollIntoView) inv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  toast('رسید ساخته شد. با «ارسال به ادمین» آن را به تلگرام بفرستید.');
+}
+
+function openSharesDlg() {
+  const o = currentOrder();
+  if (!o) return;
+  $('#sharesNeed').textContent = 'سهام لازم برای این خرید: ' + fmt(o.sharesCost) + ' سهام. توکنی را که ادمین به شما داده وارد کنید.';
+  $('#shTok').value = profile.token || '';
+  $('#shRes').hidden = true;
+  openDlg($('#sharesDlg'));
+}
+
+function confirmShares() {
+  const o = currentOrder();
+  const res = $('#shRes');
+  const fail = msg => { res.textContent = msg; res.hidden = false; };
+  if (!o) return;
+  const token = normToken($('#shTok').value);
+  if (!token) { fail('فرمت توکن درست نیست. نمونه: ' + LTR('R-12345')); return; }
+  const h = findHolder(token);
+  if (!h) { fail('توکن شما در سیستم ثبت نشده است'); return; }
+  const have = Number(h.shares) || 0;
+  if (have < o.sharesCost) { fail('سهام شما کافی نیست. موجودی: ' + fmt(have) + ' سهام، موردنیاز: ' + fmt(o.sharesCost) + ' سهام'); return; }
+  o.pay = 'shares';
+  o.holder = { token: token, name: h.name || '' };
+  store.set('orders', orders);
+  closeDlg($('#sharesDlg'));
+  renderConsult();
+  toast('رسید برای خرید با سهام آماده شد. آن را به ادمین بفرستید.');
+}
+
+/* =========================================================
+   ۵. سهام و قوانین — داده از shares.js
+   ========================================================= */
+function renderShares() {
+  const box = $('#supportersCard');
+  const visible = SHAREHOLDERS.filter(s => s && s.name && !s.hidden)
+    .sort((a, b) => (Number(b.shares) || 0) - (Number(a.shares) || 0));
+  if (!SHAREHOLDERS.length) {
+    box.innerHTML = '<div class="empty"><div class="bubble">' + ico('star') + '</div>' +
+      '<p>هنوز هیچ حامی ثبت نشده است. با خرید اولین سرویس، اولین حامی ما باشید.</p></div>';
+  } else {
+    box.innerHTML = '<h2>حامیان</h2><p style="margin-top:4px;font-size:14px">' + fmt(SHAREHOLDERS.length) + ' حامی تاکنون ثبت شده‌اند.</p>' +
+      (visible.length ? '<ul class="supporters">' + visible.map(s =>
+        '<li><span>' + esc(s.name) + '</span><span class="n">' + ico('star', 'sm gold') + fmt(Number(s.shares) || 0) + '</span></li>').join('') + '</ul>' : '');
+  }
+  if (profile.token && !$('#tokenInput').value) $('#tokenInput').value = profile.token;
+}
+
+function lookupToken(raw) {
+  const res = $('#tokenResult');
+  res.hidden = false;
+  const token = normToken(raw);
+  if (!token) {
+    res.className = 'result err';
+    res.textContent = 'فرمت توکن درست نیست. نمونه: ' + LTR('R-12345');
+    return;
+  }
+  const found = findHolder(token);
+  if (!found) {
+    res.className = 'result err';
+    res.textContent = 'توکن شما در سیستم ثبت نشده است';
+    return;
+  }
+  res.className = 'result ok';
+  res.textContent = 'توکن ثبت شده است' + (found.name ? '، حامی: ' + found.name : '') + '. موجودی سهام: ' + fmt(Number(found.shares) || 0);
+}
+
+/* =========================================================
+   رویدادها
+   ========================================================= */
+document.addEventListener('click', function (e) {
+  // بستن منوی پروفایل با کلیک بیرون از آن
+  if (!$('#profileMenu').hidden && !e.target.closest('.profile-wrap')) closeMenu();
+  // بستن پنجره با کلیک روی پس‌زمینه
+  if (e.target.tagName === 'DIALOG' && e.target.open) { closeDlg(e.target); return; }
+
+  const el = e.target.closest('[data-action]');
+  if (!el || el.disabled) return;
+  const a = el.dataset.action, id = el.dataset.id;
+
+  switch (a) {
+    case 'tab': showTab(id); break;
+    case 'toggle-menu': toggleMenu(); break;
+    case 'open-settings': openSettings(); break;
+    case 'premium': closeMenu(); toast('به زودی'); break;
+    case 'close-dialog': closeDlg(el.closest('dialog')); break;
+    case 'news-more': newsOpen[id] = !newsOpen[id]; renderNews(id); break;
+
+    case 'toggle-exam': {
+      const box = $('#examEdit');
+      box.hidden = !box.hidden;
+      $('#examInput').value = dkey(examDate());
+      break;
+    }
+    case 'range': chartRange = Number(id); renderCharts(); break;
+    case 'reset-today':
+      delete logData[todayKey()];
+      store.set('log', logData);
+      renderCharts();
+      toast('اطلاعات امروز صفر شد.');
+      break;
+
+    case 'toggle-task': {
+      const t = tasks.find(x => x.id === id);
+      if (t) { t.done = !t.done; store.set('tasks', tasks); }
+      renderHomeTasks(); renderPlanner();
+      break;
+    }
+    case 'del-task':
+      tasks = tasks.filter(x => x.id !== id);
+      store.set('tasks', tasks); renderHomeTasks(); renderPlanner();
+      break;
+    case 'task-filter': taskFilter = id; renderPlanner(); break;
+
+    /* --- فلش‌کارت و آلبوم --- */
+    case 'open-deck': openDeck = id; cardIdx = 0; renderCards(); break;
+    case 'close-deck': openDeck = null; renderCards(); break;
+    case 'del-deck':
+      if (confirm('همه کارت‌های دسته «' + openDeck + '» حذف شوند؟')) {
+        cards = cards.filter(c => cardTopic(c) !== openDeck);
+        store.set('cards', cards); openDeck = null; renderCards();
+      }
+      break;
+    case 'card-flip': {
+      const f = $('#flipBtn');
+      if (f) { f.classList.toggle('is-flipped'); f.setAttribute('aria-pressed', String(f.classList.contains('is-flipped'))); }
+      break;
+    }
+    case 'card-prev': cardIdx--; renderCards(); break;
+    case 'card-next': cardIdx++; renderCards(); break;
+    case 'goto-card': cardIdx = Number(id); renderCards(); break;
+    case 'card-del': {
+      const d = deckList().find(x => x.topic === openDeck);
+      if (d && d.items[cardIdx]) {
+        const cid = d.items[cardIdx].id;
+        cards = cards.filter(c => c.id !== cid);
+        store.set('cards', cards);
+      }
+      renderCards();
+      break;
+    }
+
+    /* --- بانک فرمول --- */
+    case 'open-formulas': renderFormulas(); openDlg($('#formulaDlg')); break;
+    case 'f-subject': fSubject = id; renderFormulas(); break;
+    case 'del-formula':
+      customF = customF.filter(x => x.id !== id);
+      store.set('formulas', customF); renderFormulas();
+      break;
+
+    /* --- مشاوره --- */
+    case 'pick-kind':
+      if (id === 'exam') { toast('به زودی'); break; }
+      consult.kind = id; renderConsult();
+      break;
+    case 'pick-plan': {
+      consult.plan = id;
+      const p = getPlan(id);
+      consult.q = p.hasQuestions ? p.baseQ : 0;
+      renderConsult();
+      break;
+    }
+    case 'pick-advisor': consult.advisor = id; renderConsult(); break;
+    case 'q-plus': if (consult.q < CONFIG.maxQuestions) { consult.q++; renderConsult(); } break;
+    case 'q-minus': {
+      const p = consult.plan ? getPlan(consult.plan) : null;
+      if (p && consult.q > p.baseQ) { consult.q--; renderConsult(); }
+      break;
+    }
+    case 'submit-order': submitOrder(); break;
+    case 'show-order':
+      shownOrder = id; renderConsult();
+      $('#invoiceCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      break;
+    case 'send-admin': {
+      const o = currentOrder();
+      if (o) sendToAdmin(buildReceipt(o));
+      break;
+    }
+    case 'copy-invoice': {
+      const o = currentOrder();
+      if (o) copyText(buildReceipt(o)).then(ok => toast(ok ? 'رسید کپی شد.' : 'کپی انجام نشد؛ متن رسید را دستی کپی کنید.'));
+      break;
+    }
+    case 'buy-shares': openSharesDlg(); break;
+    case 'confirm-shares': confirmShares(); break;
+    case 'pay-cash': {
+      const o = currentOrder();
+      if (o) { o.pay = 'cash'; o.holder = null; store.set('orders', orders); renderConsult(); }
+      break;
+    }
+  }
+});
+
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') closeMenu();
+});
+
+// تاریخ کنکور
+$('#examInput').addEventListener('change', function () {
+  if (!this.value) return;
+  examKey = this.value;
+  store.set('exam', examKey);
+  updateCountdown();
+  toast('تاریخ کنکور ذخیره شد.');
+});
+
+// ثبت مطالعه و تست امروز
+$('#logForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const hRaw = $('#logHours').value.trim(), tRaw = $('#logTests').value.trim();
+  if (!hRaw && !tRaw) { toast('ساعت مطالعه یا تعداد تست را وارد کنید.'); return; }
+  const h = hRaw ? parseNum(hRaw) : 0, t = tRaw ? parseNum(tRaw) : 0;
+  if (isNaN(h) || isNaN(t)) { toast('لطفاً فقط عدد معتبر وارد کنید.'); return; }
+  const k = todayKey();
+  const cur = logData[k] || { h: 0, t: 0 };
+  if (cur.h + h > 24) { toast('مجموع ساعت مطالعه یک روز نمی‌تواند بیشتر از ۲۴ باشد.'); return; }
+  logData[k] = { h: Math.round((cur.h + h) * 100) / 100, t: Math.round(cur.t + t) };
+  store.set('log', logData);
+  this.reset();
+  renderCharts();
+  toast('به اطلاعات امروز اضافه شد.');
+});
+
+// افزودن تسک
+$('#taskForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const title = $('#taskTitle').value.trim();
+  if (!title) return;
+  tasks.push({
+    id: uid(), title: title, prio: $('#taskPrio').value, cat: $('#taskCat').value,
+    date: $('#taskDate').value || todayKey(), done: false
+  });
+  store.set('tasks', tasks);
+  $('#taskTitle').value = '';
+  $('#taskDate').value = todayKey();
+  renderPlanner();
+  toast('تسک اضافه شد.');
+});
+
+// ساخت فلش‌کارت
+$('#cardForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const topic = $('#cardTopic').value.replace(/\s+/g, ' ').trim();
+  const q = $('#cardQ').value.trim(), a = $('#cardA').value.trim();
+  if (!topic || !q || !a) return;
+  cards.push({ id: uid(), topic: topic, q: q, a: a });
+  store.set('cards', cards);
+  this.reset();
+  renderCards();
+  toast('کارت به دسته «' + topic + '» اضافه شد.');
+});
+
+// بانک فرمول: جستجو و افزودن
+$('#fSearch').addEventListener('input', function () { fQuery = this.value; renderFormulas(); });
+$('#fForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const t = $('#fName').value.trim(), f = $('#fExpr').value.trim();
+  if (!t || !f) return;
+  customF.push({ id: uid(), s: $('#fSubj').value, t: t, f: f });
+  store.set('formulas', customF);
+  this.reset();
+  fSubject = 'mine';
+  renderFormulas();
+});
+
+// تنظیمات پروفایل
+$('#settingsForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const raw = $('#setToken').value.trim();
+  let token = '';
+  if (raw) {
+    token = normToken(raw);
+    if (!token) {
+      const err = $('#setErr');
+      err.textContent = 'فرمت توکن درست نیست. نمونه: ' + LTR('R-12345');
+      err.hidden = false;
+      return;
+    }
+  }
+  profile = { name: $('#setName').value.trim(), field: $('#setField').value, token: token };
+  store.set('profile', profile);
+  closeDlg($('#settingsDlg'));
+  renderGreet();
+  toast('تنظیمات ذخیره شد.');
+});
+
+// جستجوی توکن
+$('#tokenForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  lookupToken($('#tokenInput').value);
+});
+
+/* =========================================================
+   شروع برنامه
+   ========================================================= */
+$('#taskDate').value = todayKey();
+$('#examInput').min = todayKey();
+showTab('home');
+setInterval(function () { if (currentTab === 'home') updateCountdown(); }, 30000);
+
+})();
+</script>
+</body>
+</html>
