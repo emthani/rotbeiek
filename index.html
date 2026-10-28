@@ -10,8 +10,8 @@
 <meta name="apple-mobile-web-app-title" content="ROTBEIEK">
 <meta name="application-name" content="ROTBEIEK">
 <title>ROTBEIEK</title>
-<link rel="apple-touch-icon" href="l.png">
-<link rel="icon" href="l.png">
+<link rel="apple-touch-icon" href="i.png">
+<link rel="icon" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -603,7 +603,7 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 
   <header class="topbar">
     <div class="brand">
-      <img src="l.png" alt="ROTBEIEK"
+      <img src="logo.png" alt="ROTBEIEK"
            onerror="this.hidden=true;document.getElementById('logoFallback').hidden=false;">
       <span class="brand-fallback" id="logoFallback" hidden>ROTBEIEK</span>
     </div>
@@ -949,7 +949,7 @@ var CONFIG = {
   examYear: 1406,
   examMonth: 4,
   examDay: 11,
-  newsImageCount: 20,
+  newsImageCount: 50,
   homeNewsLimit: 1
 };
 
@@ -1309,8 +1309,9 @@ function newsList() {
   }).filter(Boolean).sort(function (a, b) {
     var pa = a.pinned ? 1 : 0, pb = b.pinned ? 1 : 0;
     if (pa !== pb) return pb - pa;
-    if (a._d.getTime() !== b._d.getTime()) return b._d - a._d;
-    return b._i - a._i;
+    // جدیدترین: بالاترین اندیس (عدد عکس) اول
+    if (a._i !== b._i) return b._i - a._i;
+    return b._d - a._d;
   });
 }
 function dayLabel(d) {
@@ -2413,8 +2414,8 @@ window.addEventListener('appinstalled', function () {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
     var swCode = [
-      "var CACHE='rotbeiek-v3';",
-      "var ASSETS=['./','./index.html','./l.png'];",
+      "var CACHE='rotbeiek-v4';",
+      "var ASSETS=['./','./index.html','./i.png'];",
       "self.addEventListener('install',function(e){",
       "  e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(ASSETS).catch(function(){});}).then(function(){return self.skipWaiting();}));",
       "});",
@@ -2465,9 +2466,9 @@ if (isIOS() && !isStandalone()) {
       background_color: '#eaf0ff',
       theme_color: '#5b5ff0',
       icons: [
-        { src: 'l.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
-        { src: 'l.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
-        { src: 'l.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+        { src: 'i.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+        { src: 'i.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+        { src: 'i.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
       ],
       categories: ['education', 'productivity']
     };
