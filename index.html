@@ -935,6 +935,16 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
+/* =========================================================
+   داده خبری — عکس‌ها به ترتیب شماره: 1.png جدیدترین،
+   هرچه عدد بزرگتر باشد خبر قدیمی‌تر است.
+   ========================================================= */
+window.ROTBEIEK_NEWS = window.ROTBEIEK_NEWS || [
+  { title:'خبر جدید', text:'متن خبر شماره ۱ (جدیدترین)', image:'1.png', time:'12:00' },
+  { title:'خبر قبلی', text:'متن خبر شماره ۲', image:'2.png', time:'11:00' },
+  { title:'خبر قدیمی‌تر', text:'متن خبر شماره ۳', image:'3.png', time:'10:00' }
+];
+
 (function () {
 'use strict';
 
@@ -1325,9 +1335,8 @@ function dayLabel(d) {
 function postHTML(n) {
   var href = n.link ? safeHref(n.link) : '';
   var img = n._img || '';
-  var safeImgSrc = img ? esc(img) : '';
   return '<article class="post' + (img ? ' has-img' : '') + '">' +
-    (img ? '<img src="' + safeImgSrc + '" alt="" loading="lazy" referrerpolicy="no-referrer" ' +
+    (img ? '<img src="' + esc(img) + '" alt="" loading="lazy" referrerpolicy="no-referrer" ' +
       'onerror="this.style.display=\'none\';">' : '') +
     '<div class="post-body">' +
     (n.pinned ? '<span class="pin">' + ico('pin', 'sm') + 'پین‌شده</span>' : '') +
@@ -2139,13 +2148,8 @@ if (examInput) {
    Delegation برای دکمه‌های data-action
    ========================================================= */
 document.addEventListener('click', function (e) {
-  // منوی پروفایل
   if (!$('#profileMenu').hidden && !e.target.closest('.profile-wrap')) closeMenu();
-
-  // بستن دیالوگ با کلیک پس‌زمینه
   if (e.target.tagName === 'DIALOG' && e.target.open) { closeDlg(e.target); return; }
-
-  // دکمه‌های submit فرم‌ها را نادیده بگیر (خودشان listener جدا دارند)
   if (e.target.closest('button[type="submit"]')) return;
 
   var el = e.target.closest('[data-action]');
@@ -2160,7 +2164,6 @@ document.addEventListener('click', function (e) {
       case 'open-settings': openSettings(); break;
       case 'premium': closeMenu(); toast('به زودی'); break;
       case 'close-dialog': closeDlg(el.closest('dialog')); break;
-
       case 'toggle-exam': {
         var box = $('#examEdit');
         box.hidden = !box.hidden;
@@ -2174,7 +2177,6 @@ document.addEventListener('click', function (e) {
         renderCharts();
         toast('اطلاعات امروز صفر شد.');
         break;
-
       case 'toggle-task': {
         var t = null;
         for (var i = 0; i < tasks.length; i++) if (tasks[i].id === id) { t = tasks[i]; break; }
@@ -2190,7 +2192,6 @@ document.addEventListener('click', function (e) {
         renderPlanner();
         break;
       case 'task-filter': taskFilter = id; renderPlanner(); break;
-
       case 'open-deck':
         openDeck = normalizeTopic(id);
         cardIdx = 0;
@@ -2234,7 +2235,6 @@ document.addEventListener('click', function (e) {
         renderCards();
         break;
       }
-
       case 'open-formulas':
         renderFormulas();
         openDlg($('#formulaDlg'));
@@ -2245,7 +2245,6 @@ document.addEventListener('click', function (e) {
         store.set('formulas', customF);
         renderFormulas();
         break;
-
       case 'pick-kind':
         if (id === 'exam') { toast('به زودی'); break; }
         consult.kind = id;
@@ -2307,18 +2306,13 @@ document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') closeMenu();
 });
 
-/* =========================================================
-   جلوگیری از زوم/سلکت/راست‌کلیک (رفرش آزاد)
-   ========================================================= */
 document.addEventListener('wheel', function (e) {
   if (e.ctrlKey) e.preventDefault();
 }, { passive:false });
 
 document.addEventListener('keydown', function (e) {
-  // اجازه به F5 و Ctrl+R
   if (e.key === 'F5') return;
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'r') return;
-  // جلوگیری از زوم
   if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0'].indexOf(e.key) !== -1) {
     e.preventDefault();
   }
@@ -2350,7 +2344,7 @@ setInterval(function () {
 }, 30000);
 
 /* =========================================================
-   PWA — نصب و Service Worker
+   PWA
    ========================================================= */
 var deferredPrompt = null;
 var installBanner = $('#installBanner');
@@ -2411,11 +2405,10 @@ window.addEventListener('appinstalled', function () {
   toast('ROTBEIEK نصب شد. 🎉');
 });
 
-// ثبت Service Worker (inline — بدون فایل جداگانه)
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
     var swCode = [
-      "var CACHE='rotbeiek-v5';",
+      "var CACHE='rotbeiek-v6';",
       "var ASSETS=['./','./index.html','./i.png'];",
       "self.addEventListener('install',function(e){",
       "  e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(ASSETS).catch(function(){});}).then(function(){return self.skipWaiting();}));",
@@ -2441,9 +2434,7 @@ if ('serviceWorker' in navigator) {
     ].join('\n');
     var blob = new Blob([swCode], { type: 'application/javascript' });
     var url = URL.createObjectURL(blob);
-    navigator.serviceWorker.register(url).catch(function () {
-      // اگر blob URL پشتیبانی نشد، نادیده بگیر
-    });
+    navigator.serviceWorker.register(url).catch(function () {});
   });
 }
 
@@ -2451,7 +2442,6 @@ if (isIOS() && !isStandalone()) {
   setTimeout(showInstallBanner, 2500);
 }
 
-// تزریق inline manifest برای PWA
 (function injectManifest() {
   try {
     var manifest = {
@@ -2479,7 +2469,7 @@ if (isIOS() && !isStandalone()) {
     link.rel = 'manifest';
     link.href = url;
     document.head.appendChild(link);
-  } catch (e) { /* ignore */ }
+  } catch (e) {}
 })();
 
 })();
