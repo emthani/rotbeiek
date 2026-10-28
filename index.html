@@ -11,7 +11,7 @@
 <meta name="application-name" content="ROTBEIEK">
 <title>ROTBEIEK</title>
 <link rel="apple-touch-icon" href="i.png">
-<link rel="icon" href="logo.png">
+<link rel="icon" href="i.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -90,38 +90,35 @@ button{font:inherit;color:inherit}
   position:sticky;top:0;z-index:20;
   margin:0 -16px;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;
   display:flex;align-items:center;justify-content:space-between;gap:12px;
-  background:#eef2ff;
+  background:rgba(238,242,255,.72);
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
   border-bottom:1px solid rgba(255,255,255,.7);
 }
 
 /* =========================================================
-   FIX: لوگو با پس‌زمینه سفید صریح تا شفافیت PNG سیاه نشود
+   متن لوگو — ROTBEIEK با فونت وزیرمتن و گرادیانت قبلی
    ========================================================= */
 .brand{
-  display:flex;align-items:center;min-height:44px;
-  background:#ffffff;
-  border-radius:10px;
-  padding:2px 6px;
+  display:flex;align-items:center;
+  min-height:44px;
+  background:transparent;
+  padding:0;
 }
-.brand img{
-  height:42px;
-  width:auto;
-  max-width:200px;
-  display:block;
-  object-fit:contain;
-  background:#ffffff;
-  border:0;
-  image-rendering:auto;
-  -webkit-backface-visibility:hidden;
-  backface-visibility:hidden;
-  filter:none;
-  mix-blend-mode:normal;
-  opacity:1;
+.brand-text{
+  font-family:'Vazirmatn',Tahoma,sans-serif;
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:.14em;
+  direction:ltr;
+  background:var(--grad);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+  line-height:1;
+  display:inline-block;
 }
-.brand-fallback{
-  font-size:22px;font-weight:800;letter-spacing:.14em;direction:ltr;
-  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
-}
+
 .profile-wrap{position:relative}
 .profile-btn{
   width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.9);cursor:pointer;
@@ -550,6 +547,7 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
   .nav-btn{font-size:9.5px;padding:8px 0 6px}
   .datebar{font-size:12px}
   .datebar .db-time{display:none}
+  .brand-text{font-size:18px;letter-spacing:.1em}
 }
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
@@ -625,9 +623,7 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 
   <header class="topbar">
     <div class="brand">
-      <img src="logo.png" alt="ROTBEIEK"
-           onerror="this.hidden=true;document.getElementById('logoFallback').hidden=false;">
-      <span class="brand-fallback" id="logoFallback" hidden>ROTBEIEK</span>
+      <span class="brand-text">ROTBEIEK</span>
     </div>
 
     <div class="profile-wrap">
@@ -2359,7 +2355,7 @@ window.addEventListener('appinstalled', function () {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
     var swCode = [
-      "var CACHE='rotbeiek-v7';",
+      "var CACHE='rotbeiek-v8';",
       "var ASSETS=['./','./index.html','./i.png'];",
       "self.addEventListener('install',function(e){",
       "  e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(ASSETS).catch(function(){});}).then(function(){return self.skipWaiting();}));",
