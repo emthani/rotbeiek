@@ -90,12 +90,34 @@ button{font:inherit;color:inherit}
   position:sticky;top:0;z-index:20;
   margin:0 -16px;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;
   display:flex;align-items:center;justify-content:space-between;gap:12px;
-  background:rgba(238,242,255,.72);
-  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  background:#eef2ff;
   border-bottom:1px solid rgba(255,255,255,.7);
 }
-.brand{display:flex;align-items:center;min-height:44px}
-.brand img{height:42px;width:auto;max-width:200px;display:block;object-fit:contain}
+
+/* =========================================================
+   FIX: لوگو با پس‌زمینه سفید صریح تا شفافیت PNG سیاه نشود
+   ========================================================= */
+.brand{
+  display:flex;align-items:center;min-height:44px;
+  background:#ffffff;
+  border-radius:10px;
+  padding:2px 6px;
+}
+.brand img{
+  height:42px;
+  width:auto;
+  max-width:200px;
+  display:block;
+  object-fit:contain;
+  background:#ffffff;
+  border:0;
+  image-rendering:auto;
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
+  filter:none;
+  mix-blend-mode:normal;
+  opacity:1;
+}
 .brand-fallback{
   font-size:22px;font-weight:800;letter-spacing:.14em;direction:ltr;
   background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
@@ -935,10 +957,6 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-/* =========================================================
-   داده خبری — عکس‌ها به ترتیب شماره: 1.png جدیدترین،
-   هرچه عدد بزرگتر باشد خبر قدیمی‌تر است.
-   ========================================================= */
 window.ROTBEIEK_NEWS = window.ROTBEIEK_NEWS || [
   { title:'خبر جدید', text:'متن خبر شماره ۱ (جدیدترین)', image:'1.png', time:'12:00' },
   { title:'خبر قبلی', text:'متن خبر شماره ۲', image:'2.png', time:'11:00' },
@@ -948,9 +966,6 @@ window.ROTBEIEK_NEWS = window.ROTBEIEK_NEWS || [
 (function () {
 'use strict';
 
-/* =========================================================
-   تنظیمات
-   ========================================================= */
 var CONFIG = {
   brand: 'ROTBEIEK',
   adminHandle: '@rotbeiek',
@@ -1011,9 +1026,6 @@ var FORMULAS = [
   { s:'chem', t:'ثابت تعادل', f:'K = [C]ᶜ[D]ᵈ / ([A]ᵃ[B]ᵇ)' }
 ];
 
-/* =========================================================
-   ابزارها
-   ========================================================= */
 function $(s, r) { return (r || document).querySelector(s); }
 function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
 var FA = '۰۱۲۳۴۵۶۷۸۹';
@@ -1138,9 +1150,6 @@ function findHolder(token) {
   return null;
 }
 
-/* =========================================================
-   وضعیت
-   ========================================================= */
 var tasks   = store.get('tasks', []);
 var cards   = store.get('cards', []);
 var customF = store.get('formulas', []);
@@ -1159,9 +1168,6 @@ var consult = { kind:null, plan:null, advisor:null, q:3 };
 var shownOrder = null;
 var currentTab = 'home';
 
-/* =========================================================
-   پاک‌سازی داده‌های معیوب قبلی
-   ========================================================= */
 (function sanitize() {
   var changed = false;
   tasks = (Array.isArray(tasks) ? tasks : []).map(function (t) {
@@ -1203,9 +1209,6 @@ var currentTab = 'home';
   }
 })();
 
-/* =========================================================
-   ناوبری
-   ========================================================= */
 function showTab(name) {
   currentTab = name;
   $$('.page').forEach(function (p) { p.hidden = p.id !== 'page-' + name; });
@@ -1227,9 +1230,6 @@ function showTab(name) {
   } catch (e) { console.error('render:', e); }
 }
 
-/* =========================================================
-   تقویم
-   ========================================================= */
 function updateDateBar() {
   var now = new Date();
   var week = fWeekLong.format(now);
@@ -1240,9 +1240,6 @@ function updateDateBar() {
   ['#dbTime', '#dbTimeSide'].forEach(function (s) { var el = $(s); if (el) el.textContent = time; });
 }
 
-/* =========================================================
-   تبدیل تاریخ شمسی به میلادی
-   ========================================================= */
 function jalaliToGregorian(jy, jm, jd) {
   var gy = (jy <= 979) ? 621 : 1600;
   jy -= (jy <= 979) ? 0 : 979;
@@ -1291,9 +1288,6 @@ function updateCountdown() {
   $('#cdDate').textContent = fLong.format(examDate());
 }
 
-/* =========================================================
-   اخبار
-   ========================================================= */
 function newsImageByIndex(idx) {
   var n = idx + 1;
   if (n > CONFIG.newsImageCount) return '';
@@ -1319,7 +1313,6 @@ function newsList() {
   }).filter(Boolean).sort(function (a, b) {
     var pa = a.pinned ? 1 : 0, pb = b.pinned ? 1 : 0;
     if (pa !== pb) return pb - pa;
-    // 1.png جدیدترین است -> اندیس کوچکتر = جدیدتر => صعودی
     if (a._i !== b._i) return a._i - b._i;
     return b._d - a._d;
   });
@@ -1386,9 +1379,6 @@ function renderNews(id) {
 }
 function renderAllNews() { renderNews('news-home'); renderNews('news-news'); }
 
-/* =========================================================
-   پروفایل
-   ========================================================= */
 function closeMenu() {
   var m = $('#profileMenu');
   if (m && !m.hidden) {
@@ -1417,9 +1407,6 @@ function renderGreet() {
   if (profile.name) g.textContent = 'سلام ' + profile.name;
 }
 
-/* =========================================================
-   خانه — نمودارها و تسک‌ها
-   ========================================================= */
 function lastDays(n) {
   var out = [], base = new Date();
   base.setHours(0, 0, 0, 0);
@@ -1533,9 +1520,6 @@ function renderHome() {
   renderHomeTasks();
 }
 
-/* =========================================================
-   برنامه‌ریز
-   ========================================================= */
 function renderPlanner() {
   var counts = {
     all: tasks.length,
@@ -1569,9 +1553,6 @@ function renderPlanner() {
   box.innerHTML = '<ul class="tasks">' + list.map(function (t) { return taskItem(t, false); }).join('') + '</ul>';
 }
 
-/* =========================================================
-   فلش‌کارت
-   ========================================================= */
 var PALETTE = [
   ['#3b6cf6', '#6fa0ff'], ['#7a4cf5', '#b79bff'], ['#2f6fd0', '#4aa6e0'],
   ['#5b5ff0', '#9a7bff'], ['#1f7a96', '#5a8cf0'], ['#6a4ef3', '#3b6cf6']
@@ -1667,9 +1648,6 @@ function renderDeck(d) {
     }).join('') + '</div>' : '');
 }
 
-/* =========================================================
-   بانک فرمول
-   ========================================================= */
 function renderFormulas() {
   var chips = [['all', 'همه'], ['math', 'ریاضی'], ['physics', 'فیزیک'], ['chem', 'شیمی'], ['mine', 'افزوده‌های من']];
   var chipsBox = $('#fChips');
@@ -1707,9 +1685,6 @@ function renderFormulas() {
   }).join('');
 }
 
-/* =========================================================
-   مشاوره
-   ========================================================= */
 function getPlan(id) {
   for (var i = 0; i < PLANS.length; i++) if (PLANS[i].id === id) return PLANS[i];
   return null;
@@ -1944,9 +1919,6 @@ function confirmShares() {
   toast('رسید برای خرید با سهام آماده شد. آن را به ادمین بفرستید.');
 }
 
-/* =========================================================
-   سهام
-   ========================================================= */
 function renderShares() {
   var box = $('#supportersCard');
   if (!box) return;
@@ -1990,11 +1962,6 @@ function lookupToken(raw) {
     '. موجودی سهام: ' + fmt(Number(found.shares) || 0);
 }
 
-/* =========================================================
-   فرم‌ها — listenerهای مستقیم (نه delegation)
-   ========================================================= */
-
-// ---- ثبت مطالعه ----
 var logForm = $('#logForm');
 if (logForm) {
   logForm.addEventListener('submit', function (e) {
@@ -2019,7 +1986,6 @@ if (logForm) {
   });
 }
 
-// ---- تسک جدید ----
 var taskForm = $('#taskForm');
 if (taskForm) {
   taskForm.addEventListener('submit', function (e) {
@@ -2048,7 +2014,6 @@ if (taskForm) {
   });
 }
 
-// ---- فلش‌کارت جدید ----
 var cardForm = $('#cardForm');
 if (cardForm) {
   cardForm.addEventListener('submit', function (e) {
@@ -2069,7 +2034,6 @@ if (cardForm) {
   });
 }
 
-// ---- جستجوی فرمول ----
 var fSearch = $('#fSearch');
 if (fSearch) {
   fSearch.addEventListener('input', function () {
@@ -2078,7 +2042,6 @@ if (fSearch) {
   });
 }
 
-// ---- افزودن فرمول ----
 var fForm = $('#fForm');
 if (fForm) {
   fForm.addEventListener('submit', function (e) {
@@ -2095,7 +2058,6 @@ if (fForm) {
   });
 }
 
-// ---- تنظیمات پروفایل ----
 var settingsForm = $('#settingsForm');
 if (settingsForm) {
   settingsForm.addEventListener('submit', function (e) {
@@ -2123,7 +2085,6 @@ if (settingsForm) {
   });
 }
 
-// ---- جستجوی توکن ----
 var tokenForm = $('#tokenForm');
 if (tokenForm) {
   tokenForm.addEventListener('submit', function (e) {
@@ -2132,7 +2093,6 @@ if (tokenForm) {
   });
 }
 
-// ---- تاریخ کنکور ----
 var examInput = $('#examInput');
 if (examInput) {
   examInput.addEventListener('change', function () {
@@ -2144,9 +2104,6 @@ if (examInput) {
   });
 }
 
-/* =========================================================
-   Delegation برای دکمه‌های data-action
-   ========================================================= */
 document.addEventListener('click', function (e) {
   if (!$('#profileMenu').hidden && !e.target.closest('.profile-wrap')) closeMenu();
   if (e.target.tagName === 'DIALOG' && e.target.open) { closeDlg(e.target); return; }
@@ -2331,9 +2288,6 @@ document.addEventListener('contextmenu', function (e) {
   e.preventDefault();
 });
 
-/* =========================================================
-   شروع
-   ========================================================= */
 $('#taskDate').value = todayKey();
 $('#examInput').min = todayKey();
 updateDateBar();
@@ -2343,9 +2297,6 @@ setInterval(function () {
   updateDateBar();
 }, 30000);
 
-/* =========================================================
-   PWA
-   ========================================================= */
 var deferredPrompt = null;
 var installBanner = $('#installBanner');
 
@@ -2408,7 +2359,7 @@ window.addEventListener('appinstalled', function () {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
     var swCode = [
-      "var CACHE='rotbeiek-v6';",
+      "var CACHE='rotbeiek-v7';",
       "var ASSETS=['./','./index.html','./i.png'];",
       "self.addEventListener('install',function(e){",
       "  e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(ASSETS).catch(function(){});}).then(function(){return self.skipWaiting();}));",
