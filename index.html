@@ -10,8 +10,8 @@
 <meta name="apple-mobile-web-app-title" content="ROTBEIEK">
 <meta name="application-name" content="ROTBEIEK">
 <title>ROTBEIEK</title>
-<link rel="apple-touch-icon" href="i.png">
-<link rel="icon" href="i.png">
+<link rel="apple-touch-icon" href="l.png">
+<link rel="icon" href="l.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -94,31 +94,12 @@ button{font:inherit;color:inherit}
   -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
   border-bottom:1px solid rgba(255,255,255,.7);
 }
-
-/* =========================================================
-   متن لوگو — ROTBEIEK با فونت وزیرمتن و گرادیانت قبلی
-   ========================================================= */
-.brand{
-  display:flex;align-items:center;
-  min-height:44px;
-  background:transparent;
-  padding:0;
+.brand{display:flex;align-items:center;min-height:44px}
+.brand img{height:42px;width:auto;max-width:200px;display:block;object-fit:contain}
+.brand-fallback{
+  font-size:22px;font-weight:800;letter-spacing:.14em;direction:ltr;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
 }
-.brand-text{
-  font-family:'Vazirmatn',Tahoma,sans-serif;
-  font-size:22px;
-  font-weight:800;
-  letter-spacing:.14em;
-  direction:ltr;
-  background:var(--grad);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  -webkit-text-fill-color:transparent;
-  line-height:1;
-  display:inline-block;
-}
-
 .profile-wrap{position:relative}
 .profile-btn{
   width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.9);cursor:pointer;
@@ -282,7 +263,7 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
   box-shadow:0 2px 10px rgba(40,50,150,.10);
   max-width:92%;align-self:flex-start;
 }
-.post img{width:100%;max-height:260px;object-fit:cover;display:block;background:#eef2ff}
+.post img{width:100%;max-height:260px;object-fit:cover;display:block}
 .post .post-body{padding:10px 13px 8px}
 .post h3{font-size:14.5px;font-weight:700;margin-bottom:3px;color:var(--ink)}
 .post p{white-space:pre-line;font-size:14px;line-height:1.9;overflow-wrap:anywhere;color:#2a2f5a}
@@ -547,7 +528,6 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
   .nav-btn{font-size:9.5px;padding:8px 0 6px}
   .datebar{font-size:12px}
   .datebar .db-time{display:none}
-  .brand-text{font-size:18px;letter-spacing:.1em}
 }
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
@@ -623,7 +603,9 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 
   <header class="topbar">
     <div class="brand">
-      <span class="brand-text">ROTBEIEK</span>
+      <img src="l.png" alt="ROTBEIEK"
+           onerror="this.hidden=true;document.getElementById('logoFallback').hidden=false;">
+      <span class="brand-fallback" id="logoFallback" hidden>ROTBEIEK</span>
     </div>
 
     <div class="profile-wrap">
@@ -953,15 +935,12 @@ dialog.sheet::backdrop{background:rgba(26,31,77,.42);-webkit-backdrop-filter:blu
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-window.ROTBEIEK_NEWS = window.ROTBEIEK_NEWS || [
-  { title:'خبر جدید', text:'متن خبر شماره ۱ (جدیدترین)', image:'1.png', time:'12:00' },
-  { title:'خبر قبلی', text:'متن خبر شماره ۲', image:'2.png', time:'11:00' },
-  { title:'خبر قدیمی‌تر', text:'متن خبر شماره ۳', image:'3.png', time:'10:00' }
-];
-
 (function () {
 'use strict';
 
+/* =========================================================
+   تنظیمات
+   ========================================================= */
 var CONFIG = {
   brand: 'ROTBEIEK',
   adminHandle: '@rotbeiek',
@@ -970,7 +949,7 @@ var CONFIG = {
   examYear: 1406,
   examMonth: 4,
   examDay: 11,
-  newsImageCount: 50,
+  newsImageCount: 20,
   homeNewsLimit: 1
 };
 
@@ -1022,6 +1001,9 @@ var FORMULAS = [
   { s:'chem', t:'ثابت تعادل', f:'K = [C]ᶜ[D]ᵈ / ([A]ᵃ[B]ᵇ)' }
 ];
 
+/* =========================================================
+   ابزارها
+   ========================================================= */
 function $(s, r) { return (r || document).querySelector(s); }
 function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
 var FA = '۰۱۲۳۴۵۶۷۸۹';
@@ -1146,6 +1128,9 @@ function findHolder(token) {
   return null;
 }
 
+/* =========================================================
+   وضعیت
+   ========================================================= */
 var tasks   = store.get('tasks', []);
 var cards   = store.get('cards', []);
 var customF = store.get('formulas', []);
@@ -1164,6 +1149,9 @@ var consult = { kind:null, plan:null, advisor:null, q:3 };
 var shownOrder = null;
 var currentTab = 'home';
 
+/* =========================================================
+   پاک‌سازی داده‌های معیوب قبلی
+   ========================================================= */
 (function sanitize() {
   var changed = false;
   tasks = (Array.isArray(tasks) ? tasks : []).map(function (t) {
@@ -1205,6 +1193,9 @@ var currentTab = 'home';
   }
 })();
 
+/* =========================================================
+   ناوبری
+   ========================================================= */
 function showTab(name) {
   currentTab = name;
   $$('.page').forEach(function (p) { p.hidden = p.id !== 'page-' + name; });
@@ -1226,6 +1217,9 @@ function showTab(name) {
   } catch (e) { console.error('render:', e); }
 }
 
+/* =========================================================
+   تقویم
+   ========================================================= */
 function updateDateBar() {
   var now = new Date();
   var week = fWeekLong.format(now);
@@ -1236,6 +1230,9 @@ function updateDateBar() {
   ['#dbTime', '#dbTimeSide'].forEach(function (s) { var el = $(s); if (el) el.textContent = time; });
 }
 
+/* =========================================================
+   تبدیل تاریخ شمسی به میلادی
+   ========================================================= */
 function jalaliToGregorian(jy, jm, jd) {
   var gy = (jy <= 979) ? 621 : 1600;
   jy -= (jy <= 979) ? 0 : 979;
@@ -1284,6 +1281,9 @@ function updateCountdown() {
   $('#cdDate').textContent = fLong.format(examDate());
 }
 
+/* =========================================================
+   اخبار
+   ========================================================= */
 function newsImageByIndex(idx) {
   var n = idx + 1;
   if (n > CONFIG.newsImageCount) return '';
@@ -1309,8 +1309,8 @@ function newsList() {
   }).filter(Boolean).sort(function (a, b) {
     var pa = a.pinned ? 1 : 0, pb = b.pinned ? 1 : 0;
     if (pa !== pb) return pb - pa;
-    if (a._i !== b._i) return a._i - b._i;
-    return b._d - a._d;
+    if (a._d.getTime() !== b._d.getTime()) return b._d - a._d;
+    return b._i - a._i;
   });
 }
 function dayLabel(d) {
@@ -1326,7 +1326,7 @@ function postHTML(n) {
   var img = n._img || '';
   return '<article class="post' + (img ? ' has-img' : '') + '">' +
     (img ? '<img src="' + esc(img) + '" alt="" loading="lazy" referrerpolicy="no-referrer" ' +
-      'onerror="this.style.display=\'none\';">' : '') +
+      'onerror="this.parentNode.classList.remove(\'has-img\');this.remove()">' : '') +
     '<div class="post-body">' +
     (n.pinned ? '<span class="pin">' + ico('pin', 'sm') + 'پین‌شده</span>' : '') +
     (n.title ? '<h3>' + esc(n.title) + '</h3>' : '') +
@@ -1375,6 +1375,9 @@ function renderNews(id) {
 }
 function renderAllNews() { renderNews('news-home'); renderNews('news-news'); }
 
+/* =========================================================
+   پروفایل
+   ========================================================= */
 function closeMenu() {
   var m = $('#profileMenu');
   if (m && !m.hidden) {
@@ -1403,6 +1406,9 @@ function renderGreet() {
   if (profile.name) g.textContent = 'سلام ' + profile.name;
 }
 
+/* =========================================================
+   خانه — نمودارها و تسک‌ها
+   ========================================================= */
 function lastDays(n) {
   var out = [], base = new Date();
   base.setHours(0, 0, 0, 0);
@@ -1516,6 +1522,9 @@ function renderHome() {
   renderHomeTasks();
 }
 
+/* =========================================================
+   برنامه‌ریز
+   ========================================================= */
 function renderPlanner() {
   var counts = {
     all: tasks.length,
@@ -1549,6 +1558,9 @@ function renderPlanner() {
   box.innerHTML = '<ul class="tasks">' + list.map(function (t) { return taskItem(t, false); }).join('') + '</ul>';
 }
 
+/* =========================================================
+   فلش‌کارت
+   ========================================================= */
 var PALETTE = [
   ['#3b6cf6', '#6fa0ff'], ['#7a4cf5', '#b79bff'], ['#2f6fd0', '#4aa6e0'],
   ['#5b5ff0', '#9a7bff'], ['#1f7a96', '#5a8cf0'], ['#6a4ef3', '#3b6cf6']
@@ -1644,6 +1656,9 @@ function renderDeck(d) {
     }).join('') + '</div>' : '');
 }
 
+/* =========================================================
+   بانک فرمول
+   ========================================================= */
 function renderFormulas() {
   var chips = [['all', 'همه'], ['math', 'ریاضی'], ['physics', 'فیزیک'], ['chem', 'شیمی'], ['mine', 'افزوده‌های من']];
   var chipsBox = $('#fChips');
@@ -1681,6 +1696,9 @@ function renderFormulas() {
   }).join('');
 }
 
+/* =========================================================
+   مشاوره
+   ========================================================= */
 function getPlan(id) {
   for (var i = 0; i < PLANS.length; i++) if (PLANS[i].id === id) return PLANS[i];
   return null;
@@ -1915,6 +1933,9 @@ function confirmShares() {
   toast('رسید برای خرید با سهام آماده شد. آن را به ادمین بفرستید.');
 }
 
+/* =========================================================
+   سهام
+   ========================================================= */
 function renderShares() {
   var box = $('#supportersCard');
   if (!box) return;
@@ -1958,6 +1979,11 @@ function lookupToken(raw) {
     '. موجودی سهام: ' + fmt(Number(found.shares) || 0);
 }
 
+/* =========================================================
+   فرم‌ها — listenerهای مستقیم (نه delegation)
+   ========================================================= */
+
+// ---- ثبت مطالعه ----
 var logForm = $('#logForm');
 if (logForm) {
   logForm.addEventListener('submit', function (e) {
@@ -1982,6 +2008,7 @@ if (logForm) {
   });
 }
 
+// ---- تسک جدید ----
 var taskForm = $('#taskForm');
 if (taskForm) {
   taskForm.addEventListener('submit', function (e) {
@@ -2010,6 +2037,7 @@ if (taskForm) {
   });
 }
 
+// ---- فلش‌کارت جدید ----
 var cardForm = $('#cardForm');
 if (cardForm) {
   cardForm.addEventListener('submit', function (e) {
@@ -2030,6 +2058,7 @@ if (cardForm) {
   });
 }
 
+// ---- جستجوی فرمول ----
 var fSearch = $('#fSearch');
 if (fSearch) {
   fSearch.addEventListener('input', function () {
@@ -2038,6 +2067,7 @@ if (fSearch) {
   });
 }
 
+// ---- افزودن فرمول ----
 var fForm = $('#fForm');
 if (fForm) {
   fForm.addEventListener('submit', function (e) {
@@ -2054,6 +2084,7 @@ if (fForm) {
   });
 }
 
+// ---- تنظیمات پروفایل ----
 var settingsForm = $('#settingsForm');
 if (settingsForm) {
   settingsForm.addEventListener('submit', function (e) {
@@ -2081,6 +2112,7 @@ if (settingsForm) {
   });
 }
 
+// ---- جستجوی توکن ----
 var tokenForm = $('#tokenForm');
 if (tokenForm) {
   tokenForm.addEventListener('submit', function (e) {
@@ -2089,6 +2121,7 @@ if (tokenForm) {
   });
 }
 
+// ---- تاریخ کنکور ----
 var examInput = $('#examInput');
 if (examInput) {
   examInput.addEventListener('change', function () {
@@ -2100,9 +2133,17 @@ if (examInput) {
   });
 }
 
+/* =========================================================
+   Delegation برای دکمه‌های data-action
+   ========================================================= */
 document.addEventListener('click', function (e) {
+  // منوی پروفایل
   if (!$('#profileMenu').hidden && !e.target.closest('.profile-wrap')) closeMenu();
+
+  // بستن دیالوگ با کلیک پس‌زمینه
   if (e.target.tagName === 'DIALOG' && e.target.open) { closeDlg(e.target); return; }
+
+  // دکمه‌های submit فرم‌ها را نادیده بگیر (خودشان listener جدا دارند)
   if (e.target.closest('button[type="submit"]')) return;
 
   var el = e.target.closest('[data-action]');
@@ -2117,6 +2158,7 @@ document.addEventListener('click', function (e) {
       case 'open-settings': openSettings(); break;
       case 'premium': closeMenu(); toast('به زودی'); break;
       case 'close-dialog': closeDlg(el.closest('dialog')); break;
+
       case 'toggle-exam': {
         var box = $('#examEdit');
         box.hidden = !box.hidden;
@@ -2130,6 +2172,7 @@ document.addEventListener('click', function (e) {
         renderCharts();
         toast('اطلاعات امروز صفر شد.');
         break;
+
       case 'toggle-task': {
         var t = null;
         for (var i = 0; i < tasks.length; i++) if (tasks[i].id === id) { t = tasks[i]; break; }
@@ -2145,6 +2188,7 @@ document.addEventListener('click', function (e) {
         renderPlanner();
         break;
       case 'task-filter': taskFilter = id; renderPlanner(); break;
+
       case 'open-deck':
         openDeck = normalizeTopic(id);
         cardIdx = 0;
@@ -2188,6 +2232,7 @@ document.addEventListener('click', function (e) {
         renderCards();
         break;
       }
+
       case 'open-formulas':
         renderFormulas();
         openDlg($('#formulaDlg'));
@@ -2198,6 +2243,7 @@ document.addEventListener('click', function (e) {
         store.set('formulas', customF);
         renderFormulas();
         break;
+
       case 'pick-kind':
         if (id === 'exam') { toast('به زودی'); break; }
         consult.kind = id;
@@ -2259,13 +2305,18 @@ document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') closeMenu();
 });
 
+/* =========================================================
+   جلوگیری از زوم/سلکت/راست‌کلیک (رفرش آزاد)
+   ========================================================= */
 document.addEventListener('wheel', function (e) {
   if (e.ctrlKey) e.preventDefault();
 }, { passive:false });
 
 document.addEventListener('keydown', function (e) {
+  // اجازه به F5 و Ctrl+R
   if (e.key === 'F5') return;
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'r') return;
+  // جلوگیری از زوم
   if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0'].indexOf(e.key) !== -1) {
     e.preventDefault();
   }
@@ -2284,6 +2335,9 @@ document.addEventListener('contextmenu', function (e) {
   e.preventDefault();
 });
 
+/* =========================================================
+   شروع
+   ========================================================= */
 $('#taskDate').value = todayKey();
 $('#examInput').min = todayKey();
 updateDateBar();
@@ -2293,6 +2347,9 @@ setInterval(function () {
   updateDateBar();
 }, 30000);
 
+/* =========================================================
+   PWA — نصب و Service Worker
+   ========================================================= */
 var deferredPrompt = null;
 var installBanner = $('#installBanner');
 
@@ -2352,11 +2409,12 @@ window.addEventListener('appinstalled', function () {
   toast('ROTBEIEK نصب شد. 🎉');
 });
 
+// ثبت Service Worker (inline — بدون فایل جداگانه)
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
     var swCode = [
-      "var CACHE='rotbeiek-v8';",
-      "var ASSETS=['./','./index.html','./i.png'];",
+      "var CACHE='rotbeiek-v3';",
+      "var ASSETS=['./','./index.html','./l.png'];",
       "self.addEventListener('install',function(e){",
       "  e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(ASSETS).catch(function(){});}).then(function(){return self.skipWaiting();}));",
       "});",
@@ -2381,7 +2439,9 @@ if ('serviceWorker' in navigator) {
     ].join('\n');
     var blob = new Blob([swCode], { type: 'application/javascript' });
     var url = URL.createObjectURL(blob);
-    navigator.serviceWorker.register(url).catch(function () {});
+    navigator.serviceWorker.register(url).catch(function () {
+      // اگر blob URL پشتیبانی نشد، نادیده بگیر
+    });
   });
 }
 
@@ -2389,6 +2449,7 @@ if (isIOS() && !isStandalone()) {
   setTimeout(showInstallBanner, 2500);
 }
 
+// تزریق inline manifest برای PWA
 (function injectManifest() {
   try {
     var manifest = {
@@ -2404,9 +2465,9 @@ if (isIOS() && !isStandalone()) {
       background_color: '#eaf0ff',
       theme_color: '#5b5ff0',
       icons: [
-        { src: 'i.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
-        { src: 'i.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
-        { src: 'i.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+        { src: 'l.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+        { src: 'l.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+        { src: 'l.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
       ],
       categories: ['education', 'productivity']
     };
@@ -2416,7 +2477,7 @@ if (isIOS() && !isStandalone()) {
     link.rel = 'manifest';
     link.href = url;
     document.head.appendChild(link);
-  } catch (e) {}
+  } catch (e) { /* ignore */ }
 })();
 
 })();
